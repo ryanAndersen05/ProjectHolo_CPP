@@ -2,11 +2,8 @@
 #include "EHActorComponent.h"
 #include "EHAnimatorComponent.h"
 
-EHActor::EHActor()
+void EHActor::InitializeActor(int id)
 {
-    timeScale = 1.f;
-    animator = new EHAnimatorComponent("assets/Sprites/Gura/GuraIdle-Sheet.png", 10);
-    AddComponent(animator);
 }
 
 EHActor::~EHActor()
@@ -19,17 +16,11 @@ EHActor::~EHActor()
 
 void EHActor::TickActor(float deltaTime)
 {
-    // for (EHActorComponent& component : components)
-    // {
-
-    // }
     float scaleTime = timeScale * deltaTime;
-    animator->tick(scaleTime);
-}
-
-void EHActor::DisplayActor(sf::RenderWindow& window)
-{
-    animator->draw(window);
+    for (ITickable* tickable : tickables)
+    {
+        tickable->Tick(scaleTime);
+    }
 }
 
 
@@ -37,5 +28,16 @@ EHActorComponent* EHActor::AddComponent(EHActorComponent* component)
 {
     components.push_back(component);
     component->InitializeComponent(this);
+    ITickable* tickableComponent = dynamic_cast<ITickable*>(component);
+    ILateTickable* lateTickableComponent = dynamic_cast<ILateTickable*>(component);
+
+    if (tickableComponent)
+    {
+        tickables.push_back(tickableComponent);
+    }
+    if (lateTickableComponent)
+    {
+        lateTickables.push_back(lateTickableComponent);
+    }
     return component;
 }

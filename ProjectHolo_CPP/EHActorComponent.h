@@ -7,7 +7,7 @@ private:
     EHActor* actor;
 
 public:
-    void InitializeComponent(EHActor* actor);
+    virtual void InitializeComponent(EHActor* actor);
 
 protected:
 

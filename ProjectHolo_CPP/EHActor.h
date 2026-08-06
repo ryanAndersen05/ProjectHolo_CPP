@@ -1,11 +1,12 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "EHLibrary.h"
+#include "ITickable.h"
+#include "ILateTickable.h"
 #include <vector>
 #include <concepts>
 
 class EHActorComponent;
-class EHAnimatorComponent;
 
 class EHActor
 {
@@ -15,22 +16,24 @@ private:
     float rotation;
     FVector scale;
     float timeScale;
+    int actorId;
 
     EHActor* owner;
-    std::vector<EHActorComponent*> components;
 
-protected:
-    EHAnimatorComponent* animator;
+    std::vector<EHActorComponent*> components;
+    std::vector<ITickable*> tickables;
+    std::vector<ILateTickable*> lateTickables;
 
 protected:
     EHActorComponent* AddComponent(EHActorComponent* component);
 
 public:
-    EHActor();
+    EHActor() : isActive(false), position(FVector::Zero), rotation(0.f), scale(FVector::Zero), timeScale(1.f), actorId(0), owner(nullptr) {}
     ~EHActor();
-    void InitializeActor(int id);
+
+    virtual void InitializeActor(int id);
+
     void TickActor(float deltaTime);
-    void DisplayActor(sf::RenderWindow& window);
 
     void SetIsActive(const bool isActive);
     void SetPosition(const FVector& position);
@@ -43,8 +46,8 @@ public:
     float GetRotation() const { return rotation; }
     FVector GetScale() const { return scale; }
     float GetActorTimeScale() const { return timeScale; }
+    bool GetIsTickable() const { return tickables.size() > 0; }
+    bool GetIsLateTickable() const { return lateTickables.size() > 0; }
 
     EHActor* GetOwner() const { return owner; }
-    EHAnimatorComponent* GetAnimator() const { return animator; }
-
 };

@@ -35,7 +35,6 @@ int main()
         }
 
         window.clear();
-        guraActor.DisplayActor(window);
         window.display();
     }
 }
