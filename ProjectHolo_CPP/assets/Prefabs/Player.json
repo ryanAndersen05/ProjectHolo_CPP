@@ -1,0 +1,10 @@
+{
+    "name": "Player",
+    "components":
+    [
+        {
+            "type": "Transform",
+            "position": [0, 100]
+        }
+    ]
+}

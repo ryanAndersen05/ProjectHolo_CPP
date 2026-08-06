@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{be3bb3d2-7dd8-4a3a-8a3a-697c68cdae2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\library">
+      <UniqueIdentifier>{8654dd5d-2939-4d43-9b9a-5aab05723549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\animation">
+      <UniqueIdentifier>{0961525f-2b2c-47e7-ba6f-842d00840ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interface">
+      <UniqueIdentifier>{6a6741c2-e972-4d52-9f1a-1368d29234b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EHActor.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="EHLibrary.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="EHActorComponent.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="EHAnimatorComponent.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="EHController.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EHActor.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="EHLibrary.h">
+      <Filter>Source Files\library</Filter>
+    </ClInclude>
+    <ClInclude Include="EHTime.h">
+      <Filter>Source Files\library</Filter>
+    </ClInclude>
+    <ClInclude Include="EHActorComponent.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="EHAnimatorComponent.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="EHController.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="EHAnimationClip.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="EHSpriteData.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="EHSpriteComponent.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ITickable.h">
+      <Filter>Source Files\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ILateTickable.h">
+      <Filter>Source Files\interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

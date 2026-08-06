@@ -1,0 +1,41 @@
+#include <SFML/Graphics.hpp>
+#include "EHActor.h"
+
+int main()
+{
+    float tickRate = 1.f / 60.f;
+    float accumulator = 0.f;
+    float previousTime = 0.f;
+
+    sf::Clock clock;
+    sf::RenderWindow window(sf::VideoMode({ 640, 360 }), "Oshi-Oshi Punch!");
+
+    EHActor guraActor = EHActor();
+
+    while (window.isOpen())
+    {
+        while (const std::optional event = window.pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+            {
+                window.close();
+            }
+        }
+
+        sf::Time time = clock.getElapsedTime();
+        float timeNow = time.asSeconds();
+        float deltaTime = timeNow - previousTime;
+        previousTime = timeNow;
+        accumulator += deltaTime;
+
+        while (accumulator >= tickRate)
+        {
+            guraActor.TickActor(tickRate);
+            accumulator -= tickRate;
+        }
+
+        window.clear();
+        guraActor.DisplayActor(window);
+        window.display();
+    }
+}
