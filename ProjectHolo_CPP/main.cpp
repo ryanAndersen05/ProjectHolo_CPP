@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "EHActor.h"
+#include "EHJsonManager.h"
+#include "EHSpriteData.h"
+#include <iostream>
 
 int main()
 {
@@ -9,6 +12,10 @@ int main()
 
     sf::Clock clock;
     sf::RenderWindow window(sf::VideoMode({ 640, 360 }), "Oshi-Oshi Punch!");
+    FSpriteMetaData guraSpriteData;
+    EHJsonManager::Deserialize<FSpriteMetaData>("assets/sprites/Gura/GuraAtlas.json", guraSpriteData);
+
+    std::cout << guraSpriteData.to_string() << std::endl;
 
     EHActor guraActor = EHActor();
 

@@ -9,6 +9,4 @@ private:
 public:
     virtual void InitializeComponent(EHActor* actor);
 
-protected:
-
 };

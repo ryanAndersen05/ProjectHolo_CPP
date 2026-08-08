@@ -2,13 +2,6 @@
 #include <iostream>
 #include <string>
 
-EHAnimatorComponent::EHAnimatorComponent(std::string path, int frames)
-{
-    time = 0.f;
-    totalFrames = frames;
-    currentFrame = 0;
-    texture.loadFromFile(path);
-}
 
 void EHAnimatorComponent::tick(float deltaTime)
 {

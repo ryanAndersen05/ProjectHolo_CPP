@@ -27,5 +27,5 @@ private:
 
 public:
     void AssignButton(EButton button, int frame);
-    void TickController();
+    virtual void TickController();
 };

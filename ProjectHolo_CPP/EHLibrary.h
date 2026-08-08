@@ -1,5 +1,7 @@
 #pragma once
 #include<string>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 struct FVector
 {
@@ -28,6 +30,28 @@ public:
     FVector operator-(const FVector& vec) const;
     FVector operator*(float val) const;
     FVector operator/(float val) const;
+
+    friend void to_json(json& j, const FVector& vec);
+    friend void from_json(const json& j, FVector& vec);
+};
+
+
+    struct FVectorInt
+{
+public:
+    static const FVectorInt Zero;
+    static const FVectorInt One;
+
+public:
+    int x;
+    int y;
+
+public:
+    FVectorInt(int x, int y) : x(x), y(y) {}
+    std::string to_string();
+
+    friend void to_json(json& j, const FVectorInt& vec);
+    friend void from_json(const json& j, FVectorInt& vec);
 };
 
 struct FRect
@@ -41,4 +65,38 @@ public:
     FRect(const FVector& position, const FVector& size) : position(position), size(size) {}
 
     bool isOverlapping(const FRect& rect) const;
+};
+
+struct FName
+{
+private:
+    std::string key;
+    unsigned long hash;
+
+public:
+    FName(const std::string& key);
+
+    bool operator==(const FName& name) const { return hash == name.hash; }
+    bool operator!=(const FName& name) const { return hash != name.hash; }
+    bool isValid() { return hash != 0; }
+    static unsigned long StringToHash(const std::string& key);
+
+public:
+    std::string GetKey() const { return key; }
+    unsigned long GetHash() const { return hash; }
+
+    friend void to_json(json& j, const FName& name);
+    friend void from_json(const json&, FName& name);
+};
+
+namespace std
+{
+    template<>
+    struct hash<FName>
+    {
+        std::size_t operator()(const FName& name) const
+        {
+            return name.GetHash();
+        }
+    };
 };

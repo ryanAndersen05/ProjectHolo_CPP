@@ -153,7 +153,10 @@
     <ClCompile Include="EHActorComponent.cpp" />
     <ClCompile Include="EHAnimatorComponent.cpp" />
     <ClCompile Include="EHController.cpp" />
+    <ClCompile Include="EHJsonManager.cpp" />
     <ClCompile Include="EHLibrary.cpp" />
+    <ClCompile Include="EHPlayerController.cpp" />
+    <ClCompile Include="EHSpriteData.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +165,10 @@
     <ClInclude Include="EHAnimationClip.h" />
     <ClInclude Include="EHAnimatorComponent.h" />
     <ClInclude Include="EHController.h" />
+    <ClInclude Include="EHGameInstance.h" />
+    <ClInclude Include="EHJsonManager.h" />
     <ClInclude Include="EHLibrary.h" />
+    <ClInclude Include="EHPlayerController.h" />
     <ClInclude Include="EHSpriteComponent.h" />
     <ClInclude Include="EHSpriteData.h" />
     <ClInclude Include="EHTime.h" />

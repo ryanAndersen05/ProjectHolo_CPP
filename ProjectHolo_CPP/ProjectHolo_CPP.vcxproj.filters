@@ -25,6 +25,9 @@
     <Filter Include="Source Files\interface">
       <UniqueIdentifier>{6a6741c2-e972-4d52-9f1a-1368d29234b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\controller">
+      <UniqueIdentifier>{c6bff847-5cc7-4d35-bfd0-57949e82045e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,15 @@
     </ClCompile>
     <ClCompile Include="EHController.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="EHPlayerController.cpp">
+      <Filter>Source Files\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EHJsonManager.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="EHSpriteData.cpp">
+      <Filter>Source Files\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="ILateTickable.h">
       <Filter>Source Files\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="EHPlayerController.h">
+      <Filter>Source Files\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EHJsonManager.h">
+      <Filter>Source Files\library</Filter>
+    </ClInclude>
+    <ClInclude Include="EHGameInstance.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
