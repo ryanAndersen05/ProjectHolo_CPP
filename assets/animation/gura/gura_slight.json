@@ -1,0 +1,22 @@
+{
+    "clipName": "gura_slight",
+    "nodes": 
+    [
+        {
+            "spriteId": "gura_slight00",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_slight01",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_slight02",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_slight03",
+            "time": 0.08333333333
+        }
+    ]
+}

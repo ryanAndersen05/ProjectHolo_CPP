@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="ProjectHolo_CPP/ProjectHolo_CPP.vcxproj" Id="a400a657-9ccd-4296-b0b5-52017bb3bf06" />
-</Solution>

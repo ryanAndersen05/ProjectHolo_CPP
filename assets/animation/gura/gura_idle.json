@@ -1,0 +1,46 @@
+{
+    "clipName": "gura_idle",
+    "nodes": 
+    [
+        {
+            "spriteId": "gura_idle00",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle01",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle02",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle03",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle04",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle05",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle06",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle07",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle08",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_idle09",
+            "time": 0.08333333333
+        }
+    ]
+}
