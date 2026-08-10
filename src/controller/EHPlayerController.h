@@ -8,6 +8,6 @@ private:
 	EButton cachedButton;
 
 public:
-	EHPlayerController() : cachedButton(EButton::None), EHController() {}
+	EHPlayerController() : EHController(), cachedButton(EButton::None) {}
 	void AssignInputDevice();
 };

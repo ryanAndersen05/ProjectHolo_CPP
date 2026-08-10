@@ -1,4 +1,6 @@
-﻿
+﻿#include "EHCharacter.h"
 
-class EHGura {
+class EHGura : public EHCharacter {
+public:
+    EHGura();
 };

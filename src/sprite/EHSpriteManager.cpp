@@ -12,8 +12,16 @@ EHSpriteManager::~EHSpriteManager()
 {
 	for (const auto& pair : textureMap)
 	{
-		if (pair.second != nullptr) delete pair.second;
+		delete pair.second;
 	}
+}
+
+bool EHSpriteManager::GetSprteDrawData(const FName &spriteId, FSpriteDrawData& drawData) const {
+	if (spriteMap.contains(spriteId)) {
+		drawData = spriteMap.at(spriteId);
+		return true;
+	}
+	return false;
 }
 
 void EHSpriteManager::LoadSpriteMetaData(const std::string& spriteMetaPath)

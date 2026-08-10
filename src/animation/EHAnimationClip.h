@@ -19,8 +19,11 @@ struct FAnimationClip
 {
 public:
     FName clipName;
+    bool isLooping;
     std::vector<FAnimationNode> nodes;
-    FAnimationClip();
+
+    FAnimationClip() : clipName(FName("")), isLooping(false) {};
+    float GetMaxTime() const;
 
     friend void to_json(json& j, const FAnimationClip& clip);
     friend void from_json(const json& j, FAnimationClip& clip);

@@ -1,10 +1,11 @@
 {
+    "isLooping": true,
     "clipName": "gura_slight",
     "nodes": 
     [
         {
             "spriteId": "gura_slight00",
-            "time": 0.08333333333
+            "time": 0.0
         },
         {
             "spriteId": "gura_slight01",
@@ -12,11 +13,15 @@
         },
         {
             "spriteId": "gura_slight02",
-            "time": 0.08333333333
+            "time": 0.166667
         },
         {
             "spriteId": "gura_slight03",
-            "time": 0.08333333333
+            "time": 0.25
+        },
+        {
+            "spriteId":"gura_slight03",
+            "time": 0.333333
         }
     ]
 }

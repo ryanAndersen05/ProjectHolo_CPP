@@ -57,4 +57,5 @@ public:
     bool GetIsLateTickable() const { return !lateTickables.empty(); }
 
     EHActor* GetOwner() const { return owner; }
+    EHActorComponent* GetActorComponent(const FName& componentId) const;
 };

@@ -11,6 +11,7 @@ public:
 	FSpriteData spriteData;
 
 public:
+	FSpriteDrawData() : texture(nullptr), spriteData(FSpriteData()) {}
 	FSpriteDrawData(sf::Texture* texture, const FSpriteData& spriteData) : texture(texture), spriteData(spriteData) {}
 };
 
@@ -23,6 +24,7 @@ private:
 public:
 	EHSpriteManager();
 	~EHSpriteManager();
+	bool GetSprteDrawData(const FName& spriteId, FSpriteDrawData& drawData) const;
 	void LoadSpriteMetaData(const std::string& spriteMetaPath);
 	void UnloadSpriteData(const std::string& spriteMetaPath);
 };

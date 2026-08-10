@@ -1,0 +1,31 @@
+{
+    "clipName": "gura_walkf",
+    "isLooping": true,
+    "nodes": 
+    [
+        {
+            "spriteId": "gura_walkf00",
+            "time": 0.0
+        },
+        {
+            "spriteId": "gura_walkf01",
+            "time": 0.08333333333
+        },
+        {
+            "spriteId": "gura_walkf02",
+            "time": 0.166667
+        },
+        {
+            "spriteId": "gura_walkf03",
+            "time": 0.25
+        },
+        {
+            "spriteId": "gura_walkf04",
+            "time": 0.333333
+        },
+        {
+            "spriteId": "gura_walkf05",
+            "time": 0.416667
+        }
+    ]
+}

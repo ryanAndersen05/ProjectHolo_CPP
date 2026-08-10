@@ -10,4 +10,5 @@ public:
     EHActorComponent() : actor(nullptr) {}
     virtual ~EHActorComponent() = default;
     virtual void InitializeComponent(EHActor* actr);
+    EHActor* GetActor() const {return actor;}
 };

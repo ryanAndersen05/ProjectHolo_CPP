@@ -41,3 +41,9 @@ void EHActor::AddComponent(const FName& componentId, EHActorComponent* component
     }
 }
 
+EHActorComponent* EHActor::GetActorComponent(const FName& componentId) const {
+    for (const auto& container : components) {
+        if (container.componentId == componentId) return container.component;
+    }
+    return nullptr;
+}
