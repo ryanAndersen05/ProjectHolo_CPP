@@ -1,10 +1,10 @@
 ﻿#include "EHGameInstance.h"
-
 #include <iostream>
+#include "library/EHJsonManager.h"
 
 EHGameInstance* EHGameInstance::instance = nullptr;
 
-EHGameInstance::EHGameInstance() {
+EHGameInstance::EHGameInstance() : gameMode(nullptr), gameHUD(nullptr) {
     if (instance != nullptr) {
         std::cout << "EHGameInstance already exists. You should never try to make two." << std::endl;
         return;
@@ -13,6 +13,17 @@ EHGameInstance::EHGameInstance() {
     spriteManager = new EHSpriteManager();
 }
 
-void EHGameInstance::InitializeGame() {
-    std::cout << "Game Is Initialized" << std::endl;
+// void EHGameInstance::InitializeGame(const FWorldSettings& worldSettings) {
+//     delete gameMode;
+//     delete gameHUD;
+//
+//
+// }
+
+void EHGameInstance::TickGame() {
+
+}
+
+void EHGameInstance::DisplayGame() {
+
 }

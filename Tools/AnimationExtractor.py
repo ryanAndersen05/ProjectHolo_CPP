@@ -40,10 +40,10 @@ for i in range(frameCount):
     value.spriteId = animationName + format(i, "02d")
     value.point = FVector(startX + i * width, startY).__dict__
     value.size = FVector(width, width).__dict__
-    value.pivot = FVector(width / 2, width).__dict__
+    value.pivot = FVector(int(width / 2), width).__dict__
     spriteList.append(value.__dict__)
 
 data['sprites'] = spriteList
 
 with open(path, 'w') as file:
-    json.dump(data, file, indent=4)
+    json.dump(data, file)

@@ -1,10 +1,13 @@
 {
-    "name": "Player",
+    "actor": "gura",
     "components":
-    [
-        {
-            "type": "Transform",
-            "position": [0, 100]
-        }
-    ]
+            [
+                {
+                    "componentId": "animator",
+                    "data":
+                    {
+                        ""
+                    }
+                }
+            ]
 }

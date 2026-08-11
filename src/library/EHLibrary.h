@@ -84,6 +84,7 @@ public:
 public:
     std::string GetKey() const { return key; }
     unsigned long GetHash() const { return hash; }
+    operator unsigned long() const { return hash; }
 
     friend void to_json(json& j, const FName& name);
     friend void from_json(const json&, FName& name);

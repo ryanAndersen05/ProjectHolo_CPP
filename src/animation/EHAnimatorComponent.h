@@ -1,7 +1,9 @@
 #pragma once
 #include "core/EHActorComponent.h"
-#include "SFML/Graphics.hpp"
 #include "EHAnimatorController.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 class EHAnimatorComponent : public EHActorComponent, public ITickable
 {
@@ -16,4 +18,7 @@ public:
     void InitializeAnimatorController(const std::string& controllerPath);
 
     void PlayAnimation(const FName& animName);
+
+    friend void to_json(json& j, const EHAnimatorComponent& controller);
+    friend void from_json(const json& j, EHAnimatorComponent& controller);
 };
