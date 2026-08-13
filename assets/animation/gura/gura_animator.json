@@ -7,5 +7,21 @@
         "gura_slight",
         "gura_walkf",
         "gura_walkb"
-    ]
+    ],
+    "parameters":
+            [
+                {
+                    "_comment" : "-----------------------------------Movement Parameters------------------------------------------------",
+                    "name" : "HInput",
+                    "type" : "Int"
+                },
+                {
+                    "name" : "VInput",
+                    "type" : "Int"
+                },
+                {
+                    "name" : "VVelocity",
+                    "type" : "Float"
+                }
+            ]
 }

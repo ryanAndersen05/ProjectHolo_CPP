@@ -20,6 +20,6 @@ public:
     void TickGameMode();
     EHController* GetControllerAtIndex(int index);
 
-    void CreateActor(const FName& actorId);
+    EHActor CreateActor(const FName& actorId);
     void DestroyActor(const EHActor* actor);
 };

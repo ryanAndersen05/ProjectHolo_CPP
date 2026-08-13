@@ -1,0 +1,13 @@
+﻿{
+  "actorId": "character",
+  "components":
+          [
+            {
+              "componentId": "animator",
+              "data":
+              {
+                "animatorController": ""
+              }
+            }
+          ]
+}

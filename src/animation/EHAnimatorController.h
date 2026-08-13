@@ -8,18 +8,41 @@
 #include "core/EHActor.h"
 #include "library/EHLibrary.h"
 
+enum EConditionType {
+    Equal,
+    NotEqual,
+    GreaterThan,
+    LessThan,
+};
+
 enum EParameterType {
     Bool,
     Float,
-    Integer,
+    Int,
     Trigger,
 };
+
+struct FCondition {
+public:
+    FName parameter;
+    EConditionType type;
+    float value;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FCondition, parameter, type, value)
+
+struct FTransition {
+public:
+    FName stateId;
+    std::vector<FCondition> conditions;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FTransition, stateId, conditions)
 
 struct FParameter {
 public:
     FName name;
     EParameterType type;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FParameter, name, type)
 
 struct FAnimatorController {
 private:
