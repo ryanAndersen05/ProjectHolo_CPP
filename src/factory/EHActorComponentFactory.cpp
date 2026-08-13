@@ -1,4 +1,4 @@
-﻿#include "EHActorComponentFactor.h"
+﻿#include "EHActorComponentFactory.h"
 #include "sprite/EHSpriteComponent.h"
 
 const FName EHActorComponentFactory::SpriteComponentId = FName("sprite");

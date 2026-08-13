@@ -2,5 +2,5 @@
 
 class EHGura : public EHCharacter {
 public:
-    EHGura();
+    EHGura() : EHCharacter() {}
 };

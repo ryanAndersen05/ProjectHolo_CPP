@@ -1,4 +1,5 @@
-﻿#include "library/EHLibrary.h"
+﻿#pragma once
+#include "library/EHLibrary.h"
 #include "core/EHActorComponent.h"
 
 class EHActorComponentFactory {
