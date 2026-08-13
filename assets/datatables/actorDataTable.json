@@ -6,7 +6,12 @@
               "actorPath": "assets/prefabs/characters/gura.json"
             },
             {
-              
+              "rowId": "kiara",
+              "actorPath": "assets/prefabs/characters/kiara.json"
+            },
+            {
+              "rowId": "ina",
+              "actorPath": "assets/prefabs/characters/ina.json"
             }
           ]
 }
