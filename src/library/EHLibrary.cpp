@@ -105,11 +105,11 @@ FName::FName(const std::string& key)
     hash = StringToHash(key);
 }
 
-unsigned long FName::StringToHash(const std::string& key)
+std::uint64_t FName::StringToHash(const std::string& key)
 {
     if (key.empty()) return 0;
 
-    unsigned long hash = 5381;
+    std::uint64_t hash = 5381;
     for (char c : key)
     {
         hash = ((hash << 5) + hash) + c; // hash * 33 + c

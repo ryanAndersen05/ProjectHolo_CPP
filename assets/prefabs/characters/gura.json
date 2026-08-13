@@ -1,0 +1,37 @@
+﻿{
+  "actorId": "gura",
+  "components":
+  [
+    {
+      "componentId": "animator",
+      "data":
+      {
+        "animatorController": "assets/animation/gura/gura_animator.json"
+      }
+    },
+    {
+      "componentId": "sprite",
+      "data":
+      {
+        "defaultSprite": "gura_idle00"
+      }
+    },
+    {
+      "componentId": "movementComponent",
+      "data":
+      {
+        "maxSpeed": 10,
+        "acceleration": 100,
+        "jumpHeight": 1.7,
+        "jumpTime": 1
+      }
+    },
+    {
+      "componentId": "physics",
+      "data":
+      {
+        "gravityScale": "1"
+      }
+    }
+  ]
+}

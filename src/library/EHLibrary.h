@@ -71,20 +71,21 @@ struct FName
 {
 private:
     std::string key;
-    unsigned long hash;
+    std::uint64_t hash;
 
 public:
     FName(const std::string& key);
 
     bool operator==(const FName& name) const { return hash == name.hash; }
     bool operator!=(const FName& name) const { return hash != name.hash; }
-    bool isValid() { return hash != 0; }
-    static unsigned long StringToHash(const std::string& key);
+    bool isValid() const { return hash != 0; }
 
 public:
     std::string GetKey() const { return key; }
-    unsigned long GetHash() const { return hash; }
+    std::uint64_t GetHash() const { return hash; }
     operator unsigned long() const { return hash; }
+
+    static std::uint64_t StringToHash(const std::string& key);
 
     friend void to_json(json& j, const FName& name);
     friend void from_json(const json&, FName& name);
@@ -101,3 +102,4 @@ namespace std
         }
     };
 };
+

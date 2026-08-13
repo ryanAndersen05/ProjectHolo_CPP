@@ -1,0 +1,21 @@
+﻿{
+  "rows":
+        [
+          {
+            "rowId": "atlantis",
+            "levelPath": "assets/level/atlantis.json"
+          },
+          {
+            "rowId": "holotalk",
+            "levelPath": "assets/level/holotalk.json"
+          },
+          {
+            "rowId": "shrine",
+            "levelPath": "assets/level/shrine.json"
+          },
+          {
+            "rowId": "training",
+            "levelPath": "assets/level/training.json"
+          }
+        ]
+}

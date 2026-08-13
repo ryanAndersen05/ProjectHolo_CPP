@@ -28,7 +28,24 @@ public:
 		catch (const json::parse_error& e)
 		{
 			std::cerr << "Json Parse Error: " << e.what() << std::endl;
+			return false;
 		}
-		return false;
+	}
+
+	static bool DeserializeAsJson(const std::string& path, json& outJson) {
+		std::ifstream file(path);
+		if (!file.is_open()) {
+			std::cerr << "error opening file" << std::endl;
+			return false;
+		}
+
+		try {
+			outJson = json::parse(file);
+			return true;
+		}
+		catch (const json::parse_error& e) {
+			std::cerr << "Json Parse Error: " << e.what() << std::endl;
+			return false;
+		}
 	}
 };
