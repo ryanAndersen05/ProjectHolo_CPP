@@ -23,3 +23,8 @@ void EHAnimatorComponent::InitializeAnimatorController(const std::string& contro
 void EHAnimatorComponent::PlayAnimation(const FName& animName) {
     controller.SetAnimationClip(animName);
 }
+
+void from_json(const json& j, EHAnimatorComponent& component) {
+    const std::string path = j.at("controllerPath").get<std::string>();
+    component.InitializeAnimatorController(path);
+}

@@ -74,6 +74,7 @@ private:
     std::uint64_t hash;
 
 public:
+    FName() : hash(0) {}
     FName(const std::string& key);
 
     bool operator==(const FName& name) const { return hash == name.hash; }

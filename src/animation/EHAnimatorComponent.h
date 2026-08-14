@@ -16,9 +16,7 @@ public:
     EHAnimatorComponent() : timeToNextFrame(0.f), currentNodeIndex(0) {};
     void Tick(float deltaTime) override;
     void InitializeAnimatorController(const std::string& controllerPath);
-
     void PlayAnimation(const FName& animName);
 
-    friend void to_json(json& j, const EHAnimatorComponent& controller);
     friend void from_json(const json& j, EHAnimatorComponent& controller);
 };

@@ -6,7 +6,7 @@
       "componentId": "animator",
       "data":
       {
-        "animatorController": "assets/animation/gura/gura_animator.json"
+        "controllerPath": "assets/animation/gura/gura_animator.json"
       }
     },
     {
@@ -17,13 +17,23 @@
       }
     },
     {
-      "componentId": "movementComponent",
+      "componentId": "characterMovement",
       "data":
       {
-        "maxSpeed": 10,
-        "acceleration": 100,
-        "jumpHeight": 1.7,
-        "jumpTime": 1
+        "isFacingLeft": false,
+        "maxWalkSpeed": 5,
+        "maxBackWalkSpeed": 3,
+        "maxDashSpeed": 10,
+        "maxBackDashSpeed": 8,
+
+        "maxAirDashSpeed": 10,
+        "maxAirBackDashSpeed": 8,
+        "maxAirDashes": 1,
+
+        "jumpHeight":  1,
+        "jumpApexTime": 1,
+        "horizontalJumpSpeed": 5,
+        "maxDoubleJumps": 1
       }
     },
     {
