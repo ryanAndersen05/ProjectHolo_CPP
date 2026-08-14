@@ -44,7 +44,7 @@ public:
     void SetIsActive(const bool active) {this->isActive = active;}
     void SetPosition(const FVector& pos) { this->position = pos; }
     void SetRotation(const float rot) {this->rotation = rot; }
-    void setScale(const FVector& scl) {this->scale = scl; }
+    void SetScale(const FVector& scl) {this->scale = scl; }
     void SetOwner(EHActor* own) { this->owner = own; }
     void SetTimeScale(const float timeScl) { this->timeScale = timeScl; }
 

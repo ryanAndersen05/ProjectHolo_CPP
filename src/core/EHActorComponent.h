@@ -11,4 +11,10 @@ public:
     virtual ~EHActorComponent() = default;
     virtual void InitializeComponent(EHActor* actr);
     EHActor* GetActor() const {return actor;}
+
+    void SetActorPosition(FVector position) const {actor->SetPosition(position);}
+    void SetActorRotation(float rotation) const {actor->SetRotation(rotation);}
+    void SetActorScale(FVector scale) const {actor->SetScale(scale);}
+
+    FVector GetActorPosition() const {return actor->GetPosition();}
 };
