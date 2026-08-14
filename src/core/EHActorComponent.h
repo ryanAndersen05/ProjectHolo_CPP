@@ -17,4 +17,6 @@ public:
     void SetActorScale(FVector scale) const {actor->SetScale(scale);}
 
     FVector GetActorPosition() const {return actor->GetPosition();}
+    float GetActorRotation() const {return actor->GetRotation();}
+    FVector GetActorScale() const {return actor->GetScale();}
 };

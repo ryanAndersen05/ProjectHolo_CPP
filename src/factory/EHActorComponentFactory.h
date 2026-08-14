@@ -3,7 +3,11 @@
 #include "core/EHActorComponent.h"
 
 class EHActorComponentFactory {
-    const static FName SpriteComponentId;
+
 public:
+    const static FName SpriteComponentId;
+    const static FName PhysicsComponentId;
+    const static FName CharacterMovementComponentId;
+
     static EHActorComponent* CreateActorComponent(const FName& actorId);
 };

@@ -44,12 +44,24 @@ public:
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FParameter, name, type)
 
+struct FParameterValue {
+public:
+    union {
+        float fValue;
+        int iValue;
+        bool bValue;
+    };
+
+
+};
+
 struct FAnimatorController {
 private:
     std::string spriteMetaPath;
     std::vector<FParameter> parameters;
     std::vector<std::string> clips;
     std::unordered_map<FName, FAnimationClip> animationMap;
+    std::unordered_map<FName, FParameterValue> parameterValues;
     float time;
     FAnimationClip currentClip;
     EHActor* actor;
@@ -63,6 +75,16 @@ public:
     const std::string& GetSpriteMetaPath() const { return spriteMetaPath; };
     void InitializeAnimationClips(EHActor* actr, const std::string& controllerPath);
     void SetAnimationClip(const FName& animName);
+
+    void SetBool(const FName&, bool);
+    void SetFloat(const FName&, float);
+    void SetInt(const FName&, int);
+    void SetTrigger(const FName&);
+
+    bool GetBool(const FName&);
+    float GetFloat(const FName&);
+    int GetInt(const FName&);
+    void ResetTrigger(const FName&);
 
     friend void to_json(nlohmann::json& j, const FAnimatorController& c);
     friend void from_json(const nlohmann::json& j, FAnimatorController& c);

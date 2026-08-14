@@ -63,6 +63,71 @@ void FAnimatorController::InitializeAnimationClips(EHActor* actr, const std::str
     }
 }
 
+void FAnimatorController::SetBool(const FName& id, bool value) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return;
+    }
+    parameterValues[id].bValue = value;
+}
+
+void FAnimatorController::SetInt(const FName& id, int value) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return;
+    }
+    parameterValues[id].iValue = value;
+}
+
+void FAnimatorController::SetFloat(const FName& id, float value) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return;
+    }
+    parameterValues[id].fValue = value;
+}
+
+void FAnimatorController::SetTrigger(const FName& id) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return;
+    }
+    parameterValues[id].bValue = true;
+}
+
+void FAnimatorController::ResetTrigger(const FName& id) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return;
+    }
+    parameterValues[id].bValue = false;
+}
+
+bool FAnimatorController::GetBool(const FName& id) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return false;
+    }
+    return parameterValues[id].bValue;
+}
+
+int FAnimatorController::GetInt(const FName& id) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return 0;
+    }
+    return parameterValues[id].iValue;
+}
+
+float FAnimatorController::GetFloat(const FName& id) {
+    if (!parameterValues.contains(id)) {
+        std::cout << "Could not find parameter with key: " << id.GetKey() << std::endl;
+        return 0.f;
+    }
+
+    return parameterValues[id].fValue;
+}
+
 void to_json(nlohmann::json &j, const FAnimatorController &controller) {
     j = {{"spriteMetaPath", controller.spriteMetaPath}, {"startClip", controller.startClip}, {"clips", controller.clips}};
 }
