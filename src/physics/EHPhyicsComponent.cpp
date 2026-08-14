@@ -12,3 +12,10 @@ void EHPhysicsComponent::UpdateVelocityFromGravity(float deltaTime) {
 void EHPhysicsComponent::UpdatePositionFromVelocity(float deltaTime) {
     SetActorPosition(GetActorPosition() + (velocity * deltaTime));
 }
+
+void from_json(const json& j, EHPhysicsComponent& physics) {
+    j.at("useGravity").get_to(physics.useGravity);
+    j.at("gravityScale").get_to(physics.gravityScale);
+    j.at("useTerminalVelocity").get_to(physics.useTerminalVelocity);
+    j.at("terminalVelocity").get_to(physics.terminalVelocity);
+}

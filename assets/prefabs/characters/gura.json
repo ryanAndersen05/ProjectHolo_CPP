@@ -40,7 +40,10 @@
       "componentId": "physics",
       "data":
       {
-        "gravityScale": "1"
+        "useGravity": true,
+        "gravityScale": 1,
+        "userTerminalVelocity": true,
+        "terminalVelocity": 10
       }
     }
   ]

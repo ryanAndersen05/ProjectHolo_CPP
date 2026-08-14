@@ -3,6 +3,8 @@
 #include "core/EHActorComponent.h"
 #include "library/EHLibrary.h"
 
+using json = nlohmann::json;
+
 class EHPhysicsComponent : public EHActorComponent, public ITickable {
 public:
     static constexpr float GravityConst = 9.8f;
@@ -19,5 +21,5 @@ public:
     void UpdateVelocityFromGravity(float deltaTime);
     void UpdatePositionFromVelocity(float deltaTime);
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EHPhysicsComponent, useTerminalVelocity, gravityScale, useGravity, terminalVelocity);
+    friend void from_json(const json& j, EHPhysicsComponent &physics);
 };

@@ -11,7 +11,7 @@ private:
     FSpriteDrawData drawData;
 
 public:
-    EHSpriteComponent() : drawData(FSpriteDrawData()) {}
+    EHSpriteComponent() : EHActorComponent(),  drawData(FSpriteDrawData()) {}
     void SetDrawData(const FName& drawName);
     void SetDrawData(const FSpriteDrawData& data) { drawData = data; }
     const FSpriteDrawData& GetDrawData() const { return drawData; }

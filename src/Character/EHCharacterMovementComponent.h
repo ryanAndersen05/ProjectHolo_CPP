@@ -3,6 +3,8 @@
 #include "animation/EHAnimatorComponent.h"
 #include "nlohmann/json.hpp"
 
+using json = nlohmann::json;
+
 class EHCharacterMovementComponent : public EHActorComponent, public ITickable {
 private:
     const static FName Anim_VVelocity;
@@ -34,6 +36,6 @@ public:
     void Tick(float deltaTime) override;
     void InitializeComponent(EHActor *actr) override;
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EHCharacterMovementComponent, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed, maxBackDashSpeed,
-        maxAirDashSpeed, maxAirBackDashSpeed, maxAirDashes, jumpHeight, jumpApexTime, horizontalJumpSpeed, maxDoubleJumps);
+    void SetIsFacingLeft(bool isLeft);
+    friend void from_json(const json& j, EHCharacterMovementComponent &component);
 };

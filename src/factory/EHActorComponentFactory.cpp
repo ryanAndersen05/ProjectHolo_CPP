@@ -1,5 +1,4 @@
 ﻿#include "EHActorComponentFactory.h"
-
 #include "character/EHCharacterMovementComponent.h"
 #include "library/EHJsonManager.h"
 #include "physics/EHPhyicsComponent.h"
@@ -12,10 +11,10 @@ const FName EHActorComponentFactory::CharacterMovementComponentId = FName("chara
 
 EHActorComponent* EHActorComponentFactory::CreateActorComponent(const json& componentJson) {
     FName actorId = componentJson.at("componentId").get<FName>();
-
-    if (actorId == SpriteComponentId) return new EHSpriteComponent(componentJson.at("data").get<EHSpriteComponent>());
-    if (actorId == PhysicsComponentId) return new EHPhysicsComponent();
-    if (actorId == CharacterMovementComponentId) return new EHCharacterMovementComponent();
+    const json& dataJson = componentJson.at("data");
+    if (actorId == SpriteComponentId) return new EHSpriteComponent(dataJson.get<EHSpriteComponent>());
+    if (actorId == PhysicsComponentId) return new EHPhysicsComponent(dataJson.get<EHPhysicsComponent>());
+    if (actorId == CharacterMovementComponentId) return new EHCharacterMovementComponent(dataJson.get<EHCharacterMovementComponent>());
 
     return nullptr;
 }
