@@ -2,6 +2,7 @@
 #include "sprite/EHSpriteManager.h"
 #include "EHGameMode.h"
 #include "EHGameHUD.h"
+#include "datatable/EHDataTableManager.h"
 #include "nlohmann/json.hpp"
 
 struct FWorldSettings {
@@ -16,13 +17,18 @@ class EHGameInstance
 {
 private:
 	static EHGameInstance* instance;
+	// World 
 	EHGameMode* gameMode;
 	EHGameHUD* gameHUD;
+
 	EHSpriteManager* spriteManager;
+	EHDataTableManager* dataTableManager;
 
 public:
 	EHGameInstance();
+	~EHGameInstance();
 	EHSpriteManager* GetSpriteManager() const {return spriteManager;}
+	EHDataTableManager* GetDataTableManager() const {return dataTableManager;}
 	static EHGameInstance* GetInstance() { return instance;}
 
 	void InitializeGame(const FWorldSettings& worldSettings);

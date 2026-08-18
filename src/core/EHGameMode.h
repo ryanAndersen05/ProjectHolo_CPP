@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "EHActor.h"
 #include "EHController.h"
-
+#include "nlohmann/json.hpp"
 class EHGameMode {
 private:
     std::vector<EHActor*> activeActors;
@@ -17,9 +17,9 @@ private:
 public:
     EHGameMode();
     virtual ~EHGameMode();
-    void TickGameMode();
+    virtual void TickGameMode();
     EHController* GetControllerAtIndex(int index);
 
-    EHActor CreateActor(const FName& actorId);
+    EHActor* CreateActor(const FName& actorId, const FVector& position = FVector::Zero, float rotation = 0.f);
     void DestroyActor(const EHActor* actor);
 };

@@ -30,9 +30,6 @@ private:
     std::vector<ITickable*> tickables;
     std::vector<ILateTickable*> lateTickables;
 
-protected:
-    void AddComponent(const FName& componentId, EHActorComponent* component);
-
 public:
     EHActor() : isActive(false), position(FVector::Zero), rotation(0.f), scale(FVector::Zero), timeScale(1.f), actorId(0), owner(nullptr) {}
     virtual ~EHActor();
@@ -58,4 +55,5 @@ public:
 
     EHActor* GetOwner() const { return owner; }
     EHActorComponent* GetActorComponent(const FName& componentId) const;
+    void AddComponent(const FName& componentId, EHActorComponent* component);
 };

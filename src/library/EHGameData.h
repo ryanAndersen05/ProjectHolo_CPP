@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 
-class EHGameSettings {
+class EHUserSettings {
 private:
     std::vector<std::function<void>> OnSettingsChanged;
 

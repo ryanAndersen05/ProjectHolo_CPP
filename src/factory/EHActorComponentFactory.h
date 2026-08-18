@@ -11,5 +11,5 @@ public:
     const static FName PhysicsComponentId;
     const static FName CharacterMovementComponentId;
 
-    static EHActorComponent* CreateActorComponent(const json& componentJson);
+    static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

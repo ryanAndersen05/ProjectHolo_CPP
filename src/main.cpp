@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "library/EHGameData.h"
 #include <iostream>
-
 #include "core/EHGameInstance.h"
 #include "core/EHTime.h"
+#include "library/EHGameSettings.h"
 
 int main()
 {
@@ -11,10 +11,13 @@ int main()
     float previousTime = 0.f;
 
     sf::Clock clock;
-    sf::RenderWindow window(sf::VideoMode({ EHGameSettings::ScreenWidth, EHGameSettings::ScreenHeight }), "Oshi-Oshi Punch!");
-    // auto* instance = new EHGameInstance();
+    sf::RenderWindow window(sf::VideoMode({ EHUserSettings::ScreenWidth, EHUserSettings::ScreenHeight }), "Oshi-Oshi Punch!");
+    auto* instance = new EHGameInstance();
+    EHGameSettings settings;
+    if (!EHJsonManager::Deserialize<EHGameSettings>("assets/GameSettings.json", settings)) {
 
-    // instance->InitializeGame();
+    }
+    instance->InitializeGame(FWorldSettings());
 
     while (window.isOpen())
     {

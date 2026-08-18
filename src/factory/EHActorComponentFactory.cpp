@@ -9,12 +9,11 @@ const FName EHActorComponentFactory::PhysicsComponentId = FName("physics");
 const FName EHActorComponentFactory::CharacterMovementComponentId = FName("characterMovement");
 
 
-EHActorComponent* EHActorComponentFactory::CreateActorComponent(const json& componentJson) {
-    FName actorId = componentJson.at("componentId").get<FName>();
-    const json& dataJson = componentJson.at("data");
-    if (actorId == SpriteComponentId) return new EHSpriteComponent(dataJson.get<EHSpriteComponent>());
-    if (actorId == PhysicsComponentId) return new EHPhysicsComponent(dataJson.get<EHPhysicsComponent>());
-    if (actorId == CharacterMovementComponentId) return new EHCharacterMovementComponent(dataJson.get<EHCharacterMovementComponent>());
+EHActorComponent* EHActorComponentFactory::CreateActorComponent(const FName& componentType, const json& componentData) {
+
+    if (componentType == SpriteComponentId) return new EHSpriteComponent(componentData.get<EHSpriteComponent>());
+    if (componentType == PhysicsComponentId) return new EHPhysicsComponent(componentData.get<EHPhysicsComponent>());
+    if (componentType == CharacterMovementComponentId) return new EHCharacterMovementComponent(componentData.get<EHCharacterMovementComponent>());
 
     return nullptr;
 }

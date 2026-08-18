@@ -1,23 +1,26 @@
 ﻿{
-  "actorId": "character",
+  "actorType": "character",
   "components":
   [
     {
-      "componentId": "animator",
+      "componentType": "animator",
+      "componentName": "animator",
       "data":
       {
         "controllerPath": "assets/animation/gura/gura_animator.json"
       }
     },
     {
-      "componentId": "sprite",
+      "componentType": "sprite",
+      "componentName": "sprite",
       "data":
       {
         "defaultSprite": "gura_idle00"
       }
     },
     {
-      "componentId": "characterMovement",
+      "componentType": "characterMovement",
+      "componentName": "movement",
       "data":
       {
         "isFacingLeft": false,
@@ -37,7 +40,8 @@
       }
     },
     {
-      "componentId": "physics",
+      "componentType": "physics",
+      "componentName": "physics",
       "data":
       {
         "useGravity": true,
