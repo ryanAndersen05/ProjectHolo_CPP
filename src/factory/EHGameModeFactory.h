@@ -1,20 +1,17 @@
 ﻿#pragma once
 #include "core/EHGameMode.h"
-#include "library/EHLibrary.h"
+#include "nlohmann/json.hpp"
 
-enum EGameModeType : std::uint8_t {
-    Default,
-    Fighting,
-    Training,
-    Networked,
-    Replay
-};
+using json = nlohmann::json;
 
 class EHGameModeFactory {
 private:
-
+    const static FName DefaultGameMode;
+    const static FName FightingGameMode;
+    const static FName ReplayGameMode;
+    const static FName TrainingGameMode;
 
 public:
-    static EHGameMode* CreateGameMode(const EGameModeType gameModeType);
+    static EHGameMode* CreateGameMode(const FName& gameModeType, const json& data);
 };
 

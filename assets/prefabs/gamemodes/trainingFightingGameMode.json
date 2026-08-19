@@ -1,3 +1,7 @@
 ﻿{
-  "gameModeType": "trainingGameMode"
+  "gameModeType": "trainingGameMode",
+  "data":
+  {
+
+  }
 }

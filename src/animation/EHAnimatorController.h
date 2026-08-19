@@ -22,28 +22,6 @@ enum EParameterType {
     Trigger,
 };
 
-struct FCondition {
-public:
-    FName parameter;
-    EConditionType type;
-    float value;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FCondition, parameter, type, value)
-
-struct FTransition {
-public:
-    FName stateId;
-    std::vector<FCondition> conditions;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FTransition, stateId, conditions)
-
-struct FParameter {
-public:
-    FName name;
-    EParameterType type;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FParameter, name, type)
-
 struct FParameterValue {
 public:
     union {
@@ -51,9 +29,41 @@ public:
         int iValue;
         bool bValue;
     };
-
-
 };
+
+struct FCondition {
+public:
+    FName parameter;
+    EConditionType type;
+    FParameterValue value;
+
+    FCondition() : parameter(FName()), type(EConditionType::Equal), value(FParameterValue()) {}
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FCondition, parameter, type, value)
+
+struct FTransition {
+public:
+    FName stateId;
+    std::vector<FCondition> conditions;
+    FTransition() : stateId(FName()) {}
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FTransition, stateId, conditions)
+
+struct FParameter {
+public:
+    FName name;
+    EParameterType type;
+    FParameter() : name(FName()), type(EParameterType::Bool) {}
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FParameter, name, type)
+
+struct FState {
+public:
+    FName stateName;
+    std::vector<FTransition> transitions;
+    FState() = default;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FState, stateName, transitions)
 
 struct FAnimatorController {
 private:

@@ -1,3 +1,7 @@
 ﻿{
-  "gameModeType": "replayGameMode"
+  "gameModeType": "replayGameMode",
+  "data":
+  {
+
+  }
 }

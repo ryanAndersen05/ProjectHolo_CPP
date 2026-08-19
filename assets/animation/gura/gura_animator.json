@@ -8,20 +8,160 @@
                 "gura_walkf",
                 "gura_walkb"
             ],
-    "parameters":
+    "clips":
             [
-                {
-                    "_comment" : "-----------------------------------Movement Parameters------------------------------------------------",
-                    "name" : "HInput",
-                    "type" : "Int"
-                },
-                {
-                    "name" : "VInput",
-                    "type" : "Int"
-                },
-                {
-                    "name" : "VVelocity",
-                    "type" : "Float"
-                }
-            ]
+
+            ],
+    "parameters" :
+    [
+        {
+            "_comment" : "-----------------------------------Movement Parameters------------------------------------------------",
+            "name" : "HInput",
+            "type" : "Int"
+        },
+        {
+            "name" : "VInput",
+            "type" : "Int"
+        },
+        {
+            "name" : "VVelocity",
+            "type" : "Float"
+        },
+        {
+            "name" : "IsInAir",
+            "type" : "Bool"
+        },
+        {
+            "name":  "Jump",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "DashF",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "DashB",
+            "type" : "Trigger"
+        },
+        {
+            "_comment" :"-----------------------------------Attack Parameters------------------------------------------------",
+            "name" : "AnyAttack",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "LightPress",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "LightRelease",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "Light",
+            "type" : "Bool"
+        },
+        {
+            "name" : "MediumPress",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "MediumRelease",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "Medium",
+            "type" : "Bool"
+        },
+        {
+            "name" : "HeavyPress",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "HeavyRelease",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "Heavy",
+            "type" : "Bool"
+        },
+        {
+            "name" : "SpecialPress",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "SpecialRelease",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "Special",
+            "type" : "Bool"
+        },
+        {
+            "name" : "Grab",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "GrabId",
+            "type" : "Int"
+        },
+        {
+            "name" : "BlockBurst",
+            "type" : "Bool"
+        },
+        {
+            "name" : "Burst",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "QCF",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "QCB",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "DoubleQCF",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "DoubleD",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "EXBars",
+            "type" : "Int"
+        },
+        {
+            "_comment" :"-----------------------------------Hit Parameters------------------------------------------------",
+            "name" : "HitConfirm",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "WasHit",
+            "type" : "Trigger"
+        },
+        {
+            "name" : "HitStun",
+            "type" : "Bool"
+        },
+        {
+            "name" : "IsDead",
+            "type" : "Bool"
+        },
+        {
+            "name" : "HitType",
+            "type" : "Int"
+        },
+        {
+            "_comment" :"-----------------------------------Other Parameters------------------------------------------------",
+            "name" : "Win",
+            "type" : "Trigger"
+        },
+        {
+            "_comment" :"-----------------------------------Gura Parameters------------------------------------------------",
+            "name" : "CanHoldTrident",
+            "type" : "Bool"
+        }
+    ]
 }

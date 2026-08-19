@@ -1,6 +1,6 @@
 ﻿#include "EHGameInstance.h"
 #include <iostream>
-#include "library/EHJsonManager.h"
+#include "factory/EHGameModeFactory.h"
 
 EHGameInstance* EHGameInstance::instance = nullptr;
 
@@ -20,13 +20,26 @@ EHGameInstance::~EHGameInstance() {
 }
 
 void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {
-    std::cout << "World Settings Mode: " << worldSettings.gameModePath << " GameHUD: " << worldSettings.gameHUDPath << std::endl;
+    delete gameMode;
+    delete gameHUD;
+
+    json gameModeJson;
+    if (!EHJsonManager::DeserializeAsJson(worldSettings.gameModePath, gameModeJson)) {
+        std::cout << "Failed to Deserialize GameMode" << std::endl;
+        return;
+    }
+    FName gameModeType = gameModeJson.at("gameModeType").get<FName>();
+    gameMode = EHGameModeFactory::CreateGameMode(gameModeType, gameModeJson.at("data"));
+    if (gameMode != nullptr) gameMode->InitializeGameMode();
 }
 
 void EHGameInstance::TickGame() {
-
+    if (gameMode != nullptr) gameMode->TickGameMode();
+    if (gameHUD != nullptr) gameHUD->TickGameHUD();
 }
 
 void EHGameInstance::DisplayGame() {
 
 }
+
+

@@ -5,6 +5,8 @@
 #include "datatable/EHDataTableManager.h"
 #include "nlohmann/json.hpp"
 
+using json = nlohmann::json;
+
 struct FWorldSettings {
 public:
 	std::string gameModePath;
@@ -17,7 +19,7 @@ class EHGameInstance
 {
 private:
 	static EHGameInstance* instance;
-	// World 
+	// World
 	EHGameMode* gameMode;
 	EHGameHUD* gameHUD;
 
