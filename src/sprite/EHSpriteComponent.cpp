@@ -8,7 +8,7 @@ void EHSpriteComponent::SetDrawData(const FName& drawName) {
         std::cout << "Failed to find Sprite Manager" << std::endl;
         return;
     }
-    if (!spriteManager->GetSprteDrawData(drawName, drawData)) {
+    if (!spriteManager->GetSpriteDrawData(drawName, drawData)) {
         std::cout << "Failed to find Sprite with id" << drawName.GetKey() << std::endl;
     }
 }
@@ -18,4 +18,9 @@ void from_json(const json& j, EHSpriteComponent& component) {
     if (spriteId.isValid()) {
         component.SetDrawData(spriteId);
     }
+}
+
+FSpriteDisplayData EHSpriteComponent::GetSpriteDrawData() const {
+    FSpriteDisplayData spriteDisplayData(drawData, drawOrder, GetActorPosition(), GetActorScale(), GetActorRotation());
+    return spriteDisplayData;
 }

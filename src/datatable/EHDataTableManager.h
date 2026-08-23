@@ -1,11 +1,10 @@
 ﻿#pragma once
 #include "EHDataTable.h"
-#include "EHActorTableRow.h"
+#include "EHAssetPathTableRow.h"
 
 class EHDataTableManager {
-private:
-    EHDataTable<EHActorTableRow>* actorDataTable;
+    EHDataTable<EHAssetPathTableRow> assetDataTable;
 public:
     EHDataTableManager();
-    bool GetActorData(const FName& rowId, EHActorTableRow& row) const;
+    bool GetAssetPathData(const FName& rowId, EHAssetPathTableRow& row) const;
 };

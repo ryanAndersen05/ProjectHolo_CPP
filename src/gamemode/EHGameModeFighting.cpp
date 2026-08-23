@@ -3,3 +3,13 @@
 //
 
 #include "EHGameModeFighting.h"
+
+void EHGameModeFighting::InitializeGameMode() {
+    EHGameMode::InitializeGameMode();
+    CreateActor(FName("gura"), FVector::Zero);
+}
+
+void EHGameModeFighting::TickGameMode() {
+    EHGameMode::TickGameMode();
+
+}

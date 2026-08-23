@@ -3,5 +3,5 @@
 class ILateTickable
 {
 public:
-    virtual void LateTick() = 0;
+    virtual void LateTick(float deltaTime) = 0;
 };

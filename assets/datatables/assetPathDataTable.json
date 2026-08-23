@@ -1,0 +1,79 @@
+﻿{
+  "rows":
+          [
+            {
+              "rowId": "game_settings",
+              "assetPath": "assets/gameSettings.json"
+            },
+            {
+              "notes": "____________Data Tables______________",
+              "rowId": "asset_table",
+              "assetPath": "assets/dataTables/assetPathDataTable.json"
+            },
+            {
+              "notes": "____________Levels_________________",
+              "rowId": "main_game_level",
+              "assetPath": "assets/level/mainGameLevel.json"
+            },
+            {
+              "rowId": "fighting_game_mode",
+              "assetPath": "assets/prefabs/gamemodes/fightingGameMode.json"
+            },
+            {
+              "rowId": "replay_game_mode",
+              "assetPath": "assets/prefabs/gamemodes/replayFightingGameMode.json"
+            },
+            {
+              "rowId": "training_game_mode",
+              "assetPath": "assets/prefabs/gameModes/replayFightingGameMode.json"
+            },
+            {
+              "rowId": "fightingGameHUD",
+              "assetPath": ""
+            },
+            {
+              "rowId": "mainMenuHUD",
+              "assetPath": ""
+            },
+            {
+              "rowId": "characterSelectHUD",
+              "assetPath": ""
+            },
+            {
+              "rowId": "gura",
+              "assetPath": "assets/prefabs/characters/gura/gura.json"
+            },
+            {
+              "rowId": "gura_trident",
+              "assetPath": "assets/prefabs/characters/gura/guraTrident.json"
+            },
+            {
+              "rowId": "gura_animator",
+              "assetPath": "assets/animation/gura/guraAnimator.json"
+            },
+            {
+              "rowId": "kiara",
+              "assetPath": "assets/prefabs/characters/kiara/kiara.json"
+            },
+            {
+              "rowId": "kiara_animator",
+              "assetPath": "assets/animation/kiara/kiaraAnmator.json"
+            },
+            {
+              "rowId": "kiara_fireball",
+              "assetPath": "assets/prefabs/characters/kiara/kiaraFireball.json"
+            },
+            {
+              "rowId": "ina",
+              "assetPath": "assets/prefabs/characters/ina/ina.json"
+            },
+            {
+              "rowId": "ina_animator",
+              "assetPath": "assets/animation/ina/inaAnimator.json"
+            },
+            {
+              "rowId": "ina_tako",
+              "assetPath": "assets/prefabs/characters/ina/inaTako.json"
+            }
+          ]
+}

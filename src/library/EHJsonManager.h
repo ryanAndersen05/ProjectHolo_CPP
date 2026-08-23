@@ -9,6 +9,7 @@ using json = nlohmann::json;
 class EHJsonManager
 {
 public:
+
 	template<typename T>
 	static bool Deserialize(const std::string& path, T& outValue)
 	{

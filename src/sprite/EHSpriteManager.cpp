@@ -16,7 +16,7 @@ EHSpriteManager::~EHSpriteManager()
 	}
 }
 
-bool EHSpriteManager::GetSprteDrawData(const FName &spriteId, FSpriteDrawData& drawData) const {
+bool EHSpriteManager::GetSpriteDrawData(const FName &spriteId, FSpriteDrawData& drawData) const {
 	if (spriteMap.contains(spriteId)) {
 		drawData = spriteMap.at(spriteId);
 		return true;

@@ -5,7 +5,7 @@
 
 
 template<typename... Args>
-class EHAction {
+class EHDelegate {
 public:
     using Callback = std::function<void(Args...)>;
 private:
@@ -17,7 +17,7 @@ private:
 public:
 
 
-    EHAction() : nextId(0) {}
+    EHDelegate() : nextId(0) {}
 
     uint32_t AddListener(Callback callback) {
         int newId = nextId++;

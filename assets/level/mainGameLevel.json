@@ -1,7 +1,7 @@
 ﻿{
   "worldSettings":
   {
-    "gameMode": "assets/prefabs/gamemodes/",
-    "gameHUD": ""
+    "gameMode": "fightingGameMode",
+    "gameHUD": "fightingGameHUD"
   }
 }

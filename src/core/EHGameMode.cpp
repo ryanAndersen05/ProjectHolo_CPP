@@ -41,14 +41,14 @@ EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVe
         std::cout << "Failed to find dataTableManager in Game Instance"  << std::endl;
         return nullptr;
     }
-    EHActorTableRow actorRow;
-    if (!dataTableManager->GetActorData(actorId, actorRow)) {
+    EHAssetPathTableRow actorRow;
+    if (!dataTableManager->GetAssetPathData(actorId, actorRow)) {
         std::cout << "Failed to find row: " << actorId.GetKey() << std::endl;
         return nullptr;
     }
     json actorJson;
-    if (!EHJsonManager::DeserializeAsJson(actorRow.GetActorPath(), actorJson)) {
-        std::cout << "No Item Found At Path: " << actorRow.GetActorPath() << std::endl;
+    if (!EHJsonManager::DeserializeAsJson(actorRow.GetAssetPath(), actorJson)) {
+        std::cout << "No Item Found At Path: " << actorRow.GetAssetPath() << std::endl;
         return nullptr;
     }
 

@@ -32,7 +32,7 @@ void FAnimatorController::TickController(float deltaTime) {
                 EHSpriteComponent* spriteComponent = dynamic_cast<EHSpriteComponent*>(actor->GetActorComponent(FName("Sprite")));
                 EHSpriteManager* spriteManager = EHGameInstance::GetInstance()->GetSpriteManager();
                 FSpriteDrawData drawData;
-                if (spriteManager->GetSprteDrawData(node.spriteId, drawData)) {
+                if (spriteManager->GetSpriteDrawData(node.spriteId, drawData)) {
                     spriteComponent->SetDrawData(drawData);
                 }
             }

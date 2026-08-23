@@ -14,6 +14,13 @@ EHActor::~EHActor()
     }
 }
 
+void EHActor::SetIsActive(const bool active) {
+    if (isActive == active) return;
+
+    isActive = active;
+    OnActorActive.Invoke(isActive, this);
+}
+
 void EHActor::TickActor(float deltaTime)
 {
     float scaleTime = timeScale * deltaTime;

@@ -33,7 +33,7 @@ void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {
     if (gameMode != nullptr) gameMode->InitializeGameMode();
 }
 
-void EHGameInstance::TickGame() {
+void EHGameInstance::TickGame() const {
     if (gameMode != nullptr) gameMode->TickGameMode();
     if (gameHUD != nullptr) gameHUD->TickGameHUD();
 }

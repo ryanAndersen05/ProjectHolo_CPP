@@ -79,17 +79,23 @@ public:
 
     bool operator==(const FName& name) const { return hash == name.hash; }
     bool operator!=(const FName& name) const { return hash != name.hash; }
-    bool isValid() const { return hash != 0; }
+    [[nodiscard]] bool isValid() const { return hash != 0; }
 
 public:
-    std::string GetKey() const { return key; }
-    std::uint64_t GetHash() const { return hash; }
+    [[nodiscard]] const std::string& GetKey() const { return key; }
+    [[nodiscard]] std::uint64_t GetHash() const { return hash; }
     operator unsigned long() const { return hash; }
 
     static std::uint64_t StringToHash(const std::string& key);
 
     friend void to_json(json& j, const FName& name);
     friend void from_json(const json&, FName& name);
+};
+
+
+class EHMath {
+public:
+    static int SafeMod(const int x, const int m) { return (x % m + m) % m; }
 };
 
 namespace std

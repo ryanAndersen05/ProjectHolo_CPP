@@ -3,6 +3,7 @@
 #include "EHSpriteData.h"
 #include "library/EHLibrary.h"
 #include <unordered_map>
+#include <utility>
 
 struct FSpriteDrawData
 {
@@ -12,7 +13,20 @@ public:
 
 public:
 	FSpriteDrawData() : texture(nullptr), spriteData(FSpriteData()) {}
-	FSpriteDrawData(sf::Texture* texture, const FSpriteData& spriteData) : texture(texture), spriteData(spriteData) {}
+	FSpriteDrawData(sf::Texture* texture, FSpriteData  spriteData) :
+	texture(texture), spriteData(std::move(spriteData)) {}
+};
+
+struct FSpriteDisplayData {
+public:
+	FSpriteDrawData drawData;
+	int drawOrder;
+	FVector position;
+	FVector scale;
+	float rotation;
+
+	FSpriteDisplayData(FSpriteDrawData drawData, int drawOrder, const FVector& position, const FVector& scale, float rotation) :
+	drawData(std::move(drawData)), drawOrder(drawOrder), position(position), scale(scale), rotation(rotation) {}
 };
 
 class EHSpriteManager
@@ -24,7 +38,7 @@ private:
 public:
 	EHSpriteManager();
 	~EHSpriteManager();
-	bool GetSprteDrawData(const FName& spriteId, FSpriteDrawData& drawData) const;
+	bool GetSpriteDrawData(const FName& spriteId, FSpriteDrawData& drawData) const;
 	void LoadSpriteMetaData(const std::string& spriteMetaPath);
 	void UnloadSpriteData(const std::string& spriteMetaPath);
 };
