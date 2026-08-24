@@ -36,19 +36,10 @@ EHController *EHGameMode::GetControllerAtIndex(int index) const {
 
 EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVector& position, float rotation, const FVector& scale) {
     // build actor
-    EHDataTableManager* dataTableManager = EHGameInstance::GetInstance()->GetDataTableManager();
-    if (dataTableManager == nullptr) {
-        std::cout << "Failed to find dataTableManager in Game Instance"  << std::endl;
-        return nullptr;
-    }
-    EHAssetPathTableRow actorRow;
-    if (!dataTableManager->GetAssetPathData(actorId, actorRow)) {
-        std::cout << "Failed to find row: " << actorId.GetKey() << std::endl;
-        return nullptr;
-    }
+    EHGameInstance* instance = EHGameInstance::GetInstance();
     json actorJson;
-    if (!EHJsonManager::DeserializeAsJson(actorRow.GetAssetPath(), actorJson)) {
-        std::cout << "No Item Found At Path: " << actorRow.GetAssetPath() << std::endl;
+    if (instance->LoadAssetAsJson(actorId, actorJson)) {
+        std::cout << "Failed to load actor with ActorId: " << actorId.GetKey() << std::endl;
         return nullptr;
     }
 
@@ -75,6 +66,7 @@ EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVe
     if (newActor->GetIsActive()) {
         if (newActor->GetIsTickable()) tickableActors.push_back(newActor);
         if (newActor->GetIsLateTickable()) lateTickableActors.push_back(newActor);
+        if (newActor->GetIsDisplayable()) displayableActors.push_back(newActor);
     }
     return newActor;
 }
@@ -88,15 +80,25 @@ void EHGameMode::DestroyActor(EHActor *actor) {
 
 void EHGameMode::OnActorActive(bool isActive, EHActor *actor) {
 
-    if (actor == nullptr) {
+    if (!actor) {
         std::cout << "Actor should not be null" << std::endl;
         return;
     }
-    
+
     if (isActive) {
-        if (actor->GetIsLateTickable()) {
+        if (actor->GetIsTickable()) {
             if (std::ranges::find(tickableActors, actor) == tickableActors.end()) {
                 tickableActors.push_back(actor);
+            }
+        }
+        if (actor->GetIsLateTickable()) {
+            if (std::ranges::find(lateTickableActors, actor) == lateTickableActors.end()) {
+                lateTickableActors.push_back(actor);
+            }
+        }
+        if (actor->GetIsDisplayable()) {
+            if (std::ranges::find(displayableActors, actor) == displayableActors.end()) {
+                displayableActors.push_back(actor);
             }
         }
     }
@@ -107,9 +109,31 @@ void EHGameMode::OnActorActive(bool isActive, EHActor *actor) {
         if (actor->GetIsLateTickable()) {
             std::erase(lateTickableActors, actor);
         }
+        if (actor->GetIsDisplayable()) {
+            std::erase(displayableActors, actor);
+        }
     }
 }
 
-void EHGameMode::TickGameMode() {
-    // nothing here for now
+void EHGameMode::TickGameMode(float deltaTime) {
+    TickActors(deltaTime);
+    LateTickActors(deltaTime);
+}
+
+void EHGameMode::TickActors(float deltaTime) const {
+    for (EHActor* actor : tickableActors) {
+        actor->TickActor(deltaTime);
+    }
+}
+
+void EHGameMode::LateTickActors(float deltaTime) const {
+    for (EHActor* actor : lateTickableActors) {
+        actor->LateTickActor(deltaTime);
+    }
+}
+
+void EHGameMode::DisplayGameMode(std::vector<FSpriteDisplayData> &displayData) const {
+    for (EHActor* actor : displayableActors) {
+        actor->DisplayActor(displayData);
+    }
 }

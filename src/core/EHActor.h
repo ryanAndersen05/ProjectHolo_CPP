@@ -4,6 +4,8 @@
 #include "interface/ILateTickable.h"
 #include "library/EHEvent.h"
 #include <vector>
+#include "interface/IDisplayable.h"
+#include "sprite/EHSpriteManager.h"
 
 class EHActorComponent;
 
@@ -31,6 +33,7 @@ private:
     std::vector<FComponentContainer> components;
     std::vector<ITickable*> tickables;
     std::vector<ILateTickable*> lateTickables;
+    std::vector<IDisplayable*> displayables;
 
 public:
     EHDelegate<bool, EHActor*> OnActorActive;
@@ -40,7 +43,8 @@ public:
 
     virtual void InitializeActor(int id);
 
-    void TickActor(float deltaTime);
+    void TickActor(float deltaTime) const;
+    void LateTickActor(float deltaTime) const;
 
     void SetIsActive(bool active);
     void SetPosition(const FVector& pos) { this->position = pos; }
@@ -49,17 +53,19 @@ public:
     void SetOwner(EHActor* own) { this->owner = own; }
     void SetTimeScale(const float timeScl) { this->timeScale = timeScl; }
 
-    bool GetIsActive() const { return isActive; }
-    FVector GetPosition() const { return position; }
-    float GetRotation() const { return rotation; }
-    FVector GetScale() const { return scale; }
-    float GetActorTimeScale() const { return timeScale; }
-    bool GetIsTickable() const { return !tickables.empty(); }
-    bool GetIsLateTickable() const { return !lateTickables.empty(); }
+    [[nodiscard]] bool GetIsActive() const { return isActive; }
+    [[nodiscard]] FVector GetPosition() const { return position; }
+    [[nodiscard]] float GetRotation() const { return rotation; }
+    [[nodiscard]] FVector GetScale() const { return scale; }
+    [[nodiscard]] float GetActorTimeScale() const { return timeScale; }
+    [[nodiscard]] bool GetIsTickable() const { return !tickables.empty(); }
+    [[nodiscard]] bool GetIsLateTickable() const { return !lateTickables.empty(); }
+    [[nodiscard]] bool GetIsDisplayable() const { return displayables.empty(); }
 
-    EHActor* GetOwner() const { return owner; }
-    EHActorComponent* GetActorComponent(const FName& componentId) const;
+    [[nodiscard]] EHActor* GetOwner() const { return owner; }
+    [[nodiscard]] EHActorComponent* GetActorComponent(const FName& componentId) const;
     void AddComponent(const FName& componentId, EHActorComponent* component);
+    void DisplayActor(std::vector<FSpriteDisplayData>& displayData) const;
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHActor, name)
 };

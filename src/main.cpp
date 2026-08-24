@@ -44,8 +44,8 @@ int main()
         while (accumulator >= EHTime::GetFixedDeltaTime())
         {
             accumulator -= EHTime::GetFixedDeltaTime();
+            instance->TickGame(EHTime::FrameTime);
         }
-        window.clear();
-        window.display();
+        instance->DisplayGame(window);
     }
 }

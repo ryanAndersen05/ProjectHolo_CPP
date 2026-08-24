@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
-#include "core/EHActor.h"
 #include "library/EHLibrary.h"
 
 using json = nlohmann::json;

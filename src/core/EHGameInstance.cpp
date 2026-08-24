@@ -10,6 +10,11 @@ EHGameInstance::EHGameInstance() : gameMode(nullptr), gameHUD(nullptr) {
         return;
     }
     EHGameInstance::instance = this;
+
+    if (EHJsonManager::Deserialize<EHDataTable<EHAssetPathTableRow>>("assets/datatables/assetPathDataTable.json", assetPathTable)) {
+        std::cerr << "Failed to deserialize EHDataTable<EHAssetPathTableRow>" << std::endl;
+        return;
+    }
     spriteManager = new EHSpriteManager();
     dataTableManager = new EHDataTableManager();
 }
@@ -33,13 +38,25 @@ void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {
     if (gameMode != nullptr) gameMode->InitializeGameMode();
 }
 
-void EHGameInstance::TickGame() const {
-    if (gameMode != nullptr) gameMode->TickGameMode();
+void EHGameInstance::TickGame(float deltaTime) const {
+    if (gameMode) gameMode->TickGameMode(deltaTime);
     if (gameHUD != nullptr) gameHUD->TickGameHUD();
 }
 
-void EHGameInstance::DisplayGame() {
+void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
+    window.clear(sf::Color::Magenta);
 
+    std::vector<FSpriteDisplayData> displayData;
+    if (gameMode) gameMode->DisplayGameMode(displayData);
+    for (const FSpriteDisplayData& data : displayData) {
+        const FSpriteDrawData& drawData = data.drawData;
+        const FSpriteData& spriteData = drawData.spriteData;
+        FVector position = data.position * 32.f;
+        sf::Sprite sprite(*drawData.texture,
+            sf::IntRect({spriteData.point.x, spriteData.point.y},{spriteData.size.x, spriteData.size.y}));
+        sprite.setPosition({position.x, -position.y});
+        window.draw(sprite);
+    }
 }
 
 

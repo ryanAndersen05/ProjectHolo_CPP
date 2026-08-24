@@ -3,6 +3,7 @@
 #include "EHGameMode.h"
 #include "EHGameHUD.h"
 #include "datatable/EHDataTableManager.h"
+#include "datatable/EHAssetPathTableRow.h"
 #include "nlohmann/json.hpp"
 #include <string>
 #include "library/EHJsonManager.h"
@@ -25,6 +26,7 @@ private:
 	EHGameMode* gameMode;
 	EHGameHUD* gameHUD;
 
+	EHDataTable<EHAssetPathTableRow> assetPathTable;
 	EHSpriteManager* spriteManager;
 	EHDataTableManager* dataTableManager;
 
@@ -37,18 +39,27 @@ public:
 
 	void InitializeGame(const FWorldSettings& worldSettings);
 	// This will be called every game tick
-	void TickGame() const;
+	void TickGame(float deltaTime) const;
 	// This will be called every graphics display tick
-	void DisplayGame();
+	void DisplayGame(sf::RenderWindow& window) const;
 
 	template<typename T>
 	bool LoadAsset(const FName& assetId, T& asset) {
 		EHAssetPathTableRow assetRow;
-		if (!dataTableManager->GetAssetPathData(assetId, assetRow)) {
+		if (!assetPathTable.FindRow(assetId, assetRow)) {
 			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
 			return false;
 		}
 		return EHJsonManager::Deserialize<T>(assetRow.GetAssetPath(), asset);
+	}
+
+	bool LoadAssetAsJson(const FName& assetId, json& assetJson) const {
+		EHAssetPathTableRow assetRow;
+		if (!assetPathTable.FindRow(assetId, assetRow)) {
+			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
+			return false;
+		}
+		return EHJsonManager::DeserializeAsJson(assetRow.GetAssetPath(), assetJson);
 	}
 };
 
