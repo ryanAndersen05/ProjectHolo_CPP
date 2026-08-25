@@ -37,5 +37,6 @@ public:
     void InitializeComponent(EHActor *actr) override;
 
     void SetIsFacingLeft(bool isLeft);
-    friend void from_json(const json& j, EHCharacterMovementComponent &component);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCharacterMovementComponent, isFacingLeft, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed,
+        maxBackDashSpeed, maxAirDashSpeed, maxAirBackDashSpeed, maxAirDashes, jumpHeight, jumpApexTime, horizontalJumpSpeed, maxDoubleJumps)
 };

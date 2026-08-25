@@ -1,16 +1,12 @@
 {
     "startClip": "gura_idle",
-    "spriteMetaPath": "assets/sprites/characters/gura/GuraAtlas.json",
+    "spriteMetaPath": "gura_atlas",
     "clips":
             [
                 "gura_idle",
                 "gura_slight",
                 "gura_walkf",
                 "gura_walkb"
-            ],
-    "clips":
-            [
-
             ],
     "parameters" :
     [

@@ -60,7 +60,7 @@ public:
     [[nodiscard]] float GetActorTimeScale() const { return timeScale; }
     [[nodiscard]] bool GetIsTickable() const { return !tickables.empty(); }
     [[nodiscard]] bool GetIsLateTickable() const { return !lateTickables.empty(); }
-    [[nodiscard]] bool GetIsDisplayable() const { return displayables.empty(); }
+    [[nodiscard]] bool GetIsDisplayable() const { return !displayables.empty(); }
 
     [[nodiscard]] EHActor* GetOwner() const { return owner; }
     [[nodiscard]] EHActorComponent* GetActorComponent(const FName& componentId) const;

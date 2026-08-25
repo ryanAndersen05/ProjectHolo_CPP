@@ -1,10 +1,12 @@
 #include "EHSpriteManager.h"
 #include <iostream>
+
+#include "core/EHGameInstance.h"
 #include "library/EHJsonManager.h"
 
 EHSpriteManager::EHSpriteManager()
 {
-	textureMap = std::unordered_map<unsigned long, sf::Texture*>();
+	textureMap = std::unordered_map<FName, sf::Texture*>();
 	spriteMap = std::unordered_map<FName, FSpriteDrawData>();
 }
 
@@ -24,67 +26,54 @@ bool EHSpriteManager::GetSpriteDrawData(const FName &spriteId, FSpriteDrawData& 
 	return false;
 }
 
-void EHSpriteManager::LoadSpriteMetaData(const std::string& spriteMetaPath)
+void EHSpriteManager::LoadSpriteMetaData(const FName& spriteMetaAsset)
 {
-	if (spriteMetaPath.empty())
+	if (textureMap.contains(spriteMetaAsset))
 	{
-		std::cout << "Invalid SpriteMetaPath Path. Can not be empty" << std::endl;
 		return;
 	}
 
 	FSpriteMetaData spriteMetaData;
-
-	if (!EHJsonManager::Deserialize<FSpriteMetaData>(spriteMetaPath, spriteMetaData))
+	if (!EHGameInstance::LoadAsset<FSpriteMetaData>(spriteMetaAsset, spriteMetaData))
 	{
-		std::cout << "Failed to Load Sprite MetaData at path: " << spriteMetaPath << std::endl;
+		std::cout << "Failed to Load Sprite MetaData at path: " << spriteMetaAsset << std::endl;
 		return;
 	}
-
-	unsigned long textureId = FName::StringToHash(spriteMetaData.spriteFilePath);
-	if (textureMap.contains(textureId))
-	{
-		std::cout << "Texture Is Already Loaded: " + spriteMetaPath << std::endl;
+	auto* texture = new sf::Texture();
+	std::string texturePath;
+	if (!EHGameInstance::GetAssetPath(spriteMetaData.spriteAsset, texturePath)) {
+		std::cerr << "Failed to find data path for texture with Id: " << spriteMetaAsset.GetKey() << std::endl;
 		return;
 	}
-	sf::Texture* texture = new sf::Texture();
-	if (!texture->loadFromFile(spriteMetaData.spriteFilePath))
+	if (!texture->loadFromFile(texturePath))
 	{
-		std::cout << "Failed to load sprite at path: " << spriteMetaPath << std::endl;
+		std::cout << "Failed to load sprite at path: " << spriteMetaAsset << std::endl;
 		delete texture;
 		return;
 	}
-	textureMap.insert({ textureId, texture });
-
+	textureMap.insert({ spriteMetaAsset, texture });
 	for (const auto& spriteData : spriteMetaData.sprites)
 	{
 		spriteMap.insert({ spriteData.spriteId, FSpriteDrawData(texture, spriteData) });
 	}
 }
 
-void EHSpriteManager::UnloadSpriteData(const std::string& spriteMetaPath)
+void EHSpriteManager::UnloadSpriteData(const FName& spriteMetaPath)
 {
-	if (spriteMetaPath.empty())
-	{
-		std::cout << "Invalid SpriteMetaPath. Can not be empty" << spriteMetaPath << std::endl;
+	if (!textureMap.contains(spriteMetaPath)) {
 		return;
 	}
 
 	FSpriteMetaData spriteMetaData;
-	if (!EHJsonManager::Deserialize<FSpriteMetaData>(spriteMetaPath, spriteMetaData))
+	if (!EHGameInstance::LoadAsset<FSpriteMetaData>(spriteMetaPath, spriteMetaData))
 	{
 		std::cout << "Failed to load sprite metadata at path: " << spriteMetaPath << std::endl;
 		return;
 	}
-
-	unsigned long textureId = FName::StringToHash(spriteMetaData.spriteFilePath);
-	if (!textureMap.contains(textureId))
-	{
-		std::cout << "Texture Id was not found. Perhaps this path has not been loaded yet?" << std::endl;
-		return;
+	for (const auto& spriteData : spriteMetaData.sprites) {
+		spriteMap.erase(spriteData.spriteId);
 	}
-	sf::Texture* texture = new sf::Texture();
-	if (!texture->loadFromFile(spriteMetaData.spriteFilePath))
-	{
 
-	}
+	delete textureMap[spriteMetaPath];
+	textureMap.erase(spriteMetaPath);
 }

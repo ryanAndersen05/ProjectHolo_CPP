@@ -1,0 +1,22 @@
+{
+  "actorType": "character",
+  "components":
+          [
+            {
+              "componentType": "animator",
+              "componentName": "animator",
+              "data":
+              {
+                "defaultControllerAsset": "kiara_animator"
+              }
+            },
+            {
+              "componentType": "sprite",
+              "componentName": "sprite",
+              "data":
+              {
+                "defaultSprite": "kiara_idle00"
+              }
+            }
+          ]
+}

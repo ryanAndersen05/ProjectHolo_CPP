@@ -1,13 +1,14 @@
 ﻿#include "EHAnimatorController.h"
 #include "core/EHGameInstance.h"
+#include "factory/EHActorComponentFactory.h"
 #include "library/EHJsonManager.h"
 #include "sprite/EHSpriteComponent.h"
 
 
 FAnimatorController::FAnimatorController() : startClip(FName("")) {
-    spriteMetaPath = "";
+    spriteMetaPath = FName("");
     parameters = std::vector<FParameter>();
-    clips = std::vector<std::string>();
+    clips = std::vector<FName>();
     animationMap = std::unordered_map<FName, FAnimationClip>();
     time = 0.0f;
     currentClip = FAnimationClip();
@@ -29,7 +30,7 @@ void FAnimatorController::TickController(float deltaTime) {
         FAnimationNode node = currentClip.nodes[i];
         if (adjustedTime >= node.time) {
             if (previousTime <= node.time) {
-                EHSpriteComponent* spriteComponent = dynamic_cast<EHSpriteComponent*>(actor->GetActorComponent(FName("Sprite")));
+                EHSpriteComponent* spriteComponent = dynamic_cast<EHSpriteComponent*>(actor->GetActorComponent(EHActorComponentFactory::SpriteComponentId));
                 EHSpriteManager* spriteManager = EHGameInstance::GetInstance()->GetSpriteManager();
                 FSpriteDrawData drawData;
                 if (spriteManager->GetSpriteDrawData(node.spriteId, drawData)) {
@@ -49,15 +50,12 @@ bool FAnimatorController::GetAnimationClip(const FName &animName, FAnimationClip
     return true;
 }
 
-void FAnimatorController::InitializeAnimationClips(EHActor* actr, const std::string& controllerPath) {
+void FAnimatorController::InitializeAnimationClips(EHActor* actr) {
     this->actor = actr;
-    std::filesystem::path animationPath(controllerPath);
-    animationPath = animationPath.parent_path(); // directory
-    for (const std::string& clipName : clips) {
-        std::filesystem::path clipPath(clipName + ".json");
-        std::filesystem::path fullClipPath = animationPath / clipPath;
+
+    for (const FName& clipName : clips) {
         FAnimationClip clip;
-        if (EHJsonManager::Deserialize(fullClipPath.string(), clip)) {
+        if (EHGameInstance::LoadAsset<FAnimationClip>(clipName, clip)) {
             animationMap.insert({clip.clipName, clip});
         }
     }
@@ -137,7 +135,7 @@ void from_json(const nlohmann::json &j, FAnimatorController &controller) {
     j.at("startClip").get_to(controller.startClip);
 
     for (const auto& clip : j.at("clips")) {
-        std::string clipData = clip.get<std::string>();
+        FName clipData = clip.get<FName>();
         controller.clips.push_back(clipData);
     }
 }

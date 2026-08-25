@@ -1,7 +1,8 @@
 ﻿{
   "worldSettings":
   {
-    "gameMode": "fightingGameMode",
+    "gameMode": "fighting_game_mode",
     "gameHUD": "fightingGameHUD"
-  }
+  },
+  "actors": []
 }

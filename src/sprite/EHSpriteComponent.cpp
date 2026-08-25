@@ -9,7 +9,7 @@ void EHSpriteComponent::SetDrawData(const FName& drawName) {
         return;
     }
     if (!spriteManager->GetSpriteDrawData(drawName, drawData)) {
-        std::cout << "Failed to find Sprite with id" << drawName.GetKey() << std::endl;
+        std::cout << "Failed to find Sprite with id: " << drawName.GetKey() << std::endl;
     }
 }
 

@@ -15,12 +15,12 @@ int main()
     sf::RenderWindow window(sf::VideoMode({ EHUserSettings::ScreenWidth, EHUserSettings::ScreenHeight }), "Oshi-Oshi Punch!");
     auto* instance = new EHGameInstance();
     EHGameSettings settings;
-    if (!instance->LoadAsset<EHGameSettings>(FName("game_settings"), settings)) {
+    if (!EHGameInstance::LoadAsset<EHGameSettings>(FName("game_settings"), settings)) {
         std::cout << "Failed to load game_settings" << std::endl;
         return -1;
     }
     EHLevel level;
-    if (!instance->LoadAsset<EHLevel>(settings.initialLevel, level)) {
+    if (!EHGameInstance::LoadAsset<EHLevel>(settings.initialLevel, level)) {
         std::cout << "Failed to load level" << std::endl;
         return -1;
     }

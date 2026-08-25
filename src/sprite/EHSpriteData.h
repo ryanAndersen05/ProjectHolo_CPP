@@ -14,19 +14,16 @@ public:
 	FVectorInt size;
 	FVectorInt pivot;
 	FSpriteData() : spriteId(FName("")), point(FVectorInt::Zero), size(FVectorInt::Zero), pivot(FVectorInt::Zero) {}
-
 	std::string to_string();
-
-	friend void to_json(json& j, const FSpriteData& spriteData);
-	friend void from_json(const json& j, FSpriteData& spriteData);
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FSpriteData, spriteId, point, size, pivot)
 
 struct FSpriteMetaData
 {
 public:
-	std::string spriteFilePath;
+	FName spriteAsset;
 	std::vector<FSpriteData> sprites;
-	FSpriteMetaData() : spriteFilePath(""), sprites(std::vector<FSpriteData>()) {}
+	FSpriteMetaData() : spriteAsset(""), sprites(std::vector<FSpriteData>()) {}
 
 	bool GetSpriteData(const FName& spriteId, FSpriteData& outSpriteData) const;
 	std::string to_string();

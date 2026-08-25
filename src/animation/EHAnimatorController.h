@@ -67,9 +67,9 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FState, stateName, transitions)
 
 struct FAnimatorController {
 private:
-    std::string spriteMetaPath;
+    FName spriteMetaPath;
     std::vector<FParameter> parameters;
-    std::vector<std::string> clips;
+    std::vector<FName> clips;
     std::unordered_map<FName, FAnimationClip> animationMap;
     std::unordered_map<FName, FParameterValue> parameterValues;
     float time;
@@ -82,8 +82,8 @@ public:
     void TickController(float deltaTime);
     bool GetAnimationClip(const FName& animName, FAnimationClip& outAnimClip) const;
     const FName& GetStartClip() const { return startClip; }
-    const std::string& GetSpriteMetaPath() const { return spriteMetaPath; };
-    void InitializeAnimationClips(EHActor* actr, const std::string& controllerPath);
+    const FName& GetSpriteMetaPath() const { return spriteMetaPath; };
+    void InitializeAnimationClips(EHActor* actr);
     void SetAnimationClip(const FName& animName);
 
     void SetBool(const FName&, bool);

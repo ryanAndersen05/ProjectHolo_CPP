@@ -1,0 +1,43 @@
+﻿{
+  "clipName": "kiara_idle",
+  "isLooping": true,
+  "nodes":
+          [
+            {
+              "spriteId": "kiara_idle00",
+              "time": 0.0
+            },
+            {
+              "spriteId": "kiara_idle01",
+              "time": 0.083333
+            },
+            {
+            "spriteId": "kiara_idle02",
+            "time": 0.166667
+            },
+            {
+              "spriteId": "kiara_idle03",
+              "time": 0.25
+            },
+            {
+              "spriteId": "kiara_idle04",
+              "time": 0.333333
+            },
+            {
+              "spriteId": "kiara_idle05",
+              "time": 0.416667
+            },
+            {
+              "spriteId": "kiara_idle06",
+              "time": 0.5
+            },
+            {
+              "spriteId": "kiara_idle07",
+              "time": 0.583333
+            },
+            {
+              "spriteId": "kiara_idle08",
+              "time": 0.666667
+            }
+          ]
+}

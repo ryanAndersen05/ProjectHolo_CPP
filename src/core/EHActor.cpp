@@ -40,7 +40,6 @@ void EHActor::LateTickActor(float deltaTime) const {
 void EHActor::AddComponent(const FName& componentId, EHActorComponent* component)
 {
     components.emplace_back(componentId, component);
-    component->InitializeComponent(this);
     auto* tickableComponent = dynamic_cast<ITickable*>(component);
     auto* lateTickableComponent = dynamic_cast<ILateTickable*>(component);
     auto* displayableComponent = dynamic_cast<IDisplayable*>(component);
@@ -56,6 +55,7 @@ void EHActor::AddComponent(const FName& componentId, EHActorComponent* component
     if (displayableComponent) {
         displayables.push_back(displayableComponent);
     }
+    component->InitializeComponent(this);
 }
 
 EHActorComponent* EHActor::GetActorComponent(const FName& componentId) const {

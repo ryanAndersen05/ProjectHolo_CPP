@@ -12,10 +12,10 @@ using json = nlohmann::json;
 
 struct FWorldSettings {
 public:
-	std::string gameModePath;
-	std::string gameHUDPath;
+	FName gameMode;
+	FName gameHUD;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FWorldSettings, gameModePath, gameHUDPath)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FWorldSettings, gameMode, gameHUD)
 
 
 class EHGameInstance
@@ -29,6 +29,35 @@ private:
 	EHDataTable<EHAssetPathTableRow> assetPathTable;
 	EHSpriteManager* spriteManager;
 	EHDataTableManager* dataTableManager;
+
+	template<typename T>
+	bool LoadAsset_Instance(const FName& assetId, T& asset) {
+		EHAssetPathTableRow assetRow;
+		if (!assetPathTable.FindRow(assetId, assetRow)) {
+			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
+			return false;
+		}
+		return EHJsonManager::Deserialize<T>(assetRow.GetAssetPath(), asset);
+	}
+
+	bool LoadAssetAsJson_Instance(const FName& assetId, json& assetJson) const {
+		EHAssetPathTableRow assetRow;
+		if (!assetPathTable.FindRow(assetId, assetRow)) {
+			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
+			return false;
+		}
+		return EHJsonManager::DeserializeAsJson(assetRow.GetAssetPath(), assetJson);
+	}
+
+	bool GetAssetPath_Instance(const FName& assetId, std::string& assetPath) const {
+		EHAssetPathTableRow assetRow;
+		if (!assetPathTable.FindRow(assetId, assetRow)) {
+			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
+			return false;
+		}
+		assetPath = assetRow.GetAssetPath();
+		return true;
+	}
 
 public:
 	EHGameInstance();
@@ -44,23 +73,9 @@ public:
 	void DisplayGame(sf::RenderWindow& window) const;
 
 	template<typename T>
-	bool LoadAsset(const FName& assetId, T& asset) {
-		EHAssetPathTableRow assetRow;
-		if (!assetPathTable.FindRow(assetId, assetRow)) {
-			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
-			return false;
-		}
-		return EHJsonManager::Deserialize<T>(assetRow.GetAssetPath(), asset);
-	}
-
-	bool LoadAssetAsJson(const FName& assetId, json& assetJson) const {
-		EHAssetPathTableRow assetRow;
-		if (!assetPathTable.FindRow(assetId, assetRow)) {
-			std::cout << "Failed to find asset for ID: " << assetId.GetKey() << std::endl;
-			return false;
-		}
-		return EHJsonManager::DeserializeAsJson(assetRow.GetAssetPath(), assetJson);
-	}
+	static bool LoadAsset(const FName& assetId, T& asset) { return instance->LoadAsset_Instance(assetId, asset); }
+	static bool LoadAssetAsJson(const FName& assetId, json& assetJson) { return instance->LoadAssetAsJson_Instance(assetId, assetJson); }
+	static bool GetAssetPath(const FName& assetId, std::string& assetPath) { return instance->GetAssetPath_Instance(assetId, assetPath);}
 };
 
 
@@ -70,4 +85,5 @@ public:
 	FWorldSettings worldSettings;
 	std::vector<FName> actors;
 	FGameLevel() = default;
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FGameLevel, worldSettings, actors)
 };

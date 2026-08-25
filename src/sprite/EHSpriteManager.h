@@ -32,13 +32,13 @@ public:
 class EHSpriteManager
 {
 private:
-	std::unordered_map<unsigned long, sf::Texture*> textureMap;
+	std::unordered_map<FName, sf::Texture*> textureMap;
 	std::unordered_map<FName, FSpriteDrawData> spriteMap;
 
 public:
 	EHSpriteManager();
 	~EHSpriteManager();
 	bool GetSpriteDrawData(const FName& spriteId, FSpriteDrawData& drawData) const;
-	void LoadSpriteMetaData(const std::string& spriteMetaPath);
-	void UnloadSpriteData(const std::string& spriteMetaPath);
+	void LoadSpriteMetaData(const FName& spriteMetaAsset);
+	void UnloadSpriteData(const FName& spriteMetaPath);
 };

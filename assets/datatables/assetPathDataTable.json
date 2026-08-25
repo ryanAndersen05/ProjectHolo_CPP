@@ -6,16 +6,17 @@
               "assetPath": "assets/gameSettings.json"
             },
             {
-              "notes": "____________Data Tables______________",
+              "notes": "____________Data Tables________________________________________",
               "rowId": "asset_table",
               "assetPath": "assets/dataTables/assetPathDataTable.json"
             },
             {
-              "notes": "____________Levels_________________",
+              "notes": "____________Levels_____________________________________________",
               "rowId": "main_game_level",
               "assetPath": "assets/level/mainGameLevel.json"
             },
             {
+              "notes":"____________GameModes___________________________________________",
               "rowId": "fighting_game_mode",
               "assetPath": "assets/prefabs/gamemodes/fightingGameMode.json"
             },
@@ -28,18 +29,20 @@
               "assetPath": "assets/prefabs/gameModes/replayFightingGameMode.json"
             },
             {
-              "rowId": "fightingGameHUD",
+              "notes": "____________Game HUDs__________________________________________",
+              "rowId": "fighting_game_HUD",
               "assetPath": ""
             },
             {
-              "rowId": "mainMenuHUD",
+              "rowId": "main_menu_HUD",
               "assetPath": ""
             },
             {
-              "rowId": "characterSelectHUD",
+              "rowId": "character_select_HUD",
               "assetPath": ""
             },
             {
+              "notes":"____________Characters (Gura)___________________________________",
               "rowId": "gura",
               "assetPath": "assets/prefabs/characters/gura/gura.json"
             },
@@ -52,18 +55,58 @@
               "assetPath": "assets/animation/gura/guraAnimator.json"
             },
             {
+              "rowId": "gura_atlas",
+              "assetPath": "assets/sprites/characters/gura/guraAtlas.json"
+            },
+            {
+              "rowId": "gura_atlas_sprite",
+              "assetPath": "assets/sprites/characters/gura/guraAtlas.png"
+            },
+            {
+              "notes": "________AnimatinClips (Gura)__________________________________",
+              "rowId": "gura_idle",
+              "assetPath": "assets/animation/gura/gura_idle.json"
+            },
+            {
+              "rowId": "gura_slight",
+              "assetPath": "assets/animation/gura/gura_slight.json"
+            },
+            {
+              "rowId": "gura_walkb",
+              "assetPath": "assets/animation/gura/gura_walkb.json"
+            },
+            {
+              "rowId": "gura_walkf",
+              "assetPath": "assets/animation/gura/gura_walkf.json"
+            },
+            {
+              "notes":"____________Characters (Kiara)__________________________________",
               "rowId": "kiara",
               "assetPath": "assets/prefabs/characters/kiara/kiara.json"
             },
             {
               "rowId": "kiara_animator",
-              "assetPath": "assets/animation/kiara/kiaraAnmator.json"
+              "assetPath": "assets/animation/kiara/kiaraAnimator.json"
             },
             {
               "rowId": "kiara_fireball",
               "assetPath": "assets/prefabs/characters/kiara/kiaraFireball.json"
             },
             {
+              "rowId": "kiara_atlas",
+              "assetPath": "assets/sprites/characters/kiara/kiaraAtlas.json"
+            },
+            {
+              "rowId": "kiara_atlas_sprite",
+              "assetPath": "assets/sprites/characters/kiara/kiaraAtlas.png"
+            },
+            {
+              "notes": "________AnimatinClips (Kiara)___________________________________",
+              "rowId": "kiara_idle",
+              "assetPath": "assets/animation/kiara/kiara_idle.json"
+            },
+            {
+              "notes":"____________Characters (Ina)____________________________________",
               "rowId": "ina",
               "assetPath": "assets/prefabs/characters/ina/ina.json"
             },

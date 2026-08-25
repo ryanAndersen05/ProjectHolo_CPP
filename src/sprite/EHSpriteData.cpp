@@ -26,7 +26,7 @@ std::string FSpriteData::to_string()
 
 std::string FSpriteMetaData::to_string()
 {
-	std::string data = "spriteFilePath: " + spriteFilePath + '\n';
+	std::string data = "spriteFilePath: " + spriteAsset.GetKey() + '\n';
 	data += "Length: " + std::to_string(sprites.size());
 	for (FSpriteData& sprite : sprites)
 	{
@@ -40,22 +40,9 @@ void to_json(json& j, const FSpriteData& spriteData)
 	j = json{ {"spriteId", spriteData.spriteId}, {"point", spriteData.point}, {"size", spriteData.size}, {"pivot", spriteData.pivot} };
 }
 
-void from_json(const json& j, FSpriteData& spriteData)
-{
-	j.at("spriteId").get_to(spriteData.spriteId);
-	j.at("point").get_to(spriteData.point);
-	j.at("size").get_to(spriteData.size);
-	j.at("pivot").get_to(spriteData.pivot);
-}
-
-void to_json(json& j, const FSpriteMetaData& spriteData)
-{
-	j = json{ {"spriteFilePath", spriteData.spriteFilePath}, {"sprites", spriteData.sprites}};
-}
-
 void from_json(const json& j, FSpriteMetaData& spriteData)
 {
-	j.at("spriteFilePath").get_to(spriteData.spriteFilePath);
+	j.at("spriteAsset").get_to(spriteData.spriteAsset);
 
 	for (const auto& var : j.at("sprites"))
 	{

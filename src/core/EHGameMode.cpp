@@ -36,16 +36,15 @@ EHController *EHGameMode::GetControllerAtIndex(int index) const {
 
 EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVector& position, float rotation, const FVector& scale) {
     // build actor
-    EHGameInstance* instance = EHGameInstance::GetInstance();
     json actorJson;
-    if (instance->LoadAssetAsJson(actorId, actorJson)) {
+    if (!EHGameInstance::LoadAssetAsJson(actorId, actorJson)) {
         std::cout << "Failed to load actor with ActorId: " << actorId.GetKey() << std::endl;
         return nullptr;
     }
 
     FName actorType = actorJson.at("actorType").get<FName>();
     EHActor* newActor = EHActorFactory::CreateActor(actorType);
-    if (newActor == nullptr) {
+    if (!newActor) {
         std::cout << "Failed to create new Actor: " << std::endl;
         return nullptr;
     }
@@ -59,8 +58,8 @@ EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVe
         FName componentType = component.at("componentType").get<FName>();
         FName componentName = component.at("componentName").get<FName>();
         json componentData = component.at("data");
-        EHActorComponent* actorComponent = EHActorComponentFactory::CreateActorComponent(componentName, componentData);
-        newActor->AddComponent(componentType, actorComponent);
+        EHActorComponent* actorComponent = EHActorComponentFactory::CreateActorComponent(componentType, componentData);
+        newActor->AddComponent(componentName, actorComponent);
     }
     allActors.push_back(newActor);
     if (newActor->GetIsActive()) {

@@ -11,7 +11,7 @@ EHGameInstance::EHGameInstance() : gameMode(nullptr), gameHUD(nullptr) {
     }
     EHGameInstance::instance = this;
 
-    if (EHJsonManager::Deserialize<EHDataTable<EHAssetPathTableRow>>("assets/datatables/assetPathDataTable.json", assetPathTable)) {
+    if (!EHJsonManager::Deserialize<EHDataTable<EHAssetPathTableRow>>("assets/datatables/assetPathDataTable.json", assetPathTable)) {
         std::cerr << "Failed to deserialize EHDataTable<EHAssetPathTableRow>" << std::endl;
         return;
     }
@@ -29,13 +29,14 @@ void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {
     delete gameHUD;
 
     json gameModeJson;
-    if (!EHJsonManager::DeserializeAsJson(worldSettings.gameModePath, gameModeJson)) {
+    if (!LoadAssetAsJson_Instance(worldSettings.gameMode, gameModeJson)) {
         std::cout << "Failed to Deserialize GameMode" << std::endl;
         return;
     }
     FName gameModeType = gameModeJson.at("gameModeType").get<FName>();
     gameMode = EHGameModeFactory::CreateGameMode(gameModeType, gameModeJson.at("data"));
-    if (gameMode != nullptr) gameMode->InitializeGameMode();
+    if (gameMode) gameMode->InitializeGameMode();
+    // if (gameHUD)
 }
 
 void EHGameInstance::TickGame(float deltaTime) const {
@@ -44,7 +45,7 @@ void EHGameInstance::TickGame(float deltaTime) const {
 }
 
 void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
-    window.clear(sf::Color::Magenta);
+    window.clear(sf::Color::Black);
 
     std::vector<FSpriteDisplayData> displayData;
     if (gameMode) gameMode->DisplayGameMode(displayData);
@@ -57,6 +58,7 @@ void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
         sprite.setPosition({position.x, -position.y});
         window.draw(sprite);
     }
+    window.display();
 }
 
 

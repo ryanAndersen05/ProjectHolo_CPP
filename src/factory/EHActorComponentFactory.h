@@ -10,6 +10,7 @@ public:
     const static FName SpriteComponentId;
     const static FName PhysicsComponentId;
     const static FName CharacterMovementComponentId;
+    const static FName AnimatorComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

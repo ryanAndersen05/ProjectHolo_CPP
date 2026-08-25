@@ -7,4 +7,5 @@
 void EHGameModeFighting::InitializeGameMode() {
     EHGameMode::InitializeGameMode();
     CreateActor(FName("gura"), FVector::Zero);
+    CreateActor(FName("kiara"), FVector(2.f, 0.f));
 }

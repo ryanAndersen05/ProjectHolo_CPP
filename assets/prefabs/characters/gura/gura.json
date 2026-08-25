@@ -7,7 +7,7 @@
       "componentName": "animator",
       "data":
       {
-        "controllerPath": "assets/animation/gura/gura_animator.json"
+        "defaultControllerAsset": "gura_animator"
       }
     },
     {
@@ -16,38 +16,6 @@
       "data":
       {
         "defaultSprite": "gura_idle00"
-      }
-    },
-    {
-      "componentType": "characterMovement",
-      "componentName": "movement",
-      "data":
-      {
-        "isFacingLeft": false,
-        "maxWalkSpeed": 5,
-        "maxBackWalkSpeed": 3,
-        "maxDashSpeed": 10,
-        "maxBackDashSpeed": 8,
-
-        "maxAirDashSpeed": 10,
-        "maxAirBackDashSpeed": 8,
-        "maxAirDashes": 1,
-
-        "jumpHeight":  1,
-        "jumpApexTime": 1,
-        "horizontalJumpSpeed": 5,
-        "maxDoubleJumps": 1
-      }
-    },
-    {
-      "componentType": "physics",
-      "componentName": "physics",
-      "data":
-      {
-        "useGravity": true,
-        "gravityScale": 1,
-        "userTerminalVelocity": true,
-        "terminalVelocity": 10
       }
     }
   ]
