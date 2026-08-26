@@ -2,10 +2,26 @@
   "gameModeType": "fightingGameMode",
   "data":
   {
-    "__notes__": "Data Goes Here...",
     "defaultMatchSettings":
     {
-
+      "sceneId": "atlantis",
+      "winRounds": 2,
+      "secondsPerRound": 99,
+      "playerSettings":
+      [
+        {
+          "characterId": "kiara",
+          "colorSelection": 0,
+          "controllerType": "player",
+          "inputDeviceId": 0
+        },
+        {
+          "characterId": "kiara",
+          "colorSelection": 0,
+          "controllerType": "player",
+          "inputDeviceId": 1
+        }
+      ]
     }
   }
 }
