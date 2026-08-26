@@ -15,6 +15,10 @@
               "assetPath": "assets/dataTables/assetPathDataTable.json"
             },
             {
+              "rowId": "character_table",
+              "assetPath": "assets/datatables/characterDataTable.json"
+            },
+            {
               "notes": "____________Levels_____________________________________________",
               "rowId": "main_game_level",
               "assetPath": "assets/level/mainGameLevel.json"
@@ -65,6 +69,34 @@
             {
               "rowId": "gura_atlas_sprite",
               "assetPath": "assets/sprites/characters/gura/guraAtlas.png"
+            },
+            {
+              "rowId": "gura_palette1",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_default.png"
+            },
+            {
+              "rowId": "gura_palette2",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_red.png"
+            },
+            {
+              "rowId": "gura_palette3",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_amelia.png"
+            },
+            {
+              "rowId": "gura_palette4",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_biboo.png"
+            },
+            {
+              "rowId": "gura_palette5",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_mococo.png"
+            },
+            {
+              "rowId": "gura_palette6",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_mumei.png"
+            },
+            {
+              "rowId": "gura_palette7",
+              "assetPath": "assets/sprites/characters/gura/gurapalette_shion.png"
             },
             {
               "notes": "________AnimatinClips (Gura)__________________________________",

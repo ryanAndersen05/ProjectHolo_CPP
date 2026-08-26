@@ -2,6 +2,10 @@
   "gameModeType": "fightingGameMode",
   "data":
   {
-    "__notes__": "Data Goes Here..."
+    "__notes__": "Data Goes Here...",
+    "defaultMatchSettings":
+    {
+
+    }
   }
 }

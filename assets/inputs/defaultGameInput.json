@@ -1,0 +1,32 @@
+﻿{
+  "inputs":
+          [
+            {
+              "name": "moveX"
+            },
+            {
+              "name": "moveY"
+            },
+            {
+              "name": "light"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "heavy"
+            },
+            {
+              "name": "special"
+            },
+            {
+              "name": "grab"
+            },
+            {
+              "name": "dash"
+            },
+            {
+              "name": "pause"
+            }
+          ]
+}

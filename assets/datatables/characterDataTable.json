@@ -1,0 +1,19 @@
+﻿{
+  "rows":
+          [
+            {
+              "rowId": "gura",
+              "assetId": "gura",
+              "colorPalettes":
+                      [
+                        "gura_palette1",
+                        "gura_palette2",
+                        "gura_palette3",
+                        "gura_palette4",
+                        "gura_palette5",
+                        "gura_palette6",
+                        "gura_palette7"
+                      ]
+            }
+          ]
+}
