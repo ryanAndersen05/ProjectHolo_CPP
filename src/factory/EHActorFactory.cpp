@@ -1,11 +1,13 @@
 ﻿#include "EHActorFactory.h"
+
+#include "camera/EHFollowCamera.h"
 #include "character/EHGura.h"
 
-const FName EHActorFactory::GuraActorId = FName("gura");
 const FName EHActorFactory::CharacterActorId = FName("character");
+const FName EHActorFactory::CameraActorId = FName("followCamera");
 
 EHActor* EHActorFactory::CreateActor(const FName& actorId) {
     if (actorId == CharacterActorId) return new EHCharacter();
-    if (actorId == GuraActorId) return new EHGura();
+    if (actorId == CameraActorId) return new EHCameraFollow();
     return nullptr;
 }

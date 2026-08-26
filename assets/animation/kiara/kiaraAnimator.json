@@ -3,7 +3,9 @@
   "spriteMetaPath": "kiara_atlas",
   "clips":
           [
-            "kiara_idle"
+            "kiara_idle",
+            "kiara_walkf",
+            "kiara_walkb"
           ],
   "parameters": []
 }

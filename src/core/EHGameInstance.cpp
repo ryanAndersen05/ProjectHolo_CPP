@@ -1,6 +1,7 @@
 ﻿#include "EHGameInstance.h"
 #include <iostream>
 #include "factory/EHGameModeFactory.h"
+#include "library/EHGameData.h"
 
 EHGameInstance* EHGameInstance::instance = nullptr;
 
@@ -46,17 +47,14 @@ void EHGameInstance::TickGame(float deltaTime) const {
 
 void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
     window.clear(sf::Color::Black);
-
     std::vector<FSpriteDisplayData> displayData;
-    if (gameMode) gameMode->DisplayGameMode(displayData);
-    for (const FSpriteDisplayData& data : displayData) {
-        const FSpriteDrawData& drawData = data.drawData;
-        const FSpriteData& spriteData = drawData.spriteData;
-        FVector position = data.position * 32.f;
-        sf::Sprite sprite(*drawData.texture,
-            sf::IntRect({spriteData.point.x, spriteData.point.y},{spriteData.size.x, spriteData.size.y}));
-        sprite.setPosition({position.x, -position.y});
-        window.draw(sprite);
+
+    EHCamera* camera = EHCamera::MainCamera;
+    if (gameMode) {
+        gameMode->DisplayGameMode(displayData);
+    }
+    if (camera) {
+        camera->DrawGame(window, displayData);
     }
     window.display();
 }

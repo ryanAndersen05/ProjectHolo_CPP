@@ -11,6 +11,7 @@ public:
     const static FName PhysicsComponentId;
     const static FName CharacterMovementComponentId;
     const static FName AnimatorComponentId;
+    const static FName CameraComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

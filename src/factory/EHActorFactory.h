@@ -3,8 +3,8 @@
 #include "library/EHLibrary.h"
 
 class EHActorFactory {
-    const static FName GuraActorId;
     const static FName CharacterActorId;
+    const static FName CameraActorId;
 
 public:
     static EHActor* CreateActor(const FName& actorId);

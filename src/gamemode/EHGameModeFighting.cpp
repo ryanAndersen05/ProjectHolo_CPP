@@ -6,6 +6,8 @@
 
 void EHGameModeFighting::InitializeGameMode() {
     EHGameMode::InitializeGameMode();
-    CreateActor(FName("gura"), FVector::Zero);
-    CreateActor(FName("kiara"), FVector(2.f, 0.f));
+
+    CreateActor(FName("camera"), FVector(0, 0));
+    CreateActor(FName("gura"), FVector(-1.5f, 0.f));
+    CreateActor(FName("kiara"), FVector(1.5f, 1.5f));
 }

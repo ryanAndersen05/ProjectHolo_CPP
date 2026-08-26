@@ -1,0 +1,15 @@
+﻿{
+  "actorType": "followCamera",
+  "components":
+          [
+            {
+              "componentType": "camera",
+              "componentName": "camera",
+              "data":
+              {
+                "offset": {"x": 2, "y": 0},
+                "cameraSize": 20
+              }
+            }
+          ]
+}

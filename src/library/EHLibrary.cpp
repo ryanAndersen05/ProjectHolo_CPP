@@ -11,26 +11,26 @@ const FVector FVector::Down = FVector(0.f, -1.f);
 const FVectorInt FVectorInt::Zero = FVectorInt(0, 0);
 const FVectorInt FVectorInt::One = FVectorInt(1, 1);
 
-float FVector::getMagnitude() const
+float FVector::GetMagnitude() const
 {
     return sqrtf(x * x + y * y);
 }
 
-float FVector::getMagnitudeSquared() const
+float FVector::GetMagnitudeSquared() const
 {
     return x * x + y * y;
 }
 
-FVector FVector::getNormal() const
+FVector FVector::GetNormal() const
 {
-    const float mag = getMagnitude();
+    const float mag = GetMagnitude();
     if (mag == 0.f) return FVector::Zero;
     return FVector(x / mag, y / mag);
 }
 
 void FVector::normalize()
 {
-    float mag = getMagnitude();
+    float mag = GetMagnitude();
     if (mag == 0.f)
     {
         x = 0;
@@ -43,49 +43,34 @@ void FVector::normalize()
 
 FVector FVector::operator+(const FVector& vec) const
 {
-    return FVector(x + vec.x, y + vec.y);
+    return {x + vec.x, y + vec.y};
 }
 
 FVector FVector::operator-(const FVector& vec) const
 {
-    return FVector(x - vec.x, y - vec.y);
+    return {x - vec.x, y - vec.y};
 }
 
 FVector FVector::operator*(float val) const
 {
-    return FVector(x * val, y * val);
+    return {x * val, y * val};
 }
 
 FVector FVector::operator/(float val) const
 {
-    return FVector(x / val, y / val);
+    return {x / val, y / val};
 }
 
-void to_json(json& j, const FVector& vec)
-{
-    j = json{ {"x", vec.x}, {"y", vec.y} };
+FVector FVector::operator-() const {
+    return {-x, -y};
 }
 
-void from_json(const json & j, FVector& vec)
-{
-    j.at("x").get_to(vec.x);
-    j.at("y").get_to(vec.y);
+float FVector::Dot(const FVector &vec1, const FVector &vec2) {
+    return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
-std::string FVectorInt::to_string()
-{
+std::string FVectorInt::to_string() const {
     return "x: " + std::to_string(x) + "y: " + std::to_string(y);
-}
-
-void to_json(json& j, const FVectorInt& vec)
-{
-    j = json{ {"x", vec.x}, {"y", vec.y} };
-}
-
-void from_json(const json& j, FVectorInt& vec)
-{
-    j.at("x").get_to(vec.x);
-    j.at("y").get_to(vec.y);
 }
 
 bool FRect::isOverlapping(const FRect& rect) const

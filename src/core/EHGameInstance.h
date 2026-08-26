@@ -6,6 +6,7 @@
 #include "datatable/EHAssetPathTableRow.h"
 #include "nlohmann/json.hpp"
 #include <string>
+
 #include "library/EHJsonManager.h"
 
 using json = nlohmann::json;
@@ -21,6 +22,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FWorldSettings, gameMode, gameHUD)
 class EHGameInstance
 {
 private:
+	static constexpr float PixelToUnitConversion = 32.f;
 	static EHGameInstance* instance;
 	// World
 	EHGameMode* gameMode;
@@ -75,7 +77,8 @@ public:
 	template<typename T>
 	static bool LoadAsset(const FName& assetId, T& asset) { return instance->LoadAsset_Instance(assetId, asset); }
 	static bool LoadAssetAsJson(const FName& assetId, json& assetJson) { return instance->LoadAssetAsJson_Instance(assetId, assetJson); }
-	static bool GetAssetPath(const FName& assetId, std::string& assetPath) { return instance->GetAssetPath_Instance(assetId, assetPath);}
+	static bool GetAssetPath(const FName& assetId, std::string& assetPath) { return instance->GetAssetPath_Instance(assetId, assetPath); }
+	static float GetPixelToUnitConversion() { return PixelToUnitConversion; }
 };
 
 

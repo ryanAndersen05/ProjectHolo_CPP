@@ -6,6 +6,10 @@
               "assetPath": "assets/gameSettings.json"
             },
             {
+              "rowId": "camera",
+              "assetPath": "assets/prefabs/camera/camera.json"
+            },
+            {
               "notes": "____________Data Tables________________________________________",
               "rowId": "asset_table",
               "assetPath": "assets/dataTables/assetPathDataTable.json"

@@ -15,7 +15,8 @@
       "componentName": "sprite",
       "data":
       {
-        "defaultSprite": "gura_idle00"
+        "defaultSprite": "gura_idle00",
+        "spriteOffset": {"x": 0, "y": 0}
       }
     }
   ]

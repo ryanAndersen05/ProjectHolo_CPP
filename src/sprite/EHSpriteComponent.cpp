@@ -15,12 +15,14 @@ void EHSpriteComponent::SetDrawData(const FName& drawName) {
 
 void from_json(const json& j, EHSpriteComponent& component) {
     FName spriteId = j.at("defaultSprite").get<FName>();
+    j.at("spriteOffset").get_to(component.spriteOffset);
     if (spriteId.isValid()) {
         component.SetDrawData(spriteId);
     }
 }
 
 FSpriteDisplayData EHSpriteComponent::GetSpriteDrawData() const {
-    FSpriteDisplayData spriteDisplayData(drawData, drawOrder, GetActorPosition(), GetActorScale(), GetActorRotation());
+    FVector spritePosition = spriteOffset + GetActorPosition();
+    FSpriteDisplayData spriteDisplayData(drawData, drawOrder, spritePosition, GetActorScale(), GetActorRotation());
     return spriteDisplayData;
 }

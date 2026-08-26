@@ -18,25 +18,27 @@ public:
     float y;
 
 public:
-    FVector(float x, float y) : x(x), y(y) {};
+    FVector(const float x, const float y) : x(x), y(y) {};
     FVector() : x(0), y(0) {}
 
-    float getMagnitude() const;
-    float getMagnitudeSquared() const;
-    FVector getNormal() const;
+    [[nodiscard]] float GetMagnitude() const;
+    [[nodiscard]] float GetMagnitudeSquared() const;
+    [[nodiscard]] FVector GetNormal() const;
     void normalize();
 
     FVector operator+(const FVector& vec) const;
     FVector operator-(const FVector& vec) const;
     FVector operator*(float val) const;
     FVector operator/(float val) const;
+    FVector operator-() const;
 
-    friend void to_json(json& j, const FVector& vec);
-    friend void from_json(const json& j, FVector& vec);
+    static float Dot(const FVector& vec1, const FVector& vec2);
+
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FVector, x, y)
 
 
-    struct FVectorInt
+struct FVectorInt
 {
 public:
     static const FVectorInt Zero;
@@ -47,12 +49,12 @@ public:
     int y;
 
 public:
-    FVectorInt(int x, int y) : x(x), y(y) {}
-    std::string to_string();
+    FVectorInt(const int x, const int y) : x(x), y(y) {}
+    operator FVector() const { return {static_cast<float>(x), static_cast<float>(y)}; }
+    [[nodiscard]] std::string to_string() const;
 
-    friend void to_json(json& j, const FVectorInt& vec);
-    friend void from_json(const json& j, FVectorInt& vec);
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FVectorInt, x, y)
 
 struct FRect
 {
@@ -64,8 +66,10 @@ public:
     FRect() : position(FVector::Zero), size(FVector::Zero) {}
     FRect(const FVector& position, const FVector& size) : position(position), size(size) {}
 
-    bool isOverlapping(const FRect& rect) const;
+    [[nodiscard]] bool isOverlapping(const FRect& rect) const;
+
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FRect, position, size)
 
 struct FName
 {

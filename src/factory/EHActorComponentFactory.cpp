@@ -1,4 +1,6 @@
 ﻿#include "EHActorComponentFactory.h"
+
+#include "camera/EHCamera.h"
 #include "character/EHCharacterMovementComponent.h"
 #include "library/EHJsonManager.h"
 #include "physics/EHPhyicsComponent.h"
@@ -9,6 +11,7 @@ const FName EHActorComponentFactory::SpriteComponentId = FName("sprite");
 const FName EHActorComponentFactory::PhysicsComponentId = FName("physics");
 const FName EHActorComponentFactory::CharacterMovementComponentId = FName("characterMovement");
 const FName EHActorComponentFactory::AnimatorComponentId = FName("animator");
+const FName EHActorComponentFactory::CameraComponentId = FName("camera");
 
 
 EHActorComponent* EHActorComponentFactory::CreateActorComponent(const FName& componentType, const json& componentData) {
@@ -17,6 +20,7 @@ EHActorComponent* EHActorComponentFactory::CreateActorComponent(const FName& com
     if (componentType == PhysicsComponentId) return new EHPhysicsComponent(componentData.get<EHPhysicsComponent>());
     if (componentType == CharacterMovementComponentId) return new EHCharacterMovementComponent(componentData.get<EHCharacterMovementComponent>());
     if (componentType == AnimatorComponentId) return new EHAnimatorComponent(componentData.get<EHAnimatorComponent>());
+    if (componentType == CameraComponentId) return new EHCamera(componentData.get<EHCamera>());
 
     return nullptr;
 }

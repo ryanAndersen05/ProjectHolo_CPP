@@ -11,6 +11,7 @@ class EHSpriteComponent : public EHActorComponent, public IDisplayable
 private:
     FSpriteDrawData drawData;
     int drawOrder;
+    FVector spriteOffset;
 
 public:
     EHSpriteComponent() : EHActorComponent(), drawData(FSpriteDrawData()), drawOrder(0) { }

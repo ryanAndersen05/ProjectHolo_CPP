@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "EHActor.h"
+#include "camera/EHCamera.h"
 #include "EHController.h"
 #include "sprite/EHSpriteManager.h"
 

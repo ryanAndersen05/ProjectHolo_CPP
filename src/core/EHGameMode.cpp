@@ -3,10 +3,8 @@
 #include <iostream>
 
 #include "EHGameInstance.h"
-#include "datatable/EHDataTableManager.h"
 #include "factory/EHActorComponentFactory.h"
 #include "factory/EHActorFactory.h"
-#include "library/EHJsonManager.h"
 
 EHGameMode::EHGameMode() = default;
 EHGameMode::~EHGameMode() {
