@@ -10,6 +10,7 @@ void EHSpriteComponent::InitializeComponent(EHActor *actr) {
     EHActorComponent::InitializeComponent(actr);
     std::string vertPath;
     std::string fragPath;
+    SetColor(sf::Color::White);
     if (!EHGameInstance::GetAssetPath(materialAsset.vertAsset, vertPath)) {
         std::cout << "InitializeComponent() - Invalid fragPath" << std::endl;
         return;
@@ -36,6 +37,12 @@ void EHSpriteComponent::SetDrawData(const FName& drawName) {
     if (!spriteManager->GetSpriteDrawData(drawName, drawData)) {
         std::cout << "Failed to find Sprite with id: " << drawName.GetKey() << std::endl;
     }
+}
+
+void EHSpriteComponent::SetColor(const sf::Color &col) {
+    color = col;
+    sf::Glsl::Vec4 vecCol = color;
+    if (shader) shader->setUniform("_color", vecCol);
 }
 
 void from_json(const json& j, EHSpriteComponent& component) {

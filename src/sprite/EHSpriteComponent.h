@@ -22,6 +22,7 @@ private:
     int drawOrder;
     FVector spriteOffset;
     FMaterial materialAsset;
+    sf::Color color;
     sf::Shader* shader;
 
 public:
@@ -35,6 +36,7 @@ public:
     void SetDrawOrder(const int order) { drawOrder = order; }
     [[nodiscard]] int GetDrawOrder() const { return drawOrder; }
     [[nodiscard]] sf::Shader* GetShader() const { return shader; }
+    void SetColor(const sf::Color& col);
 
     friend void from_json(const json& j, EHSpriteComponent& component);
     [[nodiscard]] FSpriteDisplayData GetSpriteDrawData() const override;
