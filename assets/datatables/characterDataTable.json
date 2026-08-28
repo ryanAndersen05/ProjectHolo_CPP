@@ -1,19 +1,30 @@
 ﻿{
-  "rows":
-          [
-            {
-              "rowId": "gura",
-              "assetId": "gura",
-              "colorPalettes":
-                      [
-                        "gura_palette1",
-                        "gura_palette2",
-                        "gura_palette3",
-                        "gura_palette4",
-                        "gura_palette5",
-                        "gura_palette6",
-                        "gura_palette7"
-                      ]
-            }
-          ]
+  "rows": [
+    {
+      "rowId": "gura",
+      "assetId": "gura",
+      "colorPalettes": [
+        "gura_palette1",
+        "gura_palette2",
+        "gura_palette3",
+        "gura_palette4",
+        "gura_palette5",
+        "gura_palette6",
+        "gura_palette7"
+      ]
+    },
+    {
+      "rowId": "kiara",
+      "assetId": "kiara",
+      "colorPalettes": [
+        "kiara_palette1",
+        "kiara_palette2",
+        "kiara_palette3",
+        "kiara_palette4",
+        "kiara_palette5",
+        "kiara_palette6",
+        "kiara_palette7"
+      ]
+    }
+  ]
 }

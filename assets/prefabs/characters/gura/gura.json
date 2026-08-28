@@ -1,22 +1,23 @@
 ﻿{
   "actorType": "character",
-  "components":
-  [
+  "components": [
     {
       "componentType": "animator",
       "componentName": "animator",
-      "data":
-      {
+      "data": {
         "defaultControllerAsset": "gura_animator"
       }
     },
     {
       "componentType": "sprite",
       "componentName": "sprite",
-      "data":
-      {
+      "data": {
         "defaultSprite": "gura_idle00",
-        "spriteOffset": {"x": 0, "y": 0}
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "shaderAsset": "sprite_frag"
       }
     }
   ]

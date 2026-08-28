@@ -1,7 +1,6 @@
 ﻿#include "EHActorFactory.h"
-
 #include "camera/EHFollowCamera.h"
-#include "character/EHGura.h"
+#include "character/EHCharacter.h"
 
 const FName EHActorFactory::CharacterActorId = FName("character");
 const FName EHActorFactory::CameraActorId = FName("followCamera");

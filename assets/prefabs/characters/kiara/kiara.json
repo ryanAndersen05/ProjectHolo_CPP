@@ -1,23 +1,33 @@
 {
   "actorType": "character",
-  "components":
-          [
-            {
-              "componentType": "animator",
-              "componentName": "animator",
-              "data":
-              {
-                "defaultControllerAsset": "kiara_animator"
-              }
-            },
-            {
-              "componentType": "sprite",
-              "componentName": "sprite",
-              "data":
-              {
-                "defaultSprite": "kiara_idle00",
-                "spriteOffset": { "x": 0, "y": 0 }
-              }
-            }
-          ]
+  "components": [
+    {
+      "componentType": "animator",
+      "componentName": "animator",
+      "data": {
+        "defaultControllerAsset": "kiara_animator"
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "sprite",
+      "data": {
+        "defaultSprite": "kiara_idle00",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "materialAsset":
+        {
+          "vertAsset": "sprite_vert",
+          "fragAsset": "sprite_frag"
+        }
+      }
+    },
+    {
+      "componentType": "palette",
+      "componentName": "palette",
+      "data": {}
+    }
+  ]
 }

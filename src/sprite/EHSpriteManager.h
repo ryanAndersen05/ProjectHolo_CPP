@@ -20,13 +20,14 @@ public:
 struct FSpriteDisplayData {
 public:
 	FSpriteDrawData drawData;
+	sf::Shader* shader;
 	int drawOrder;
 	FVector position;
 	FVector scale;
 	float rotation;
 
-	FSpriteDisplayData(FSpriteDrawData drawData, int drawOrder, const FVector& position, const FVector& scale, float rotation) :
-	drawData(std::move(drawData)), drawOrder(drawOrder), position(position), scale(scale), rotation(rotation) {}
+	FSpriteDisplayData(FSpriteDrawData drawData, sf::Shader* shader, int drawOrder, const FVector& position, const FVector& scale, float rotation) :
+	drawData(std::move(drawData)), shader(shader), drawOrder(drawOrder), position(position), scale(scale), rotation(rotation) {}
 };
 
 class EHSpriteManager

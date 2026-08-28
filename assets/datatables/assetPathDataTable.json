@@ -10,6 +10,14 @@
               "assetPath": "assets/prefabs/camera/camera.json"
             },
             {
+              "rowId": "sprite_frag",
+              "assetPath": "shaders/characterSprite.frag"
+            },
+            {
+              "rowId": "sprite_vert",
+              "assetPath": "shaders/characterSprite.vert"
+            },
+            {
               "notes": "____________Data Tables________________________________________",
               "rowId": "asset_table",
               "assetPath": "assets/dataTables/assetPathDataTable.json"
@@ -135,6 +143,34 @@
             {
               "rowId": "kiara_atlas_sprite",
               "assetPath": "assets/sprites/characters/kiara/kiaraAtlas.png"
+            },
+            {
+              "rowId": "kiara_palette1",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_default.png"
+            },
+            {
+              "rowId": "kiara_palette2",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_chimeraB.png"
+            },
+            {
+              "rowId": "kiara_palette3",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_chimeraW.png"
+            },
+            {
+              "rowId": "kiara_palette4",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_mumei.png"
+            },
+            {
+              "rowId": "kiara_palette5",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_nerissa.png"
+            },
+            {
+              "rowId": "kiara_palette6",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_peko.png"
+            },
+            {
+              "rowId": "kiara_palette7",
+              "assetPath": "assets/sprites/characters/kiara/kiarapalette_pomu.png"
             },
             {
               "notes": "________AnimatinClips (Kiara)___________________________________",

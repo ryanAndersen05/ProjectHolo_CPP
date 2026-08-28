@@ -12,6 +12,7 @@ public:
     const static FName CharacterMovementComponentId;
     const static FName AnimatorComponentId;
     const static FName CameraComponentId;
+    const static FName ColorPaletteComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };
