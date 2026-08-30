@@ -4,6 +4,7 @@
 #include "core/EHGameInstance.h"
 #include "core/EHLevel.h"
 #include "core/EHTime.h"
+#include "input/EHInputSystem.h"
 #include "library/EHGameSettings.h"
 
 int main()
@@ -12,6 +13,7 @@ int main()
     float previousTime = 0.f;
 
     sf::Clock clock;
+    EHInputSystem inputSystem;
     sf::RenderWindow window(sf::VideoMode({ EHUserSettings::ScreenWidth, EHUserSettings::ScreenHeight }), "Oshi-Oshi Punch!");
     auto* instance = new EHGameInstance();
     EHGameSettings settings;
@@ -26,6 +28,7 @@ int main()
     }
     instance->InitializeGame(level.worldSettings);
 
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -33,6 +36,28 @@ int main()
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
+            }
+
+            if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
+                inputSystem.OnKeyboardPressed(keyEvent->code, true);;
+            }
+            if (const auto* keyEvent = event->getIf<sf::Event::KeyReleased>()) {
+                inputSystem.OnKeyboardPressed(keyEvent->code, false);
+            }
+            if (const auto* buttonEvent = event->getIf<sf::Event::JoystickButtonPressed>()) {
+                inputSystem.OnJoystickPressed(buttonEvent->joystickId, buttonEvent->button, true);
+            }
+            if (const auto* buttonEvent = event->getIf<sf::Event::JoystickButtonReleased>()) {
+                inputSystem.OnJoystickPressed(buttonEvent->joystickId, buttonEvent->button, false);
+            }
+            if (const auto* axisEvent = event->getIf<sf::Event::JoystickMoved>()) {
+                inputSystem.OnJoystickAxis(axisEvent->joystickId, axisEvent->axis, axisEvent->position);
+            }
+            if (const auto* connectedEvent = event->getIf<sf::Event::JoystickConnected>()) {
+                inputSystem.OnJoystickConnected(connectedEvent->joystickId);
+            }
+            if (const auto* disconnectedEvent = event->getIf<sf::Event::JoystickDisconnected>()) {
+                inputSystem.OnJoystickDisconnected(disconnectedEvent->joystickId);
             }
         }
 

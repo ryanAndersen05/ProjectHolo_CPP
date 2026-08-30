@@ -2,7 +2,7 @@
 #include <cstdint>
 
 
-enum class EButton : uint8_t
+enum EButton : uint8_t
 {
     None = 0x00,
     Up = 0x01,
@@ -15,8 +15,8 @@ enum class EButton : uint8_t
     Heavy = 0x40,
     Special = 0x80,
 
-    Face = 0xf0,
-    All = 0xff,
+    FaceButtons = 0xf0,
+    AllButtons = 0xff,
 };
 
 class EHController

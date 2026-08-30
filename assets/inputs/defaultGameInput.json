@@ -2,31 +2,84 @@
   "inputs":
           [
             {
-              "name": "moveX"
+              "name": "moveX",
+              "inputs":
+              [
+              ]
             },
             {
-              "name": "moveY"
+              "name": "light",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "0"
+                }
+              ]
             },
             {
-              "name": "light"
+              "name": "medium",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "3"
+                }
+              ]
             },
             {
-              "name": "medium"
+              "name": "heavy",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "2"
+                }
+              ]
             },
             {
-              "name": "heavy"
+              "name": "special",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "1"
+                }
+              ]
             },
             {
-              "name": "special"
+              "name": "grab",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "5"
+                }
+              ]
             },
             {
-              "name": "grab"
+              "name": "dash",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "4"
+                },
+                {
+                  "inputType": "Keyboard",
+                  "button": "L"
+                }
+              ]
             },
             {
-              "name": "dash"
-            },
-            {
-              "name": "pause"
+              "name": "pause",
+              "inputs":
+              [
+                {
+                  "inputType": "Joystick",
+                  "button": "9"
+                }
+              ]
             }
           ]
 }

@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <cstdint>
 #include <functional>
-#include <bits/fs_fwd.h>
 
 
 template<typename... Args>
@@ -20,7 +19,7 @@ public:
     EHDelegate() : nextId(0) {}
 
     uint32_t AddListener(Callback callback) {
-        int newId = nextId++;
+        std::uint32_t newId = nextId++;
         callbacks.push_back(
             {
                 newId,

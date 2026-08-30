@@ -10,7 +10,6 @@ void EHSpriteComponent::InitializeComponent(EHActor *actr) {
     EHActorComponent::InitializeComponent(actr);
     std::string vertPath;
     std::string fragPath;
-    SetColor(sf::Color::White);
     if (!EHGameInstance::GetAssetPath(materialAsset.vertAsset, vertPath)) {
         std::cout << "InitializeComponent() - Invalid fragPath" << std::endl;
         return;
@@ -25,6 +24,7 @@ void EHSpriteComponent::InitializeComponent(EHActor *actr) {
         delete shader;
         shader = nullptr;
     }
+    SetColor(sf::Color::White);
     // shader->setUniform("_texture", sf::Shader::CurrentTexture);
 }
 
