@@ -35,9 +35,9 @@ void EHInputSystem::OnJoystickAxis(unsigned int joystickId, sf::Joystick::Axis a
 }
 
 void EHInputSystem::OnJoystickConnected(unsigned int joystickId) {
-    std::cout << "JoystickID: " << joystickId << " Connected" << std::endl;
+    OnJoystickConnectedEvent.Invoke(joystickId);
 }
 
 void EHInputSystem::OnJoystickDisconnected(unsigned int joystickId) {
-    std::cout << "JoystickID: " << joystickId << " Disconnected" << std::endl;
+    OnJoystickDisconnectedEvent.Invoke(joystickId);
 }

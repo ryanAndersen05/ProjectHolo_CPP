@@ -8,7 +8,7 @@
             {
               "rowId": "default_game_input",
               "assetPath": "assets/inputs/defaultGameInput.json"
-            }
+            },
             {
               "rowId": "camera",
               "assetPath": "assets/prefabs/camera/camera.json"

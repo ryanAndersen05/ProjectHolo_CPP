@@ -1,6 +1,5 @@
 ﻿#include "EHCamera.h"
 #include "core/EHGameInstance.h"
-#include "core/EHTime.h"
 #include "library/EHGameData.h"
 
 EHCamera* EHCamera::MainCamera = nullptr;

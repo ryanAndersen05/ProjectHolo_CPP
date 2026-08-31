@@ -26,11 +26,14 @@ public:
     static FGameMatchSettings MatchSettings;
 
 private:
+    EHActor* kiara;
+    int colorPaletteIndex;
     FGameMatchSettings defaultMatchSettings;
 
 public:
-    EHGameModeFighting() : EHGameMode(), defaultMatchSettings() {}
+    EHGameModeFighting() : EHGameMode(), kiara(nullptr), colorPaletteIndex(0) {}
     void InitializeGameMode() override;
 
+    void OnInputPressed(sf::Keyboard::Key keyPressed, bool isPressed);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHGameModeFighting, defaultMatchSettings)
 };

@@ -8,6 +8,9 @@ public:
     EHDelegate<sf::Keyboard::Key, bool> OnKeyboardPressedEvent;
     EHDelegate<unsigned int, unsigned int, bool> OnJoystickPressedEvent;
     EHDelegate<unsigned int, sf::Joystick::Axis, float> OnAxisStartedEvent;
+    EHDelegate<unsigned int> OnJoystickDisconnectedEvent;
+    EHDelegate<unsigned int> OnJoystickConnectedEvent;
+    
     EHInputSystem();
     ~EHInputSystem();
     static EHInputSystem* GetInstance() {return instance;}

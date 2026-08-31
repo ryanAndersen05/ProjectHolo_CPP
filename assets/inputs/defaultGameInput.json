@@ -1,19 +1,13 @@
 ﻿{
-  "inputs":
+  "actions":
           [
-            {
-              "name": "moveX",
-              "inputs":
-              [
-              ]
-            },
             {
               "name": "light",
               "inputs":
               [
                 {
                   "inputType": "Joystick",
-                  "button": "0"
+                  "button": 0
                 }
               ]
             },
@@ -23,7 +17,7 @@
               [
                 {
                   "inputType": "Joystick",
-                  "button": "3"
+                  "button": 3
                 }
               ]
             },
@@ -33,7 +27,7 @@
               [
                 {
                   "inputType": "Joystick",
-                  "button": "2"
+                  "button": 2
                 }
               ]
             },
@@ -43,41 +37,7 @@
               [
                 {
                   "inputType": "Joystick",
-                  "button": "1"
-                }
-              ]
-            },
-            {
-              "name": "grab",
-              "inputs":
-              [
-                {
-                  "inputType": "Joystick",
-                  "button": "5"
-                }
-              ]
-            },
-            {
-              "name": "dash",
-              "inputs":
-              [
-                {
-                  "inputType": "Joystick",
-                  "button": "4"
-                },
-                {
-                  "inputType": "Keyboard",
-                  "button": "L"
-                }
-              ]
-            },
-            {
-              "name": "pause",
-              "inputs":
-              [
-                {
-                  "inputType": "Joystick",
-                  "button": "9"
+                  "button": 1
                 }
               ]
             }

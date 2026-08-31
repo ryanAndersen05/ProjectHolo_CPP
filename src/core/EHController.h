@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <cstdint>
 
 
@@ -23,11 +24,11 @@ class EHController
 {
 private:
     static constexpr int ButtonLength = 100000;
-    EButton inputHistory[ButtonLength];
+    std::array<EButton, ButtonLength> inputHistory{};
 
 public:
     EHController();
     virtual ~EHController() = default;
     void AssignButton(EButton button, int frame);
-    virtual void TickController();
+    virtual void TickController() {}
 };

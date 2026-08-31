@@ -4,6 +4,7 @@
 #include "SFML/Window/Joystick.hpp"
 #include "SFML/Window/Keyboard.hpp"
 
+
 enum EInputType {
     Keyboard,
     KeyboardAxis,
@@ -15,17 +16,22 @@ struct FInputContext {
 private:
     float value;
 public:
-    FInputContext() : value(0.f) {}
+    FInputContext(float value) : value(value) {}
     [[nodiscard]] float GetValue() const { return value;};
     [[nodiscard]] bool GetValueAsButton() const { return value > 50.f; };
 };
 
+struct FInputAction;
+
 class EHInputKey {
-protected:
+private:
     float value;
+    FInputAction* inputAction;
 public:
     [[nodiscard]] float GetValue() const { return value; }
-    EHInputKey() : value(0.f) {}
+    void SetInputAction(FInputAction* inAction) { inputAction = inAction; }
+    void SetValue(float value);
+    EHInputKey() : value(0.f), inputAction(nullptr){}
     virtual ~EHInputKey() = default;
 };
 
@@ -66,11 +72,20 @@ public:
 
 struct FInputAction {
     EHDelegate<FInputContext> started;
-    EHDelegate<FInputContext> ended;
+    EHDelegate<FInputContext> cancelled;
     EHDelegate<FInputContext> performed;
-
-    unsigned int joystickId;
+public:
+    FInputAction()  = default;
+    ~FInputAction();
 
 private:
-    FName inputName;
+    float value;
+    FName name;
+    std::vector<EHInputKey*> inputs;
+    void InitializeInputs();
+    void UpdateValue(float value);
+    friend void from_json(const nlohmann::json& j, FInputAction& action);
+
+public:
+    [[nodiscard]] const FName& GetName() const { return name; };
 };
