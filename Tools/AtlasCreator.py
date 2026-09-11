@@ -8,7 +8,7 @@ OccupationSize = 8
 
 class FSpriteMeta:
     def __init__(self, data):
-        self.spriteFilePath = data["spriteFilePath"]
+        self.spriteAsset = data["spriteAsset"]
         self.sprites = data["sprites"]
             
 
@@ -30,12 +30,14 @@ def resizeImage(previousImage, previousOccupiedTiles):
         for j in range(previousImage.height):
             newImage.putpixel((i, j), previousImage.getpixel((i, j)))
 
+    previousTileSize = int(math.sqrt(len(previousOccupiedTiles)))
     newOccupiedTiles = [False] * (len(previousOccupiedTiles) * 4)
-    for i in range(int(previousImage.width / OccupationSize)):
-        for j in range(int(previousImage.height / OccupationSize)):
-            newOccupiedTiles[i + (j * int(newImage.width / OccupationSize))] = previousOccupiedTiles[i + (j * int(previousImage.width / OccupationSize))]
+    newTileSize = int(math.sqrt(len(newOccupiedTiles)))
+    for i in range(previousTileSize):
+        for j in range(previousTileSize):
+            newOccupiedTiles[i + (j * newTileSize)] = previousOccupiedTiles[i + (j * previousTileSize)]
     previousImage.close()
-    print ("Image Resized: W" + str(newImage.width) + " H" + str(newImage.height))
+    print ("Atlas Resized: W" + str(newImage.width) + " H" + str(newImage.height))
     return newImage, newOccupiedTiles
 
 def validateSpace(occupiedSpace, startPoint, size):
@@ -56,7 +58,6 @@ def findValidCoordinates(occupiedSpace, imageSize):
         if not occupiedSpace[i]:
             x = int(i % atlasWidth)
             y = int(i / atlasWidth)
-            # print ("X: " + str(x) + " Y: " + str(y) + " Width: " + str(width) + " Height: " + str(height) + " AtlasWidth: " + str(atlasWidth))
             if x + width >= atlasWidth:
                 continue
             if y + height >= atlasWidth:
@@ -85,7 +86,6 @@ def writeSpriteToAtlas(atlasImage, occupiedSpace, spriteImage):
     if spriteWidth > spriteHeight: 
         spriteCount = int(spriteWidth / spriteHeight)
         spriteWidth = spriteHeight
-    print ("Sprite Count: " + str(spriteCount) + " Sprite Width: " + str(spriteWidth) + " SpriteHeight: " + str(spriteHeight))
     for i in range(spriteCount):
         coordinates = findValidCoordinates(occupiedSpace, (spriteWidth, spriteHeight))
         while coordinates == None:
@@ -116,21 +116,23 @@ occupiedTiles = [False] * int(atlasImage.width / OccupationSize) * int(atlasImag
 spriteDataCollection = []
 
 for sprite in allfiles:
-    if atlasName.samefile(sprite):
+    if atlasName.is_file() and atlasName.samefile(sprite):
         continue
-    img = Image.open(sprite, 'r')
+    img = Image.open(sprite, 'r').convert("RGBA")
+    print("Extracting: " + str(sprite))
     atlasImage, occupiedTiles, spriteData = writeSpriteToAtlas(atlasImage, occupiedTiles, img)
     img.close()
     for i in range(len(spriteData)):
-        spriteData[i].spriteId = sprite.stem + "_" + format(i, "02d")
+        spriteData[i].spriteId = sprite.stem + format(i, "02d")
         spriteDataCollection.append(spriteData[i].__dict__)
 
 atlasImage.save(atlasName)
 
 data = {}
-data['spriteFilePath'] = str(path.parts[-1] + "_atlas")
+data['spriteAsset'] = str(path.parts[-1] + "_atlas_sprite")
 data['sprites'] = spriteDataCollection
 
 with open(atlasJson, 'w') as file:
-    json.dump(data, file)
+    
+    json.dump(data, file, indent=2)
     file.close()

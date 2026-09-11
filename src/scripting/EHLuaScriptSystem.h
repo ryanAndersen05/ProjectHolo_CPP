@@ -1,0 +1,13 @@
+﻿//
+// Created by ryana on 9/11/2026.
+//
+
+#ifndef PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H
+#define PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H
+
+
+class EHLuaScriptSystem {
+};
+
+
+#endif //PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H

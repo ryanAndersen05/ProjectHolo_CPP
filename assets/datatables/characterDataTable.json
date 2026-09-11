@@ -25,6 +25,19 @@
         "kiara_palette6",
         "kiara_palette7"
       ]
+    },
+    {
+      "rowId": "ina",
+      "assetId": "ina",
+      "colorPalettes": [
+        "ina_palette1",
+        "ina_palette2",
+        "ina_palette3",
+        "ina_palette4",
+        "ina_palette5",
+        "ina_palette6",
+        "ina_palette7"
+      ]
     }
   ]
 }

@@ -20,7 +20,7 @@ states.kiara_idle = {
 
     tick = function(actor, frame)
         frame = frame % maxFrames
-       event = keyFrames[frame]
+        event = keyFrames[frame]
         if event then
             event(actor)
         end

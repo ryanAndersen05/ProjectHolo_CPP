@@ -11,13 +11,13 @@
       [
         {
           "characterId": "kiara",
-          "colorSelection": 3,
+          "colorSelection": 4,
           "controllerType": "player",
           "inputDeviceId": 0
         },
         {
           "characterId": "kiara",
-          "colorSelection": 0,
+          "colorSelection": 5,
           "controllerType": "player",
           "inputDeviceId": 1
         }
