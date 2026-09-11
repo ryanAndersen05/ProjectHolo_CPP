@@ -15,10 +15,13 @@ enum EInputType {
 struct FInputContext {
 private:
     float value;
+    unsigned int controllerId;
+
 public:
-    FInputContext(float value) : value(value) {}
+    FInputContext(float value, unsigned int controllerId) : value(value), controllerId(controllerId) {}
     [[nodiscard]] float GetValue() const { return value;};
     [[nodiscard]] bool GetValueAsButton() const { return value > 50.f; };
+    [[nodiscard]] bool IsDeviceKeyboard() const { return controllerId == 0; }
 };
 
 struct FInputAction;
@@ -82,8 +85,9 @@ private:
     float value;
     FName name;
     std::vector<EHInputKey*> inputs;
+    
     void InitializeInputs();
-    void UpdateValue(float value);
+    void UpdateValue(float inputValue);
     friend void from_json(const nlohmann::json& j, FInputAction& action);
 
 public:

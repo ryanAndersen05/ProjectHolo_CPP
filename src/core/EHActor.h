@@ -5,7 +5,6 @@
 #include "library/EHEvent.h"
 #include <vector>
 #include "interface/IDisplayable.h"
-#include "sprite/EHSpriteManager.h"
 
 class EHActorComponent;
 
@@ -66,6 +65,5 @@ public:
     [[nodiscard]] EHActorComponent* GetActorComponent(const FName& componentId) const;
     void AddComponent(const FName& componentId, EHActorComponent* component);
     void DisplayActor(std::vector<FSpriteDisplayData>& displayData) const;
-
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHActor, name)
 };

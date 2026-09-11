@@ -9,6 +9,7 @@
 
 int main()
 {
+
     float accumulator = 0.f;
     float previousTime = 0.f;
 

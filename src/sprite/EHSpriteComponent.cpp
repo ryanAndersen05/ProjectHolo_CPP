@@ -28,6 +28,7 @@ void EHSpriteComponent::InitializeComponent(EHActor *actr) {
     // shader->setUniform("_texture", sf::Shader::CurrentTexture);
 }
 
+
 void EHSpriteComponent::SetDrawData(const FName& drawName) {
     EHSpriteManager* spriteManager = EHGameInstance::GetInstance()->GetSpriteManager();
     if (!spriteManager) {

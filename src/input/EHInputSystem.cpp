@@ -28,6 +28,9 @@ void EHInputSystem::OnKeyboardPressed(sf::Keyboard::Key key, bool isPressed) {
 
 void EHInputSystem::OnJoystickPressed(unsigned int joystickId, unsigned int button, bool isPressed) {
     OnJoystickPressedEvent.Invoke(joystickId, button, isPressed);
+    if (isPressed) {
+        std::cout << "Joystick Pressed: " << joystickId << " Button: " << button << std::endl;
+    }
 }
 
 void EHInputSystem::OnJoystickAxis(unsigned int joystickId, sf::Joystick::Axis axis, float axisValue) {

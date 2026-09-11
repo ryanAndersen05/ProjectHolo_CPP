@@ -62,16 +62,16 @@ void FInputAction::InitializeInputs() {
     }
 }
 
-void FInputAction::UpdateValue(float value) {
-    FInputContext context(value);
-    if (this->value <= 0.1f && value > 0.1f) {
+void FInputAction::UpdateValue(float inputValue) {
+    FInputContext context(inputValue, 0);
+    if (this->value <= 0.1f && inputValue > 0.1f) {
         started.Invoke(context);
     }
-    if (this->value > 0.1f && value <= 0.1f) {
+    if (this->value > 0.1f && inputValue <= 0.1f) {
         cancelled.Invoke(context);
     }
     performed.Invoke(context);
-    this->value = value;
+    this->value = inputValue;
 }
 
 void from_json(const nlohmann::json& j, FInputAction& action) {

@@ -48,6 +48,8 @@ target_include_directories(ProjectHolo_CPP PUBLIC
 target_compile_features(ProjectHolo_CPP PRIVATE cxx_std_20)
 
 target_include_directories(ProjectHolo_CPP PRIVATE include/nlohmann)
+target_include_directories(ProjectHolo_CPP PRIVATE include/lua)
+target_include_directories(ProjectHolo_CPP PRIVATE include/sol)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/assets)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/shaders)

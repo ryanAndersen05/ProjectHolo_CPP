@@ -14,6 +14,7 @@ struct FMaterial {
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FMaterial, vertAsset, fragAsset);
+class EHActor;
 
 class EHSpriteComponent : public EHActorComponent, public IDisplayable
 {
@@ -31,6 +32,7 @@ public:
 
     void InitializeComponent(EHActor *actr) override;
     void SetDrawData(const FName& drawName);
+    void SetDrawData_Lua(const std::string& drawId) { SetDrawData(FName(drawId)); }
     void SetDrawData(const FSpriteDrawData& data) { drawData = data; }
     [[nodiscard]] const FSpriteDrawData& GetDrawData() const { return drawData; }
     void SetDrawOrder(const int order) { drawOrder = order; }
