@@ -48,12 +48,14 @@ target_include_directories(ProjectHolo_CPP PUBLIC
 target_compile_features(ProjectHolo_CPP PRIVATE cxx_std_20)
 
 target_include_directories(ProjectHolo_CPP PRIVATE include/nlohmann)
-target_include_directories(ProjectHolo_CPP PRIVATE include/lua)
+target_include_directories(ProjectHolo_CPP PRIVATE include/lua/include)
 target_include_directories(ProjectHolo_CPP PRIVATE include/sol)
+target_include_directories(ProjectHolo_CPP PRIVATE include/lua)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/assets)
 target_include_directories(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
 target_link_libraries(ProjectHolo_CPP PRIVATE SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network)
+target_link_libraries(ProjectHolo_CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets")
     file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")

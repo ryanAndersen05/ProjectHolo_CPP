@@ -18,11 +18,17 @@ EHGameInstance::EHGameInstance() : gameMode(nullptr), gameHUD(nullptr) {
     }
     spriteManager = new EHSpriteManager();
     dataTableManager = new EHDataTableManager();
+    luaScriptManager = new EHLuaScriptSystem();
+    luaScriptManager->InitializeScripting();
 }
 
 EHGameInstance::~EHGameInstance() {
     delete spriteManager;
     delete dataTableManager;
+    delete luaScriptManager;
+
+    delete gameMode;
+    delete gameHUD;
 }
 
 void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {

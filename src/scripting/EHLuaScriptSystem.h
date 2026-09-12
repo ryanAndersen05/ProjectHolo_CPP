@@ -1,13 +1,27 @@
-﻿//
-// Created by ryana on 9/11/2026.
-//
-
-#ifndef PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H
-#define PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H
+﻿#pragma once
+#include "library/EHLibrary.h"
+#define SOL_ALL_SAFETIES_ON 1
+#include <sol/sol.hpp>
 
 
-class EHLuaScriptSystem {
+struct FLuaTableContainer {
+    sol::table table;
+    int count;
+    FLuaTableContainer() : count(0) {}
 };
 
+class EHLuaScriptSystem {
+private:
+    sol::state lua;
+    std::unordered_map<FName, FLuaTableContainer> loadedLibraries;
 
-#endif //PROJECTHOLO_CPP_EHLUASCRIPTSYSTEM_H
+
+public:
+    EHLuaScriptSystem();
+    void InitializeScripting();
+    void UninitializeScripting();
+
+    void LoadTable(const FName& libFileAsset);
+    void UnloadTable(const FName& libFileAsset);
+    sol::table GetTable(const FName& libFileAsset);
+};

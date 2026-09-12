@@ -111,23 +111,6 @@
               "assetPath": "assets/sprites/characters/gura/gurapalette_shion.png"
             },
             {
-              "notes": "________AnimatinClips (Gura)__________________________________",
-              "rowId": "gura_idle",
-              "assetPath": "assets/animation/gura/gura_idle.json"
-            },
-            {
-              "rowId": "gura_slight",
-              "assetPath": "assets/animation/gura/gura_slight.json"
-            },
-            {
-              "rowId": "gura_walkb",
-              "assetPath": "assets/animation/gura/gura_walkb.json"
-            },
-            {
-              "rowId": "gura_walkf",
-              "assetPath": "assets/animation/gura/gura_walkf.json"
-            },
-            {
               "notes":"____________Characters (Kiara)__________________________________",
               "rowId": "kiara",
               "assetPath": "assets/prefabs/characters/kiara/kiara.json"
@@ -147,6 +130,10 @@
             {
               "rowId": "kiara_atlas_sprite",
               "assetPath": "assets/sprites/characters/kiara/kiaraAtlas.png"
+            },
+            {
+              "rowId": "kiara_state_machine",
+              "assetPath": "assets/animation/kiara/kiara.lua"
             },
             {
               "rowId": "kiara_palette1",
@@ -175,11 +162,6 @@
             {
               "rowId": "kiara_palette7",
               "assetPath": "assets/sprites/characters/kiara/palettes/kiarapalette_pomu.png"
-            },
-            {
-              "notes": "________AnimatinClips (Kiara)___________________________________",
-              "rowId": "kiara_idle",
-              "assetPath": "assets/animation/kiara/kiara_idle.json"
             },
             {
               "notes":"____________Characters (Ina)____________________________________",

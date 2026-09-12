@@ -1,11 +1,11 @@
-#include <SFML/Graphics.hpp>
-#include "library/EHGameData.h"
-#include <iostream>
 #include "core/EHGameInstance.h"
 #include "core/EHLevel.h"
 #include "core/EHTime.h"
 #include "input/EHInputSystem.h"
 #include "library/EHGameSettings.h"
+#include "library/EHGameData.h"
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
 int main()
 {

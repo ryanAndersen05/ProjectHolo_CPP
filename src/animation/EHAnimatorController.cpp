@@ -1,45 +1,32 @@
 ﻿#include "EHAnimatorController.h"
 #include "core/EHGameInstance.h"
-#include "factory/EHActorComponentFactory.h"
-#include "library/EHJsonManager.h"
-#include "sprite/EHSpriteComponent.h"
 
 
 FAnimatorController::FAnimatorController() : startClip(FName("")) {
     spriteMetaPath = FName("");
-    parameters = std::vector<FParameter>();
-    clips = std::vector<FName>();
     animationMap = std::unordered_map<FName, FAnimationClip>();
-    time = 0.0f;
+    parameterValues = std::unordered_map<FName, FParameterValue>();
+    frame = 0;
     currentClip = FAnimationClip();
     actor = nullptr;
 }
 
-void FAnimatorController::TickController(float deltaTime) {
-    float previousTime = time;
-    time += deltaTime;
-    float adjustedTime = time;
-    if (currentClip.isLooping) {
-        float maxTime = currentClip.GetMaxTime();
-        float adjustMent = static_cast<int>(time / maxTime) * maxTime;
-        previousTime -= adjustMent;
-        adjustedTime -= adjustMent;
-    }
-
-    for (int i = currentClip.nodes.size() - 1; i >= 0; i--) {
-        FAnimationNode node = currentClip.nodes[i];
-        if (adjustedTime >= node.time) {
-            if (previousTime <= node.time) {
-                EHSpriteComponent* spriteComponent = dynamic_cast<EHSpriteComponent*>(actor->GetActorComponent(EHActorComponentFactory::SpriteComponentId));
-                EHSpriteManager* spriteManager = EHGameInstance::GetInstance()->GetSpriteManager();
-                FSpriteDrawData drawData;
-                if (spriteManager->GetSpriteDrawData(node.spriteId, drawData)) {
-                    spriteComponent->SetDrawData(drawData);
+void FAnimatorController::TickController(float) {
+    sol::table state = stateMachineTable[currentClip.clipName.GetKey()];
+    if (state.valid()) {
+        sol::protected_function tickFunction = state["tick"];
+        if (tickFunction.valid()) {
+            sol::protected_function_result result = tickFunction(state, actor, frame);
+            if (result.valid()) {
+                if (result.get_type() == sol::type::string) {
+                    // If we get a string result it will tell us that we need to change to a new state
+                    SetAnimationClip(FName(result.get<std::string>()));
+                    return;
                 }
             }
-            else return;
         }
     }
+    frame++;
 }
 
 bool FAnimatorController::GetAnimationClip(const FName &animName, FAnimationClip &outAnimClip) const{
@@ -52,13 +39,14 @@ bool FAnimatorController::GetAnimationClip(const FName &animName, FAnimationClip
 
 void FAnimatorController::InitializeAnimationClips(EHActor* actr) {
     this->actor = actr;
-
-    for (const FName& clipName : clips) {
-        FAnimationClip clip;
-        if (EHGameInstance::LoadAsset<FAnimationClip>(clipName, clip)) {
-            animationMap.insert({clip.clipName, clip});
-        }
+    EHLuaScriptSystem* luaScripting = EHGameInstance::GetInstance()->GetLuaScriptSystem();
+    if (!luaScripting) {
+        std::cout << "InitializeAnimationClips() - luaScripting is nullptr" << std::endl;
+        return;
     }
+    luaScripting->LoadTable(stateMachineAsset);
+    stateMachineTable = luaScripting->GetTable(stateMachineAsset);
+    SetAnimationClip(startClip);
 }
 
 void FAnimatorController::SetBool(const FName& id, bool value) {
@@ -127,16 +115,17 @@ float FAnimatorController::GetFloat(const FName& id) {
 }
 
 void to_json(nlohmann::json &j, const FAnimatorController &controller) {
-    j = {{"spriteMetaPath", controller.spriteMetaPath}, {"startClip", controller.startClip}, {"clips", controller.clips}};
+    j = {{"spriteMetaPath", controller.spriteMetaPath}, {"startClip", controller.startClip}};
 }
 
 void from_json(const nlohmann::json &j, FAnimatorController &controller) {
     j.at("spriteMetaPath").get_to(controller.spriteMetaPath);
     j.at("startClip").get_to(controller.startClip);
+    j.at("stateMachineAsset").get_to(controller.stateMachineAsset);
 
     for (const auto& clip : j.at("clips")) {
-        FName clipData = clip.get<FName>();
-        controller.clips.push_back(clipData);
+        FAnimationClip clipData = clip.get<FAnimationClip>();
+        controller.animationMap.insert(std::make_pair(clipData.clipName, clipData));
     }
 }
 
@@ -145,6 +134,20 @@ void FAnimatorController::SetAnimationClip(const FName& animName) {
         std::cout << "Failed to retrieve animation with key: " << animName.GetKey() << std::endl;
         return;
     }
+    if (currentClip.clipName.isValid()) {
+        sol::table oldState = stateMachineTable[currentClip.clipName.GetKey()];
+        sol::protected_function exitState = oldState["onExit"];
+        if (exitState.valid()) {
+            exitState(actor);
+        }
+    }
+    frame = 0;
     currentClip = animationMap.at(animName);
-    time = 0;
+    sol::table state = stateMachineTable[currentClip.clipName.GetKey()];
+    if (state.valid()) {
+        sol::protected_function enterState = state["onEnter"];
+        if (enterState.valid()) {
+            enterState(actor);
+        }
+    }
 }

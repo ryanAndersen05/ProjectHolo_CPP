@@ -1,11 +1,33 @@
 {
   "startClip": "kiara_idle",
   "spriteMetaPath": "kiara_atlas",
+  "stateMachineAsset": "kiara_state_machine",
+  "parameters": [],
   "clips":
           [
-            "kiara_idle",
-            "kiara_walkf",
-            "kiara_walkb"
-          ],
-  "parameters": []
+            {
+              "clipName": "kiara_idle",
+              "transitions": []
+            },
+            {
+              "clipName": "kiara_walkfstart",
+              "transitions": []
+            },
+            {
+              "clipName": "kiara_walkf",
+              "transitions": []
+            },
+            {
+              "clipName": "kiara_walkb",
+              "transitions": []
+            },
+            {
+              "clipName": "kiara_stand2crouch",
+              "transitions": []
+            },
+            {
+              "clipName": "kiara_crouch2stand",
+              "transitions": []
+            }
+          ]
 }

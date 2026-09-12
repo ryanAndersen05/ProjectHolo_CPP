@@ -5,6 +5,7 @@
 #include "datatable/EHDataTableManager.h"
 #include "datatable/EHAssetPathTableRow.h"
 #include "nlohmann/json.hpp"
+#include "scripting/EHLuaScriptSystem.h"
 #include <string>
 
 #include "library/EHJsonManager.h"
@@ -31,6 +32,7 @@ private:
 	EHDataTable<EHAssetPathTableRow> assetPathTable;
 	EHSpriteManager* spriteManager;
 	EHDataTableManager* dataTableManager;
+	EHLuaScriptSystem* luaScriptManager;
 
 	template<typename T>
 	bool LoadAsset_Instance(const FName& assetId, T& asset) {
@@ -66,6 +68,7 @@ public:
 	~EHGameInstance();
 	[[nodiscard]] EHSpriteManager* GetSpriteManager() const { return spriteManager;}
 	[[nodiscard]] EHDataTableManager* GetDataTableManager() const { return dataTableManager;}
+	[[nodiscard]] EHLuaScriptSystem* GetLuaScriptSystem() const { return luaScriptManager;}
 	static EHGameInstance* GetInstance() { return instance;}
 
 	void InitializeGame(const FWorldSettings& worldSettings);

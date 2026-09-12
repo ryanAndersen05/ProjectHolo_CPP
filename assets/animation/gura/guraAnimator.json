@@ -2,12 +2,28 @@
     "startClip": "gura_idle",
     "spriteMetaPath": "gura_atlas",
     "clips":
-            [
-                "gura_idle",
-                "gura_slight",
-                "gura_walkf",
-                "gura_walkb"
-            ],
+    [
+        {
+            "clipName": "gura_idle",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_walkf",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_walkb",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_stand2crouch",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_crouch2stand",
+            "transitions": []
+        }
+    ],
     "parameters" :
     [
         {
