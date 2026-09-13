@@ -17,8 +17,17 @@
           "x": 0,
           "y": 0
         },
-        "shaderAsset": "sprite_frag"
+        "materialAsset":
+        {
+          "vertAsset": "sprite_vert",
+          "fragAsset": "sprite_frag"
+        }
       }
+    },
+    {
+      "componentType": "palette",
+      "componentName": "palette",
+      "data": {}
     }
   ]
 }

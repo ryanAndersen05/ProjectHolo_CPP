@@ -75,6 +75,10 @@
               "assetPath": "assets/animation/gura/guraAnimator.json"
             },
             {
+              "rowId": "gura_state_machine",
+              "assetPath": "assets/animation/gura/gura.lua"
+            },
+            {
               "rowId": "gura_atlas",
               "assetPath": "assets/sprites/characters/gura/guraAtlas.json"
             },

@@ -15,6 +15,7 @@ states.kiara_idle = {
     maxFrames = 45,
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_idle00")
+        actor:Movement():SetSpeed(2)
     end,
     tick = function(self, actor, frame)
         local adjustedFrame = frame % self.maxFrames
@@ -60,7 +61,7 @@ states.kiara_walkf = {
     },
     maxFrames = 55,
     onEnter = function(actor)
-        actor:Sprite():SetSprite("kiara_walkf00")
+        actor:Sprite():SetSprite("kiara_walkf01")
     end,
     tick = function(self, actor, frame)
         local adjustedFrame = frame % self.maxFrames;
@@ -68,6 +69,9 @@ states.kiara_walkf = {
         if event then
             event(actor)
         end
+    end,
+    onExit = function(actor)
+
     end
 }
 
@@ -115,6 +119,62 @@ states.kiara_walkb = {
             event(actor)
         end
     end
+}
+
+states.kiara_hits = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hits00")  end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hits01")  end
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_hits00")
+    end,
+    tick = function(self, actor, frame)
+        local event = self.keyFrames[frame]
+        if event then
+            event(actor)
+        end
+    end
+}
+
+states.kiara_hitc = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hitc00")  end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hitc00")  end
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_hitc00")
+    end,
+    tick = function(self, actor, frame)
+        local event = self.keyFrames[frame]
+        if event then
+            event(actor)
+        end
+    end
+}
+
+states.kiara_hitarise = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("")  end,
+        [1] = function(actor) actor:Sprite("sprite"):SetSprite("")  end
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("")
+    end,
+    tick = function(self, actor, frame)
+        local event = self.keyFrames[frame]
+        if event then
+            event(actor)
+        end
+    end
+}
+
+states.kiara_hitarise2fall = {
+
+}
+
+states.kiara_hitafall = {
+
 }
 
 return states

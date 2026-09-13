@@ -1,11 +1,22 @@
 {
     "startClip": "gura_idle",
     "spriteMetaPath": "gura_atlas",
+    "stateMachineAsset": "gura_state_machine",
     "clips":
     [
         {
             "clipName": "gura_idle",
-            "transitions": []
+            "transitions": [
+                {
+                    "stateName": "gura_movef",
+                    "conditions":
+                    {
+                        "parameterName": "hInput",
+                        "conditionType": "Greater",
+                        "value": 0
+                    }
+                }
+            ]
         },
         {
             "clipName": "gura_walkf",
@@ -22,6 +33,9 @@
         {
             "clipName": "gura_crouch2stand",
             "transitions": []
+        },
+        {
+
         }
     ],
     "parameters" :
