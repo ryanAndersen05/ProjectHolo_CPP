@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <cstdint>
 #include <functional>
+#include <iostream>
 
 
 template<typename... Args>
@@ -14,8 +15,6 @@ private:
     };
 
 public:
-
-
     EHDelegate() : nextId(0) {}
 
     uint32_t AddListener(Callback callback) {
@@ -29,16 +28,23 @@ public:
     }
 
     void RemoveListener(uint32_t id) {
-        std::erase_if(callbacks,
+        std::uint32_t count = std::erase_if(callbacks,
             [id](const FCallbackEntry entry) {
                return entry.id == id;
             });
+        if (count == 0) {
+            std::cout << "RemoveListener() - Did not remove value with key: " << id << std::endl;
+        }
     }
 
     void Invoke(Args... args) {
         for (auto& callbackEntry : callbacks) {
             callbackEntry.callback(args...);
         }
+    }
+
+    void RemoveAllListeners() {
+        callbacks.clear();
     }
 
 private:

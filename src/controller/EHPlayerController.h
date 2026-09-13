@@ -7,6 +7,14 @@
 class EHPlayerController : public EHController
 {
 private:
+	static const FName LightAttackAction;
+	static const FName MediumAttackAction;
+	static const FName HeavyAttackAction;
+	static const FName SpecialAttackAction;
+	static const FName MoveHorizontalAction;
+	static const FName MoveVerticalAction;
+	static constexpr float JoystickDeadZone = 0.35f;
+
 	EButton cachedButton;
 	EButton previousButton;
 	void ModifyCachedButton(EButton button, bool isPressed);
@@ -14,11 +22,13 @@ private:
 
 public:
 	EHPlayerController();
-	~EHPlayerController() override = default;
-	void OnLightButtonAction(FInputContext inputContext) { ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton()); }
-	void OnMediumButtonAction(FInputContext inputContext) { ModifyCachedButton(EButton::Medium, inputContext.GetValueAsButton()); }
-	void OnHeavyButtonAction(FInputContext inputContext) { ModifyCachedButton(EButton::Heavy, inputContext.GetValueAsButton()); }
-	void OnSpecialButtonAction(FInputContext inputContext) { ModifyCachedButton(EButton::Special, inputContext.GetValueAsButton()); }
+	~EHPlayerController() override;
+	void OnLightButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton()); }
+	void OnMediumButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Medium, inputContext.GetValueAsButton()); }
+	void OnHeavyButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Heavy, inputContext.GetValueAsButton()); }
+	void OnSpecialButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Special, inputContext.GetValueAsButton()); }
+	void OnMoveHorizontalAction(const FInputContext& inputContext);
+	void OnMoveVerticalAction(const FInputContext& inputContext);
 
 	// void TickController() override;
 	void AssignInputDevice();

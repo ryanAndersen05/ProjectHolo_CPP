@@ -6,17 +6,7 @@
     [
         {
             "clipName": "gura_idle",
-            "transitions": [
-                {
-                    "stateName": "gura_movef",
-                    "conditions":
-                    {
-                        "parameterName": "hInput",
-                        "conditionType": "Greater",
-                        "value": 0
-                    }
-                }
-            ]
+            "transitions": []
         },
         {
             "clipName": "gura_walkf",
@@ -35,7 +25,16 @@
             "transitions": []
         },
         {
-
+            "clipName": "gura_hits",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_hitc",
+            "transitions": []
+        },
+        {
+            "clipName": "gura_hitafall",
+            "transitions": []
         }
     ],
     "parameters" :

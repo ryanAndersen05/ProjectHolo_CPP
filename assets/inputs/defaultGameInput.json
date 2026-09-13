@@ -40,6 +40,26 @@
                   "button": 1
                 }
               ]
+            },
+            {
+              "name": "move_vertical",
+              "inputs":
+              [
+                {
+                  "inputType": "JoystickAxis",
+                  "button": 1
+                }
+              ]
+            },
+            {
+              "name": "move_horizontal",
+              "inputs":
+              [
+                {
+                  "inputType": "JoystickAxis",
+                  "button": 0
+                }
+              ]
             }
           ]
 }
