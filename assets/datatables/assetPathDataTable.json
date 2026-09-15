@@ -22,6 +22,10 @@
               "assetPath": "shaders/characterSprite.vert"
             },
             {
+              "rowId": "player_controller",
+              "assetPath": "assets/prefabs/controller/playerController.json"
+            },
+            {
               "notes": "____________Data Tables________________________________________",
               "rowId": "asset_table",
               "assetPath": "assets/dataTables/assetPathDataTable.json"

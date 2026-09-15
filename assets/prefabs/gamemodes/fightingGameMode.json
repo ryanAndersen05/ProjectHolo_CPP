@@ -12,13 +12,13 @@
         {
           "characterId": "gura",
           "colorSelection": 4,
-          "controllerType": "player",
+          "controllerType": "player_controller",
           "inputDeviceId": 0
         },
         {
           "characterId": "kiara",
           "colorSelection": 5,
-          "controllerType": "player",
+          "controllerType": "player_controller",
           "inputDeviceId": 1
         }
       ]

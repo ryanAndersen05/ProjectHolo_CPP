@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include "library/EHEvent.h"
 #include <SFML/Window/Event.hpp>
+#include <limits>
 
 class EHInputSystem {
     static EHInputSystem* instance;
 public:
+    static constexpr unsigned int KeyboardId = std::numeric_limits<unsigned int>::max();
     EHDelegate<sf::Keyboard::Key, bool> OnKeyboardPressedEvent;
     EHDelegate<unsigned int, unsigned int, bool> OnJoystickPressedEvent;
     EHDelegate<unsigned int, sf::Joystick::Axis, float> OnAxisStartedEvent;

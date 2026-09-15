@@ -1,5 +1,20 @@
 local states = {}
 
+states.parameters = {
+    {
+        parameter = "hInput",
+        parameterType = "int"
+    },
+    {
+        parameter = "vInput",
+        parameterType = "int"
+    },
+    {
+        parameter = "lightPressed",
+        parameterType = "bool",
+    }
+}
+
 states.kiara_idle = {
     keyFrames = {
         [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle00")  end,
@@ -11,6 +26,25 @@ states.kiara_idle = {
         [30] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle06")  end,
         [35] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle07")  end,
         [40] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle08")  end
+    },
+    transitions = {
+        {
+            ["kiara_walkfstart"] = {
+                {
+                    parameter = "hInput",
+                    conditionType = "greater",
+                    value = 0
+                }
+            },
+            ["kiara_walkbstart"] = {
+                {
+                    parameter = "hinput",
+                    conditionType = "lesser",
+                    value = 0
+                }
+            },
+            ["kiara_stand2crouch"] = {}
+        }
     },
     maxFrames = 45,
     onEnter = function(actor)

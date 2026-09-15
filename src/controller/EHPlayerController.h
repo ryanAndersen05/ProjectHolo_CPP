@@ -23,7 +23,10 @@ private:
 public:
 	EHPlayerController();
 	~EHPlayerController() override;
-	void OnLightButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton()); }
+	void OnLightButtonAction(const FInputContext& inputContext) {
+		std::cout << "OnLightButtonAction: " << inputContext.GetValueAsButton() << std::endl;
+		ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton());
+	}
 	void OnMediumButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Medium, inputContext.GetValueAsButton()); }
 	void OnHeavyButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Heavy, inputContext.GetValueAsButton()); }
 	void OnSpecialButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Special, inputContext.GetValueAsButton()); }

@@ -4,6 +4,7 @@
 
 class EHActorFactory {
     const static FName CharacterActorId;
+    const static FName PlayerControllerActorId;
     const static FName CameraActorId;
 
 public:

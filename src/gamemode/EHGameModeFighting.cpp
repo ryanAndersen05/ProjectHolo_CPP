@@ -18,20 +18,26 @@ void EHGameModeFighting::InitializeGameMode() {
         [this](sf::Keyboard::Key key, bool isPressed) {
             OnInputPressed(key, isPressed);
         });
+
     CreateActor(FName("camera"), FVector(0, 0));
     if (MatchSettings.playerSettings.size() < 2) {
         std::cerr << "Invalid size for Player Settings" << std::endl;
         return;
     }
     EHDataTableManager* dataTableManager = EHGameInstance::GetInstance()->GetDataTableManager();
+    int i = 0;
     for (const auto& playerSettings : MatchSettings.playerSettings) {
+        auto* controller = dynamic_cast<EHController*>(CreateActor(playerSettings.controllerType));
+        controller->TickController();
         EHCharacterTableRow characterData;
         if (!dataTableManager->GetCharacterDataById(playerSettings.characterId, characterData)) {
             std::cout << "InitializeGameMode() - Failed to find Character Data with id: " << playerSettings.characterId.GetKey() << std::endl;
         }
         auto* character = dynamic_cast<EHCharacter*>(CreateActor(characterData.GetAssetId()));
+        character->SetPosition(FVector(3.f * (i % 2 == 0 ? -1.f : 1.f), 0));
         EHPaletteComponent* palette = character->GetPaletteComponent();
         palette->ApplyColorPalette(playerSettings.characterId, playerSettings.colorSelection);
+        i++;
     }
 }
 

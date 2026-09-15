@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <cstdint>
+#include "core/EHActor.h"
 
 
 enum EButton : uint8_t
@@ -20,7 +21,7 @@ enum EButton : uint8_t
     AllButtons = 0xff,
 };
 
-class EHController
+class EHController : public EHActor
 {
 private:
     static constexpr int ButtonLength = 100000;

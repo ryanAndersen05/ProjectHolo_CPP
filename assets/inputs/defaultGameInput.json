@@ -42,12 +42,11 @@
               ]
             },
             {
-              "name": "move_vertical",
-              "inputs":
-              [
+              "name": "pause",
+              "inputs": [
                 {
-                  "inputType": "JoystickAxis",
-                  "button": 1
+                  "inputType": "Joystick",
+                  "button": 9
                 }
               ]
             },
@@ -57,7 +56,17 @@
               [
                 {
                   "inputType": "JoystickAxis",
-                  "button": 0
+                  "axis": "X"
+                }
+              ]
+            },
+            {
+              "name": "move_vertical",
+              "inputs":
+              [
+                {
+                  "inputType": "JoystickAxis",
+                  "axis": "Y"
                 }
               ]
             }

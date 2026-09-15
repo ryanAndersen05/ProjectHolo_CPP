@@ -17,54 +17,66 @@ EHPlayerController::EHPlayerController() : EHController(), cachedButton(EButton:
         std::cout << "EHPlayerController() - Invalid Player Game Input Map" << std::endl;
         return;
     }
-    FInputAction* lightAction = inputMap.FindAction(LightAttackAction);
-    lightAction->started.AddListener([this](const FInputContext& inputContext) {
-        OnLightButtonAction(inputContext);
-    });
-    lightAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnLightButtonAction(inputContext);
-    });
-    FInputAction* mediumAction = inputMap.FindAction(MediumAttackAction);
-    mediumAction->started.AddListener([this](const FInputContext& inputContext) {
+
+    if (FInputAction* lightAction = inputMap.FindAction(LightAttackAction)) {
+        lightAction->started.AddListener([this](const FInputContext& inputContext) {
+            OnLightButtonAction(inputContext);
+        });
+        lightAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+            OnLightButtonAction(inputContext);
+        });
+    }
+
+    if (FInputAction* mediumAction = inputMap.FindAction(MediumAttackAction)) {
+        mediumAction->started.AddListener([this](const FInputContext& inputContext) {
         OnMediumButtonAction(inputContext);
-    });
-    mediumAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnMediumButtonAction(inputContext);
-    });
-    FInputAction* heavyAction = inputMap.FindAction(HeavyAttackAction);
-    heavyAction->started.AddListener([this](const FInputContext& inputContext) {
-        OnHeavyButtonAction(inputContext);
-    });
-    heavyAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnHeavyButtonAction(inputContext);
-    });
-    FInputAction* specialAction = inputMap.FindAction(SpecialAttackAction);
-    specialAction->started.AddListener([this](const FInputContext& inputContext) {
-        OnSpecialButtonAction(inputContext);
-    });
-    specialAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnSpecialButtonAction(inputContext);
-    });
-    FInputAction* moveHorizontalAction = inputMap.FindAction(MoveHorizontalAction);
-    moveHorizontalAction->started.AddListener([this](const FInputContext& inputContext) {
-        OnMoveHorizontalAction(inputContext);
-    });
-    moveHorizontalAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnMoveHorizontalAction(inputContext);
-    });
-    moveHorizontalAction->performed.AddListener([this](const FInputContext& inputContext) {
-        OnMoveHorizontalAction(inputContext);
-    });
-    FInputAction* moveVerticalAction = inputMap.FindAction(MoveVerticalAction);
-    moveVerticalAction->started.AddListener([this](const FInputContext& inputContext) {
-        OnMoveVerticalAction(inputContext);
-    });
-    moveVerticalAction->cancelled.AddListener([this](const FInputContext& inputContext) {
-        OnMoveVerticalAction(inputContext);
-    });
-    moveVerticalAction->performed.AddListener([this](const FInputContext& inputContext) {
-        OnMoveVerticalAction(inputContext);
-    });
+        });
+        mediumAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+            OnMediumButtonAction(inputContext);
+        });
+    }
+
+    if (FInputAction* heavyAction = inputMap.FindAction(HeavyAttackAction)) {
+        heavyAction->started.AddListener([this](const FInputContext& inputContext) {
+            OnHeavyButtonAction(inputContext);
+        });
+        heavyAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+            OnHeavyButtonAction(inputContext);
+        });
+    }
+
+    if (FInputAction* specialAction = inputMap.FindAction(SpecialAttackAction)) {
+        specialAction->started.AddListener([this](const FInputContext& inputContext) {
+            OnSpecialButtonAction(inputContext);
+        });
+        specialAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+            OnSpecialButtonAction(inputContext);
+        });
+    }
+
+    if (FInputAction* moveHorizontalAction = inputMap.FindAction(MoveHorizontalAction)) {
+        moveHorizontalAction->started.AddListener([this](const FInputContext& inputContext) {
+            OnMoveHorizontalAction(inputContext);
+        });
+        moveHorizontalAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+          OnMoveHorizontalAction(inputContext);
+        });
+        moveHorizontalAction->performed.AddListener([this](const FInputContext& inputContext) {
+          OnMoveHorizontalAction(inputContext);
+        });
+    }
+
+    if (FInputAction* moveVerticalAction = inputMap.FindAction(MoveVerticalAction)) {
+        moveVerticalAction->started.AddListener([this](const FInputContext& inputContext) {
+            OnMoveVerticalAction(inputContext);
+        });
+        moveVerticalAction->cancelled.AddListener([this](const FInputContext& inputContext) {
+            OnMoveVerticalAction(inputContext);
+        });
+        moveVerticalAction->performed.AddListener([this](const FInputContext& inputContext) {
+            OnMoveVerticalAction(inputContext);
+        });
+    }
 }
 
 EHPlayerController::~EHPlayerController() {
