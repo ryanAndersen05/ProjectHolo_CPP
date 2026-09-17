@@ -21,7 +21,7 @@ bool EHKeyboardKey::OnKeyboardPressed(sf::Keyboard::Key key, bool isPressed) {
 bool EHJoystickButton::OnButtonPressed(unsigned int button, bool isPressed) {
     if (button != buttonId) return false;
     float oldValue = GetValue();
-    SetValue(isPressed ? 0.f : 100.f);
+    SetValue(isPressed ? 100.f : 0.f);
     return oldValue != GetValue();
 }
 

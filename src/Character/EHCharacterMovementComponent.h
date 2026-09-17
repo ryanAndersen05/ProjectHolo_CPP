@@ -32,6 +32,8 @@ private:
     // float horizontalJumpSpeed;
     // int maxDoubleJumps;
     float jumpVelocity;
+    float jumpTime;
+    float jumpHeight;
     float acceleration;
 
     EHAnimatorComponent* cachedAnimator;
@@ -49,5 +51,5 @@ public:
 
     void SetIsFacingLeft(bool isLeft);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCharacterMovementComponent, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed,
-        maxBackDashSpeed, jumpVelocity, acceleration)
+        maxBackDashSpeed, jumpTime, jumpHeight, acceleration)
 };

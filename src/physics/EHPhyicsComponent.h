@@ -21,6 +21,7 @@ public:
     void UpdateVelocityFromGravity(float deltaTime);
     void UpdatePositionFromVelocity(float deltaTime);
     void SetVelocity(const FVector& vel) { velocity = vel;}
+    void SetGravityScale(float gravScale) {gravityScale = gravScale;}
     [[nodiscard]] FVector GetVelocity() const { return velocity;}
 
     friend void from_json(const json& j, EHPhysicsComponent &physics);

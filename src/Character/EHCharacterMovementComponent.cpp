@@ -12,13 +12,9 @@ EHCharacterMovementComponent::EHCharacterMovementComponent() : EHActorComponent(
     maxDashSpeed = 10.f;
     maxBackDashSpeed = 8.f;
 
-    // maxAirDashSpeed = 10.f;
-    // maxAirBackDashSpeed = 8.f;
-    // maxAirDashes = 1;
-    //
+    jumpHeight = 0.f;
+    jumpTime = 0.f;
     jumpVelocity = 0.f;
-    // horizontalJumpSpeed = 5.f;
-    // maxDoubleJumps = 1;
 
     cachedAnimator = nullptr;
     goalVelocity = 0.f;
@@ -31,6 +27,8 @@ void EHCharacterMovementComponent::InitializeComponent(EHActor *actr)  {
     EHActorComponent::InitializeComponent(actr);
     cachedAnimator = dynamic_cast<EHAnimatorComponent*>(actr->GetActorComponent(EHActorComponentFactory::AnimatorComponentId));
     cachedPhysics = dynamic_cast<EHPhysicsComponent*>(actr->GetActorComponent(EHActorComponentFactory::PhysicsComponentId));
+    jumpVelocity = 2 * jumpHeight / jumpTime;
+    cachedPhysics->SetGravityScale(2 * jumpHeight / jumpTime / jumpTime / EHPhysicsComponent::GravityConst);
 }
 
 void EHCharacterMovementComponent::Tick(float deltaTime) {

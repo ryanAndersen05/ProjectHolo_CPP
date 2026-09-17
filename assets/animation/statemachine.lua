@@ -89,7 +89,7 @@ StateMachineCommon.validateConditions = function(actor, parameters, conditions)
                 return false
             end
         elseif parameterType == StateMachineCommon.EParameterType.Trigger then
-            if not StateMachineCommon.validateBool(actor, condition.parameter, condition.conditionType, condition.value) then
+            if not StateMachineCommon.validateBool(actor, condition.parameter, true) then
                 return false
             end
         end
@@ -102,6 +102,11 @@ StateMachineCommon.evaluateTransitions = function(actor, state, parameters)
     if transitions then
         for stateId, conditions in pairs(transitions) do
             if StateMachineCommon.validateConditions(actor, parameters, conditions) then
+                for _, condition in ipairs(conditions) do
+                    if parameters[condition.parameter] == StateMachineCommon.EParameterType.Trigger then
+                        actor:Animator():ResetTrigger(condition.parameter)
+                    end
+                end
                 return stateId
             end
         end

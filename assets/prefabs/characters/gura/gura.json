@@ -9,11 +9,6 @@
       }
     },
     {
-      "componentType": "input",
-      "componentName": "input",
-      "data": {}
-    },
-    {
       "componentType": "sprite",
       "componentName": "sprite",
       "data": {

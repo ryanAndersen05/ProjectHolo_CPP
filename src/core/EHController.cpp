@@ -8,12 +8,12 @@ void EHController::TickController(int frame) {
     EButton previousButton = GetButtonAtFrame(EHMath::SafeMod(frame - 1, ButtonLength));
     EButton currentButton = GetButtonAtFrame(EHMath::SafeMod(frame, ButtonLength));
 
-    auto deltaButton = static_cast<EButton>(currentButton ^ previousButton);
+    auto deltaButton = currentButton ^ previousButton;
     if (deltaButton == EButton::None) {
         return;
     }
-    auto deltaPress = static_cast<EButton>(deltaButton & currentButton);
-    auto deltaRelease = static_cast<EButton>(deltaButton & ~currentButton);
+    auto deltaPress = deltaButton & currentButton;
+    auto deltaRelease = deltaButton & ~currentButton;
     if (deltaPress != EButton::None) {
         OnInputUpdatedEvent.Invoke(deltaPress, true, frame);
     }

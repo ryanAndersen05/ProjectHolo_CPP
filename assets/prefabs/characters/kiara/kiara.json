@@ -26,8 +26,9 @@
         "maxBackWalkSpeed": 2.5,
         "maxDashSpeed": 6,
         "maxBackDashSpeed": 6,
-        "acceleration": 100,
-        "jumpVelocity": 6.5
+        "acceleration": 150,
+        "jumpTime": 0.32,
+        "jumpHeight": 2.5
       }
     },
     {
