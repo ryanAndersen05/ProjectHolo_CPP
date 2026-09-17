@@ -36,16 +36,9 @@ StateMachineCommon.tickState = function(self, actor, frame, isLooping)
     end
 end
 
-StateMachineCommon.validateBool = function(actor, parameter, conditionType, value)
+StateMachineCommon.validateBool = function(actor, parameter, value)
     local actorValue = actor:Animator():GetBool(parameter)
-    if conditionType == StateMachineCommon.EConditionType.Equal then
-        return actorValue == value
-    elseif conditionType == StateMachineCommon.EConditionType.NotEqual then
-        return actorValue ~= value
-    else
-        print ("validateBool() - ConditionType Not Supported for Boolean type")
-        return false
-    end
+    return value == actorValue
 end
 
 StateMachineCommon.validateInt = function(actor, parameter, conditionType, value)
@@ -65,7 +58,7 @@ StateMachineCommon.validateInt = function(actor, parameter, conditionType, value
 end
 
 StateMachineCommon.validateFloat = function(actor, parameter, conditionType, value)
-    local actorValue = actor:Animator():GetFloat()
+    local actorValue = actor:Animator():GetFloat(parameter)
     if conditionType == StateMachineCommon.EConditionType.Greater then
         return actorValue > value
     elseif conditionType == StateMachineCommon.EConditionType.Lesser then
@@ -84,7 +77,7 @@ StateMachineCommon.validateConditions = function(actor, parameters, conditions)
             return false
         end
         if parameterType == StateMachineCommon.EParameterType.Bool then
-            if not StateMachineCommon.validateBool(actor, condition.parameter, condition.conditionType, condition.value) then
+            if not StateMachineCommon.validateBool(actor, condition.parameter, condition.value) then
                 return false
             end
         elseif parameterType == StateMachineCommon.EParameterType.Int then

@@ -12,6 +12,13 @@
       }
     },
     {
+      "componentType": "animator",
+      "componentName": "animator",
+      "data": {
+        "stateMachineAsset": "kiara_state_machine"
+      }
+    },
+    {
       "componentType": "charactermovement",
       "componentName": "movement",
       "data": {
@@ -19,14 +26,8 @@
         "maxBackWalkSpeed": 2.5,
         "maxDashSpeed": 6,
         "maxBackDashSpeed": 6,
-        "acceleration": 100
-      }
-    },
-    {
-      "componentType": "animator",
-      "componentName": "animator",
-      "data": {
-        "stateMachineAsset": "kiara_state_machine"
+        "acceleration": 100,
+        "jumpVelocity": 6.5
       }
     },
     {

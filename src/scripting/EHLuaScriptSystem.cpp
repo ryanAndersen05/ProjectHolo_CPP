@@ -34,6 +34,9 @@ void EHLuaScriptSystem::InitializeScripting() {
     lua.new_usertype<EHCharacterMovementComponent>("Movement",
         "SetMovement", [](EHCharacterMovementComponent& self, const int movementType) -> void {
             self.SetMovementType(static_cast<EMovementType>(movementType));
+        },
+        "Jump", [](EHCharacterMovementComponent& self) -> void {
+            self.AttemptJump();
         });
 
     lua.new_usertype<EHActor>("Actor",

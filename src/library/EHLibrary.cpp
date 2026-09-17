@@ -41,30 +41,6 @@ void FVector::normalize()
     y /= mag;
 }
 
-FVector FVector::operator+(const FVector& vec) const
-{
-    return {x + vec.x, y + vec.y};
-}
-
-FVector FVector::operator-(const FVector& vec) const
-{
-    return {x - vec.x, y - vec.y};
-}
-
-FVector FVector::operator*(float val) const
-{
-    return {x * val, y * val};
-}
-
-FVector FVector::operator/(float val) const
-{
-    return {x / val, y / val};
-}
-
-FVector FVector::operator-() const {
-    return {-x, -y};
-}
-
 float FVector::Dot(const FVector &vec1, const FVector &vec2) {
     return vec1.x * vec2.x + vec1.y * vec2.y;
 }

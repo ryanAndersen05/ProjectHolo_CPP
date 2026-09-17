@@ -1,12 +1,8 @@
 ﻿#include "EHCharacterMovementComponent.h"
 #include "factory/EHActorComponentFactory.h"
 
-const FName EHCharacterMovementComponent::Anim_VVelocity = FName("VVelocity");
-const FName EHCharacterMovementComponent::Anim_Jump = FName("Jump");
-const FName EHCharacterMovementComponent::Anim_IsInAir = FName("IsInAir");
-const FName EHCharacterMovementComponent::Anim_DashForward = FName("DashF");
-const FName EHCharacterMovementComponent::Anim_DashBackward = FName("DashB");
-const FName EHCharacterMovementComponent::Anim_HorizontalInput = FName("HInput");
+const FName EHCharacterMovementComponent::Anim_VVelocity = FName("vVelocity");
+const FName EHCharacterMovementComponent::Anim_IsInAir = FName("inAir");
 
 EHCharacterMovementComponent::EHCharacterMovementComponent() : EHActorComponent(){
     isFacingLeft = false;
@@ -20,8 +16,7 @@ EHCharacterMovementComponent::EHCharacterMovementComponent() : EHActorComponent(
     // maxAirBackDashSpeed = 8.f;
     // maxAirDashes = 1;
     //
-    // jumpHeight = 1.f;
-    // jumpApexTime = 1.f;
+    jumpVelocity = 0.f;
     // horizontalJumpSpeed = 5.f;
     // maxDoubleJumps = 1;
 
@@ -39,11 +34,15 @@ void EHCharacterMovementComponent::InitializeComponent(EHActor *actr)  {
 }
 
 void EHCharacterMovementComponent::Tick(float deltaTime) {
-    if (movementType == EMovementType::None) return;
     FVector velocity = cachedPhysics->GetVelocity();
+    cachedAnimator->SetFloat(Anim_VVelocity, velocity.y);
+    cachedAnimator->SetBool(Anim_IsInAir, velocity.y != 0.f);
+
+    if (movementType == EMovementType::None) return;
     float adjustedGoalVelocity = goalVelocity * (isFacingLeft ? -1.f : 1.f);
     velocity.x = EHMath::MoveTowards(velocity.x, adjustedGoalVelocity, acceleration * deltaTime);
     cachedPhysics->SetVelocity(velocity);
+
 }
 
 void EHCharacterMovementComponent::SetMovementType(EMovementType moveType) {
@@ -59,6 +58,12 @@ void EHCharacterMovementComponent::SetMovementType(EMovementType moveType) {
             std::cout << "SetMovementType() - Movement Type not implemented" << std::endl;
             break;
     }
+}
+
+void EHCharacterMovementComponent::AttemptJump() const {
+    FVector velocity = cachedPhysics->GetVelocity();
+    velocity.y = jumpVelocity;
+    cachedPhysics->SetVelocity(velocity);
 }
 
 void EHCharacterMovementComponent::SetIsFacingLeft(bool isLeft) {

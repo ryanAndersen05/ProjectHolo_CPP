@@ -26,11 +26,11 @@ public:
     [[nodiscard]] FVector GetNormal() const;
     void normalize();
 
-    FVector operator+(const FVector& vec) const;
-    FVector operator-(const FVector& vec) const;
-    FVector operator*(float val) const;
-    FVector operator/(float val) const;
-    FVector operator-() const;
+    FVector operator+(const FVector& vec) const { return {x + vec.x, y + vec.y}; }
+    FVector operator-(const FVector& vec) const { return {x - vec.x, y - vec.y}; }
+    FVector operator*(float val) const { return {x * val, y * val}; }
+    FVector operator/(float val) const { return {x / val, y / val}; }
+    FVector operator-() const { return {-x, -y}; }
 
     static float Dot(const FVector& vec1, const FVector& vec2);
 

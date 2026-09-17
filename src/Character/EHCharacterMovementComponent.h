@@ -19,11 +19,7 @@ enum class EMovementType {
 class EHCharacterMovementComponent : public EHActorComponent, public ITickable {
 private:
     const static FName Anim_VVelocity;
-    const static FName Anim_Jump;
     const static FName Anim_IsInAir;
-    const static FName Anim_DashBackward;
-    const static FName Anim_DashForward;
-    const static FName Anim_HorizontalInput;
 
     bool isFacingLeft;
     float maxWalkSpeed;
@@ -35,6 +31,7 @@ private:
     // float jumpApexTime;
     // float horizontalJumpSpeed;
     // int maxDoubleJumps;
+    float jumpVelocity;
     float acceleration;
 
     EHAnimatorComponent* cachedAnimator;
@@ -47,10 +44,10 @@ public:
     void Tick(float deltaTime) override;
     void InitializeComponent(EHActor* actr) override;
     void SetMovementType(EMovementType moveType);
-    void AttemptJump();
+    void AttemptJump() const;
     void AttemptAirDash();
 
     void SetIsFacingLeft(bool isLeft);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCharacterMovementComponent, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed,
-        maxBackDashSpeed, acceleration)
+        maxBackDashSpeed, jumpVelocity, acceleration)
 };

@@ -1,7 +1,7 @@
 ﻿#include "EHPhyicsComponent.h"
 
 void EHPhysicsComponent::Tick(float deltaTime) {
-    // if (useGravity) UpdateVelocityFromGravity(deltaTime);
+    if (useGravity) UpdateVelocityFromGravity(deltaTime);
     UpdatePositionFromVelocity(deltaTime);
 }
 
@@ -11,7 +11,13 @@ void EHPhysicsComponent::UpdateVelocityFromGravity(float deltaTime) {
 }
 
 void EHPhysicsComponent::UpdatePositionFromVelocity(float deltaTime) {
-    SetActorPosition(GetActorPosition() + (velocity * deltaTime));
+    FVector position = GetActorPosition();
+    position = position + (velocity * deltaTime);
+    if (position.y <= 0.f) {
+        velocity.y = 0.f;
+        position.y = 0.f;
+    }
+    SetActorPosition(position);
 }
 
 void from_json(const json& j, EHPhysicsComponent& physics) {

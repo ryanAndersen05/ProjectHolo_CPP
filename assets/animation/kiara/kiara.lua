@@ -4,7 +4,9 @@ local StateMachineCommon = require("assets.animation.statemachine")
 
 states.parameters = {
     ["hInput"] = StateMachineCommon.EParameterType.Int,
-    ["vInput"] = StateMachineCommon.EParameterType.Int
+    ["vInput"] = StateMachineCommon.EParameterType.Int,
+    ["inAir"] = StateMachineCommon.EParameterType.Bool,
+    ["vVelocity"] = StateMachineCommon.EParameterType.Float
 }
 
 states.defaultState = "kiara_default"
@@ -49,6 +51,13 @@ states.kiara_idle = {
                 conditionType = StateMachineCommon.EConditionType.Lesser,
                 value = 0
             },
+        },
+        ["kiara_jump"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Greater,
+                value = 0
+            }
         }
     },
     maxFrames = 45,
@@ -302,4 +311,79 @@ states.kiara_hitafall = {
 
 }
 
+states.kiara_jump = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump00")  end
+    },
+    transitions = {
+        ["kiara_rise2fall"] = {
+            {
+                parameter = "vVelocity",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
+            }
+        },
+        ["kiara_idle"] = {
+            {
+                parameter = "inAir",
+                conditionType = StateMachineCommon.EConditionType.Equal,
+                value = 0
+            }
+        }
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_jump00")
+        actor:Movement():Jump()
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, false)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end
+}
+
+states.kiara_rise2fall = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump01")  end,
+        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump02")  end,
+    },
+    maxFrames = 6,
+    transitions = {
+        ["kiara_idle"] = {
+            {
+                parameter = "inAir",
+                value = false
+            }
+        }
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_jump01")
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, false)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+
+    end
+}
+
+states.kiara_fall = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump03")  end,
+        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump04")  end
+    },
+    maxFrames = 6,
+    transitions = states.kiara_rise2fall.transitions,
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_jump03")
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+
+    end
+
+}
 return states
