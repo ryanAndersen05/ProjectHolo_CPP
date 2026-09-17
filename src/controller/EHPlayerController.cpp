@@ -85,34 +85,36 @@ EHPlayerController::~EHPlayerController() {
 
 void EHPlayerController::ModifyCachedButton(EButton button, bool isPressed) {
     if (isPressed) {
-        cachedButton = static_cast<EButton>(cachedButton | button);
+        cachedButton = cachedButton | button;
     }
     else {
-        cachedButton = static_cast<EButton>(cachedButton & ~button);
-    }
-    if (previousButton!=cachedButton) {
-        // std::cout << std::bitset<8>(cachedButton) << std::endl;
-        previousButton = cachedButton;
+        cachedButton = cachedButton & ~button;
     }
 }
 
 void EHPlayerController::OnMoveHorizontalAction(const FInputContext &inputContext) {
     float value = inputContext.GetValue();
     if (abs(value) < JoystickDeadZone) {
-        EButton button = static_cast<EButton>(EButton::Right | EButton::Left);
+        EButton button = EButton::Right | EButton::Left;
         ModifyCachedButton(button, false);
-        return;
     }
-    ModifyCachedButton(EButton::Right, value > 0);
-    ModifyCachedButton(EButton::Left, value < 0);
+    else {
+        ModifyCachedButton(EButton::Right, value > 0);
+        ModifyCachedButton(EButton::Left, value < 0);
+    }
 }
 
 void EHPlayerController::OnMoveVerticalAction(const FInputContext &inputContext) {
     float value = inputContext.GetValue();
     if (abs(value) < JoystickDeadZone) {
-        EButton button = static_cast<EButton>(EButton::Up | EButton::Down);
+        EButton button = EButton::Up | EButton::Down;
         ModifyCachedButton(button, false);
     }
     ModifyCachedButton(EButton::Up, value > 0);
     ModifyCachedButton(EButton::Down, value < 0);
+}
+
+void EHPlayerController::TickController(int gameFrame) {
+    AssignButton(cachedButton, gameFrame);
+    EHController::TickController(gameFrame);
 }

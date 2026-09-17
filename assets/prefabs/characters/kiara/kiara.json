@@ -2,11 +2,37 @@
   "actorType": "character",
   "components": [
     {
+      "componentType": "physics",
+      "componentName": "physics",
+      "data": {
+        "useGravity": true,
+        "gravityScale": 1,
+        "useTerminalVelocity": true,
+        "terminalVelocity": 10
+      }
+    },
+    {
+      "componentType": "charactermovement",
+      "componentName": "movement",
+      "data": {
+        "maxWalkSpeed": 3,
+        "maxBackWalkSpeed": 2.5,
+        "maxDashSpeed": 6,
+        "maxBackDashSpeed": 6,
+        "acceleration": 100
+      }
+    },
+    {
       "componentType": "animator",
       "componentName": "animator",
       "data": {
-        "defaultControllerAsset": "kiara_animator"
+        "stateMachineAsset": "kiara_state_machine"
       }
+    },
+    {
+      "componentType": "input",
+      "componentName": "input",
+      "data": {}
     },
     {
       "componentType": "sprite",

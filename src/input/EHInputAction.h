@@ -5,7 +5,7 @@
 #include "SFML/Window/Keyboard.hpp"
 
 
-enum EInputType {
+enum class EInputType {
     Keyboard,
     KeyboardAxis,
     Joystick,
@@ -13,10 +13,10 @@ enum EInputType {
 };
 
 NLOHMANN_JSON_SERIALIZE_ENUM(EInputType, {
-{Keyboard, "Keyboard"},
-{KeyboardAxis, "KeyboardAxis"},
-{Joystick, "Joystick"},
-{JoystickAxis, "JoystickAxis"}});
+{EInputType::Keyboard, "Keyboard"},
+{EInputType::KeyboardAxis, "KeyboardAxis"},
+{EInputType::Joystick, "Joystick"},
+{EInputType::JoystickAxis, "JoystickAxis"}});
 
 namespace sf::Joystick {
     NLOHMANN_JSON_SERIALIZE_ENUM(sf::Joystick::Axis, {
@@ -106,8 +106,9 @@ public:
 class EHJoystickAxis : public EHInputKey {
 private:
     sf::Joystick::Axis axisId;
+    bool inverted;
 public:
-    EHJoystickAxis(sf::Joystick::Axis axisIs) : axisId(axisIs) {};
+    EHJoystickAxis(sf::Joystick::Axis axisIs, bool inverted) : axisId(axisIs), inverted(inverted) {};
     bool OnAxisUpdated(sf::Joystick::Axis axis, float value);
 };
 
@@ -125,7 +126,7 @@ private:
     std::vector<EHJoystickButton> buttons;
     std::vector<EHJoystickAxis> axes;
     
-    void UpdateValue(float inputValue);
+    void UpdateValue(unsigned int deviceId);
     friend void from_json(const nlohmann::json& j, FInputAction& action);
 public:
     void UpdateKeyboardKey(sf::Keyboard::Key key, bool isPressed);

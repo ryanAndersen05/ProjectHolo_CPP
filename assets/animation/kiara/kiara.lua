@@ -1,18 +1,19 @@
 local states = {}
 
+local StateMachineCommon = require("assets.animation.statemachine")
+
 states.parameters = {
-    {
-        parameter = "hInput",
-        parameterType = "int"
-    },
-    {
-        parameter = "vInput",
-        parameterType = "int"
-    },
-    {
-        parameter = "lightPressed",
-        parameterType = "bool",
-    }
+    ["hInput"] = StateMachineCommon.EParameterType.Int,
+    ["vInput"] = StateMachineCommon.EParameterType.Int
+}
+
+states.defaultState = "kiara_default"
+states.spriteAsset = "kiara_atlas"
+
+states.kiara_default = {
+    onEnter = function(actor)
+        return "kiara_idle"
+    end
 }
 
 states.kiara_idle = {
@@ -28,35 +29,39 @@ states.kiara_idle = {
         [40] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle08")  end
     },
     transitions = {
-        {
-            ["kiara_walkfstart"] = {
-                {
-                    parameter = "hInput",
-                    conditionType = "greater",
-                    value = 0
-                }
+        ["kiara_walkfstart"] = {
+            {
+                parameter = "hInput",
+                conditionType = StateMachineCommon.EConditionType.Greater,
+                value = 0
+            }
+        },
+        ["kiara_walkbstart"] = {
+            {
+                parameter = "hInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
+            }
+        },
+        ["kiara_stand2crouch"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
             },
-            ["kiara_walkbstart"] = {
-                {
-                    parameter = "hinput",
-                    conditionType = "lesser",
-                    value = 0
-                }
-            },
-            ["kiara_stand2crouch"] = {}
         }
     },
     maxFrames = 45,
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_idle00")
-        actor:Movement():SetSpeed(2)
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.Idle)
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames
-        local event = self.keyFrames[adjustedFrame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
     end
 }
 
@@ -67,15 +72,16 @@ states.kiara_walkfstart = {
     maxFrames = 5,
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_walkf00")
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.Walk)
     end,
     tick = function(self, actor, frame)
-        local event = self.keyFrames[frame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame)
         if frame >= self.maxFrames then
             return "kiara_walkf"
         end
+    end,
+    onExit = function(actor)
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
     end
 }
 
@@ -94,18 +100,32 @@ states.kiara_walkf = {
         [50] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf11")  end
     },
     maxFrames = 55,
+    transitions = {
+        ["kiara_stand2crouch"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
+            }
+        },
+        ["kiara_idle"] = {
+            {
+                parameter = "hInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 1
+            }
+        }
+    },
     onEnter = function(actor)
         actor:Sprite():SetSprite("kiara_walkf01")
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.Walk)
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames;
-        local event = self.keyFrames[adjustedFrame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
     end,
     onExit = function(actor)
-
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
     end
 }
 
@@ -116,16 +136,17 @@ states.kiara_walkbstart = {
     maxFrames = 5,
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_walkb00")
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.WalkBack)
     end,
     tick = function(self, actor, frame)
-        local event = self.keyFrames[frame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame)
         if (frame >= self.maxFrames) then
             return "kiara_walkb"
         end
     end,
+    onExit = function(actor)
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+    end
 }
 
 states.kiara_walkb = {
@@ -142,16 +163,86 @@ states.kiara_walkb = {
         [42] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb10")  end,
         [46] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb11")  end
     },
+    transitions = {
+        ["kiara_stand2crouch"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
+            }
+        },
+        ["kiara_idle"] = {
+            {
+                parameter = "hInput",
+                conditionType = StateMachineCommon.EConditionType.Greater,
+                value = -1
+            }
+        }
+    },
     maxFrames = 50,
     onEnter = function(actor)
-
+        actor:Sprite("sprite"):SetSprite("kiara_walkb01")
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.WalkBack)
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames
-        local event = self.keyFrames[adjustedFrame]
-        if event then
-            event(actor)
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+        actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+    end
+}
+
+states.kiara_stand2crouch = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch00")  end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch01")  end,
+        [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch02")  end
+    },
+    transitions = {
+        ["kiara_crouch2stand"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Greater,
+                value = -1
+            }
+        }
+    },
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_crouch00")
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, false)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+
+    end
+}
+
+states.kiara_crouch2stand = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch03")  end
+    },
+    maxFrames = 4,
+    transitions = {
+        ["kiara_stand2crouch"] = {
+            {
+                parameter = "vInput",
+                conditionType = StateMachineCommon.EConditionType.Lesser,
+                value = 0
+            }
+        }
+    },
+    onEnter = function(actor)
+        
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame)
+        if frame >= self.maxFrames then
+            return "kiara_idle"
         end
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
     end
 }
 

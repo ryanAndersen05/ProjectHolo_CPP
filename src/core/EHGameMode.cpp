@@ -20,8 +20,8 @@ void EHGameMode::InitializeGameMode() {
 
 }
 
-void EHGameMode::AddController(const FName &controllerId) {
-    std::cout << controllerId.GetKey() << std::endl;
+void EHGameMode::AddController(EHController* controller) {
+    controllers.push_back(controller);
 }
 
 EHController *EHGameMode::GetControllerAtIndex(int index) const {

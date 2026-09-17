@@ -1,4 +1,7 @@
 ﻿#include "EHLuaScriptSystem.h"
+
+#include "animation/EHAnimatorComponent.h"
+#include "character/EHCharacterMovementComponent.h"
 #include "core/EHGameInstance.h"
 #include "core/EHActor.h"
 #include "sprite/EHSpriteComponent.h"
@@ -9,15 +12,42 @@ EHLuaScriptSystem::EHLuaScriptSystem() {
 }
 
 void EHLuaScriptSystem::InitializeScripting() {
-    lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::string);
+    lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::string, sol::lib::package);
 
     lua.new_usertype<EHSpriteComponent>("SpriteComponent",
         "SetSprite", &EHSpriteComponent::SetDrawData_Lua);
 
+    lua.new_usertype<EHAnimatorComponent>("AnimatorComponent",
+        "GetBool", [](EHAnimatorComponent& self, const std::string& parameter)-> bool {
+            return self.GetBool(FName(parameter));
+        },
+        "GetInt", [](EHAnimatorComponent& self, const std::string& parameter)-> int {
+            return self.GetInt(FName(parameter));
+        },
+        "GetFloat", [](EHAnimatorComponent& self, const std::string& parameter)-> float {
+            return self.GetFloat(FName(parameter));
+        },
+        "ResetTrigger", [](EHAnimatorComponent& self, const std::string& parameter) -> void {
+            self.ResetTrigger(FName(parameter));
+        });
+
+    lua.new_usertype<EHCharacterMovementComponent>("Movement",
+        "SetMovement", [](EHCharacterMovementComponent& self, const int movementType) -> void {
+            self.SetMovementType(static_cast<EMovementType>(movementType));
+        });
+
     lua.new_usertype<EHActor>("Actor",
-        "Sprite", [](const EHActor& self, sol::optional<std::string> name) -> EHSpriteComponent* {
-            FName key(name.value_or("sprite"));
+        "Sprite", [](const EHActor& self, const sol::optional<std::string>& name) -> EHSpriteComponent* {
+            const FName key(name.value_or("sprite"));
             return dynamic_cast<EHSpriteComponent*>(self.GetActorComponent(key));
+        },
+        "Animator", [](const EHActor& self, const sol::optional<std::string>& name) -> EHAnimatorComponent* {
+            const FName key(name.value_or("animator"));
+            return dynamic_cast<EHAnimatorComponent*>(self.GetActorComponent(key));
+        },
+        "Movement", [](const EHActor& self, const sol::optional<std::string>& name) -> EHCharacterMovementComponent* {
+            const FName key(name.value_or("movement"));
+            return dynamic_cast<EHCharacterMovementComponent*>(self.GetActorComponent(key));
         });
 }
 

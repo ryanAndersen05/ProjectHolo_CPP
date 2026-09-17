@@ -14,15 +14,16 @@ private:
     std::vector<EHActor*> pendingAddActors;
     std::vector<EHActor*> pendingRemoveActors;
 
+protected:
     std::vector<EHController*> controllers;
 
 private:
-    void AddController(const FName& controllerId);
     void OnActorActive(bool isActive, EHActor* actor);
 
 protected:
     void TickActors(float deltaTime) const;
     void LateTickActors(float deltaTime) const;
+    void AddController(EHController* controller);
 
 public:
     EHGameMode();

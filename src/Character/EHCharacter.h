@@ -2,9 +2,10 @@
 #include "EHPaletteComponent.h"
 #include "core/EHActor.h"
 #include "core/EHController.h"
+#include "core/EHPawn.h"
 
 
-class EHCharacter : public EHActor {
+class EHCharacter : public EHPawn {
 private:
     EHController* controller;
 public:

@@ -4,7 +4,7 @@
 #include "core/EHActor.h"
 
 
-enum EButton : uint8_t
+enum class EButton : uint8_t
 {
     None = 0x00,
     Up = 0x01,
@@ -21,6 +21,34 @@ enum EButton : uint8_t
     AllButtons = 0xff,
 };
 
+inline EButton operator|(EButton b1, EButton b2) {
+    return static_cast<EButton>(static_cast<uint8_t>(b1) | static_cast<uint8_t>(b2));
+}
+
+inline EButton operator&(EButton b1, EButton b2) {
+    return static_cast<EButton>(static_cast<uint8_t>(b1) & static_cast<uint8_t>(b2));
+}
+
+inline EButton operator^(EButton b1, EButton b2) {
+    return static_cast<EButton>(static_cast<uint8_t>(b1) ^ static_cast<uint8_t>(b2));
+}
+
+inline EButton operator~(EButton b1) {
+    return static_cast<EButton>(~static_cast<uint8_t>(b1));
+}
+
+inline EButton& operator|=(EButton& b1, EButton b2) {
+    return b1 = b1 | b2;
+}
+
+inline EButton& operator&=(EButton& b1, EButton b2) {
+    return b1 = b1 & b2;
+}
+
+inline EButton& operator^=(EButton& b1, EButton b2) {
+    return b1 = b1 ^ b2;
+}
+
 class EHController : public EHActor
 {
 private:
@@ -28,8 +56,14 @@ private:
     std::array<EButton, ButtonLength> inputHistory{};
 
 public:
+    EHDelegate<EButton, bool, int> OnInputUpdatedEvent;
+
     EHController();
-    virtual ~EHController() = default;
+    ~EHController() override = default;
     void AssignButton(EButton button, int frame);
-    virtual void TickController() {}
+    [[nodiscard]] EButton GetButtonAtFrame(int frame) const;
+    virtual void TickController(int frame);
+
+    [[nodiscard]] int GetHorizontalAxis(int frame) const;
+    [[nodiscard]] int GetVerticalAxis(int frame) const;
 };

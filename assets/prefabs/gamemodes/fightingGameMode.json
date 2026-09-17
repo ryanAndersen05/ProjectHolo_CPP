@@ -10,13 +10,13 @@
       "playerSettings":
       [
         {
-          "characterId": "gura",
+          "characterId": "kiara",
           "colorSelection": 4,
           "controllerType": "player_controller",
           "inputDeviceId": 0
         },
         {
-          "characterId": "kiara",
+          "characterId": "gura",
           "colorSelection": 5,
           "controllerType": "player_controller",
           "inputDeviceId": 1

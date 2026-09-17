@@ -5,8 +5,13 @@
       "componentType": "animator",
       "componentName": "animator",
       "data": {
-        "defaultControllerAsset": "gura_animator"
+        "stateMachineAsset": "gura_state_machine"
       }
+    },
+    {
+      "componentType": "input",
+      "componentName": "input",
+      "data": {}
     },
     {
       "componentType": "sprite",

@@ -75,10 +75,6 @@
               "assetPath": "assets/prefabs/characters/gura/guraTrident.json"
             },
             {
-              "rowId": "gura_animator",
-              "assetPath": "assets/animation/gura/guraAnimator.json"
-            },
-            {
               "rowId": "gura_state_machine",
               "assetPath": "assets/animation/gura/gura.lua"
             },
@@ -122,10 +118,6 @@
               "notes":"____________Characters (Kiara)__________________________________",
               "rowId": "kiara",
               "assetPath": "assets/prefabs/characters/kiara/kiara.json"
-            },
-            {
-              "rowId": "kiara_animator",
-              "assetPath": "assets/animation/kiara/kiaraAnimator.json"
             },
             {
               "rowId": "kiara_fireball",
@@ -175,10 +167,6 @@
               "notes":"____________Characters (Ina)____________________________________",
               "rowId": "ina",
               "assetPath": "assets/prefabs/characters/ina/ina.json"
-            },
-            {
-              "rowId": "ina_animator",
-              "assetPath": "assets/animation/ina/inaAnimator.json"
             },
             {
               "rowId": "ina_tako",

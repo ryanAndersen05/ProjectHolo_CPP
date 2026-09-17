@@ -82,6 +82,9 @@ public:
 	static bool LoadAssetAsJson(const FName& assetId, json& assetJson) { return instance->LoadAssetAsJson_Instance(assetId, assetJson); }
 	static bool GetAssetPath(const FName& assetId, std::string& assetPath) { return instance->GetAssetPath_Instance(assetId, assetPath); }
 	static float GetPixelToUnitConversion() { return PixelToUnitConversion; }
+
+	[[nodiscard]] EHGameMode* GetGameMode() const { return gameMode; }
+	[[nodiscard]] EHGameHUD* GetGameHUD() const { return gameHUD; }
 };
 
 

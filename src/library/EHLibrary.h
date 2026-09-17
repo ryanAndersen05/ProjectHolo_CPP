@@ -100,6 +100,7 @@ public:
 class EHMath {
 public:
     static int SafeMod(const int x, const int m) { return (x % m + m) % m; }
+    static float MoveTowards(float current, float target, float delta);
 };
 
 namespace std

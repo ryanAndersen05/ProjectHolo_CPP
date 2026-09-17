@@ -1,10 +1,12 @@
 ﻿#pragma once
+#include "library/EHLibrary.h"
 
-enum EParameterType {
-    Bool,
-    Float,
-    Int,
-    Trigger,
+enum class EParameterType {
+    None =      0,
+    Bool =      1,
+    Int =       2,
+    Float =     3,
+    Trigger =   4,
 };
 
 struct FParameterValue {

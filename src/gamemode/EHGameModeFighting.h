@@ -27,11 +27,13 @@ public:
 
 private:
     int colorPaletteIndex;
+    int gameFrame;
     FGameMatchSettings defaultMatchSettings;
 
 public:
-    EHGameModeFighting() : EHGameMode(), colorPaletteIndex(0) {}
+    EHGameModeFighting() : EHGameMode(), colorPaletteIndex(0), gameFrame(0) {}
     void InitializeGameMode() override;
+    void TickGameMode(float deltaTime) override;
 
     void OnInputPressed(sf::Keyboard::Key keyPressed, bool isPressed);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHGameModeFighting, defaultMatchSettings)

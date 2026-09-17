@@ -20,6 +20,8 @@ public:
     void Tick(float deltaTime) override;
     void UpdateVelocityFromGravity(float deltaTime);
     void UpdatePositionFromVelocity(float deltaTime);
+    void SetVelocity(const FVector& vel) { velocity = vel;}
+    [[nodiscard]] FVector GetVelocity() const { return velocity;}
 
     friend void from_json(const json& j, EHPhysicsComponent &physics);
 };

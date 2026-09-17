@@ -1,7 +1,8 @@
 ﻿#include "EHPhyicsComponent.h"
 
 void EHPhysicsComponent::Tick(float deltaTime) {
-    if (useGravity) UpdateVelocityFromGravity(deltaTime);
+    // if (useGravity) UpdateVelocityFromGravity(deltaTime);
+    UpdatePositionFromVelocity(deltaTime);
 }
 
 void EHPhysicsComponent::UpdateVelocityFromGravity(float deltaTime) {

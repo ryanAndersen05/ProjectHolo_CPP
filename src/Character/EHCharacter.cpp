@@ -1,4 +1,4 @@
 ﻿#include "EHCharacter.h"
 
-EHCharacter::EHCharacter() : EHActor() {
+EHCharacter::EHCharacter() : EHPawn(), controller(nullptr) {
 }

@@ -28,17 +28,26 @@ void EHGameModeFighting::InitializeGameMode() {
     int i = 0;
     for (const auto& playerSettings : MatchSettings.playerSettings) {
         auto* controller = dynamic_cast<EHController*>(CreateActor(playerSettings.controllerType));
-        controller->TickController();
+        AddController(controller);
         EHCharacterTableRow characterData;
         if (!dataTableManager->GetCharacterDataById(playerSettings.characterId, characterData)) {
             std::cout << "InitializeGameMode() - Failed to find Character Data with id: " << playerSettings.characterId.GetKey() << std::endl;
         }
         auto* character = dynamic_cast<EHCharacter*>(CreateActor(characterData.GetAssetId()));
+        character->AssignController(controller);
         character->SetPosition(FVector(3.f * (i % 2 == 0 ? -1.f : 1.f), 0));
         EHPaletteComponent* palette = character->GetPaletteComponent();
         palette->ApplyColorPalette(playerSettings.characterId, playerSettings.colorSelection);
         i++;
     }
+}
+
+void EHGameModeFighting::TickGameMode(float deltaTime) {
+    EHGameMode::TickGameMode(deltaTime);
+    for (EHController* controller : controllers) {
+        controller->TickController(gameFrame);
+    }
+    gameFrame++;
 }
 
 void EHGameModeFighting::OnInputPressed(sf::Keyboard::Key, bool) {

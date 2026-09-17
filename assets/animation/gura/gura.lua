@@ -1,4 +1,19 @@
-﻿local states = {}
+﻿local StateMachineCommon = require("assets.animation.statemachine")
+local states = {}
+
+states.parameters = {
+    ["hInput"] = StateMachineCommon.EParameterType.Int,
+    ["vInput"] = StateMachineCommon.EParameterType.Int
+}
+
+states.defaultState = "gura_default"
+states.spriteAsset = "gura_atlas"
+
+states.gura_default = {
+    onEnter = function(actor)
+        return "gura_idle"
+    end
+}
 
 states.gura_idle = {
     keyFrames =
@@ -15,15 +30,28 @@ states.gura_idle = {
         [45] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle09")  end
     },
     maxFrames = 50,
+    --transitions = {
+    --    ["gura_walkf"] = {
+    --        {
+    --            parameter = "hInput",
+    --            conditionType = StateMachineCommon.EConditionType.Greater,
+    --            value = 0
+    --        }
+    --    },
+    --    ["gura_walkb"] = {
+    --        {
+    --            parameter = "hInput",
+    --            conditionType = StateMachineCommon.EConditionType.Lesser,
+    --            value = 0
+    --        }
+    --    }
+    --},
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("gura_idle00")
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames
-        local event = self.keyFrames[adjustedFrame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
     end
 }
 
@@ -37,15 +65,15 @@ states.gura_walkf = {
         [30] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf05")  end
     },
     maxFrames = 36,
+    transitions = {
+
+    },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("gura_walkf00")
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames
-        local event = keyFrames[adjustedFrame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, states.parameters, self)
     end
 }
 
@@ -63,11 +91,8 @@ states.gura_walkb = {
         actor:Sprite("sprite"):SetSprite("gura_walkb00")
     end,
     tick = function(self, actor, frame)
-        local adjustedFrame = frame % self.maxFrames
-        local event = keyFrames[adjustedFrame]
-        if event then
-            event(actor)
-        end
+        StateMachineCommon.tickState(self, actor, frame, true)
+        return StateMachineCommon.evaluateTransitions(actor, states.parameters, self)
     end
 }
 

@@ -13,7 +13,7 @@ private:
 	static const FName SpecialAttackAction;
 	static const FName MoveHorizontalAction;
 	static const FName MoveVerticalAction;
-	static constexpr float JoystickDeadZone = 0.35f;
+	static constexpr float JoystickDeadZone = 70.f;
 
 	EButton cachedButton;
 	EButton previousButton;
@@ -23,16 +23,12 @@ private:
 public:
 	EHPlayerController();
 	~EHPlayerController() override;
-	void OnLightButtonAction(const FInputContext& inputContext) {
-		std::cout << "OnLightButtonAction: " << inputContext.GetValueAsButton() << std::endl;
-		ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton());
-	}
+	void OnLightButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Light, inputContext.GetValueAsButton()); }
 	void OnMediumButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Medium, inputContext.GetValueAsButton()); }
 	void OnHeavyButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Heavy, inputContext.GetValueAsButton()); }
 	void OnSpecialButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Special, inputContext.GetValueAsButton()); }
 	void OnMoveHorizontalAction(const FInputContext& inputContext);
 	void OnMoveVerticalAction(const FInputContext& inputContext);
 
-	// void TickController() override;
-	void AssignInputDevice();
+	void TickController(int gameFrame) override;
 };

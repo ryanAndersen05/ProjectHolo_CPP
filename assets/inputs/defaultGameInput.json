@@ -56,7 +56,13 @@
               [
                 {
                   "inputType": "JoystickAxis",
-                  "axis": "X"
+                  "axis": "X",
+                  "inverted": false
+                },
+                {
+                  "inputType": "JoystickAxis",
+                  "axis": "PovX",
+                  "inverted": false
                 }
               ]
             },
@@ -66,7 +72,13 @@
               [
                 {
                   "inputType": "JoystickAxis",
-                  "axis": "Y"
+                  "axis": "Y",
+                  "inverted": true
+                },
+                {
+                  "inputType": "JoystickAxis",
+                  "axis": "PovY",
+                  "inverted": false
                 }
               ]
             }

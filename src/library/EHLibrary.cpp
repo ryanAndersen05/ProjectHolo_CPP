@@ -102,6 +102,11 @@ std::uint64_t FName::StringToHash(const std::string& key)
     return hash;
 }
 
+float EHMath::MoveTowards(float current, float target, float delta) {
+    if (std::abs(target - current) <= delta) return target;
+    return current + std::copysign(delta, target - current);
+}
+
 void to_json(json& j, const FName& name)
 {
     j = json{ {"key", name.GetKey()} };

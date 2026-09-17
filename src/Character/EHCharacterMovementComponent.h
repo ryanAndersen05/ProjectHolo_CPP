@@ -2,8 +2,19 @@
 #include "core/EHActorComponent.h"
 #include "animation/EHAnimatorComponent.h"
 #include "nlohmann/json.hpp"
+#include "physics/EHPhyicsComponent.h"
 
 using json = nlohmann::json;
+
+enum class EMovementType {
+    None,
+    Idle,
+    Walk,
+    WalkBack,
+    Dash,
+    DashBack,
+    Crouch,
+};
 
 class EHCharacterMovementComponent : public EHActorComponent, public ITickable {
 private:
@@ -20,23 +31,26 @@ private:
     float maxDashSpeed;
     float maxBackDashSpeed;
 
-    float maxAirDashSpeed;
-    float maxAirBackDashSpeed;
-    int maxAirDashes;
-
-    float jumpHeight;
-    float jumpApexTime;
-    float horizontalJumpSpeed;
-    int maxDoubleJumps;
+    // float jumpHeight;
+    // float jumpApexTime;
+    // float horizontalJumpSpeed;
+    // int maxDoubleJumps;
+    float acceleration;
 
     EHAnimatorComponent* cachedAnimator;
+    float goalVelocity;
+    EMovementType movementType;
+    EHPhysicsComponent* cachedPhysics;
 
 public:
     EHCharacterMovementComponent();
     void Tick(float deltaTime) override;
-    void InitializeComponent(EHActor *actr) override;
+    void InitializeComponent(EHActor* actr) override;
+    void SetMovementType(EMovementType moveType);
+    void AttemptJump();
+    void AttemptAirDash();
 
     void SetIsFacingLeft(bool isLeft);
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCharacterMovementComponent, isFacingLeft, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed,
-        maxBackDashSpeed, maxAirDashSpeed, maxAirBackDashSpeed, maxAirDashes, jumpHeight, jumpApexTime, horizontalJumpSpeed, maxDoubleJumps)
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCharacterMovementComponent, maxWalkSpeed, maxBackWalkSpeed, maxDashSpeed,
+        maxBackDashSpeed, acceleration)
 };

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "core/EHController.h"
-enum EControllerType {
+enum class EControllerType {
     Player,
     AIController,
 };
