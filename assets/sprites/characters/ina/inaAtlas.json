@@ -3167,157 +3167,7 @@
       }
     },
     {
-      "spriteId": "ina_specialtako00",
-      "point": {
-        "x": 512,
-        "y": 160
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako01",
-      "point": {
-        "x": 1952,
-        "y": 352
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako02",
-      "point": {
-        "x": 1984,
-        "y": 352
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako03",
-      "point": {
-        "x": 1952,
-        "y": 384
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako04",
-      "point": {
-        "x": 1984,
-        "y": 384
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako05",
-      "point": {
-        "x": 1952,
-        "y": 416
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako06",
-      "point": {
-        "x": 1984,
-        "y": 416
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako07",
-      "point": {
-        "x": 1952,
-        "y": 448
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako08",
-      "point": {
-        "x": 1984,
-        "y": 448
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtako09",
-      "point": {
-        "x": 1728,
-        "y": 480
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_specialtakoattack00",
+      "spriteId": "ina_sspecial00",
       "point": {
         "x": 1344,
         "y": 768
@@ -3332,7 +3182,7 @@
       }
     },
     {
-      "spriteId": "ina_specialtakoattack01",
+      "spriteId": "ina_sspecial01",
       "point": {
         "x": 1632,
         "y": 768
@@ -3347,7 +3197,7 @@
       }
     },
     {
-      "spriteId": "ina_specialtakoattack02",
+      "spriteId": "ina_sspecial02",
       "point": {
         "x": 1440,
         "y": 800
@@ -3362,7 +3212,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial00",
+      "spriteId": "ina_sspecial03",
       "point": {
         "x": 1536,
         "y": 800
@@ -3377,7 +3227,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial01",
+      "spriteId": "ina_sspecial04",
       "point": {
         "x": 1728,
         "y": 832
@@ -3392,7 +3242,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial02",
+      "spriteId": "ina_sspecial05",
       "point": {
         "x": 1824,
         "y": 832
@@ -3407,7 +3257,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial03",
+      "spriteId": "ina_sspecial06",
       "point": {
         "x": 1920,
         "y": 832
@@ -3422,7 +3272,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial04",
+      "spriteId": "ina_ssuper00",
       "point": {
         "x": 960,
         "y": 864
@@ -3437,7 +3287,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial05",
+      "spriteId": "ina_ssuper01",
       "point": {
         "x": 1056,
         "y": 864
@@ -3452,7 +3302,7 @@
       }
     },
     {
-      "spriteId": "ina_sspecial06",
+      "spriteId": "ina_ssuper02",
       "point": {
         "x": 1152,
         "y": 864
@@ -3467,7 +3317,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper00",
+      "spriteId": "ina_ssuper03",
       "point": {
         "x": 1248,
         "y": 864
@@ -3482,7 +3332,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper01",
+      "spriteId": "ina_ssuper04",
       "point": {
         "x": 1344,
         "y": 864
@@ -3497,7 +3347,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper02",
+      "spriteId": "ina_ssuper05",
       "point": {
         "x": 1632,
         "y": 864
@@ -3512,7 +3362,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper03",
+      "spriteId": "ina_ssuper06",
       "point": {
         "x": 1440,
         "y": 896
@@ -3527,7 +3377,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper04",
+      "spriteId": "ina_ssuper07",
       "point": {
         "x": 1536,
         "y": 896
@@ -3542,7 +3392,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper05",
+      "spriteId": "ina_ssuper08",
       "point": {
         "x": 1728,
         "y": 928
@@ -3557,7 +3407,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper06",
+      "spriteId": "ina_ssuper09",
       "point": {
         "x": 1824,
         "y": 928
@@ -3572,7 +3422,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper07",
+      "spriteId": "ina_ssuper10",
       "point": {
         "x": 1920,
         "y": 928
@@ -3587,7 +3437,7 @@
       }
     },
     {
-      "spriteId": "ina_ssuper08",
+      "spriteId": "ina_ssuper11",
       "point": {
         "x": 0,
         "y": 960
@@ -3602,54 +3452,9 @@
       }
     },
     {
-      "spriteId": "ina_ssuper09",
-      "point": {
-        "x": 96,
-        "y": 960
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_ssuper10",
-      "point": {
-        "x": 192,
-        "y": 960
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_ssuper11",
-      "point": {
-        "x": 288,
-        "y": 960
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
       "spriteId": "ina_ssuper12",
       "point": {
-        "x": 384,
+        "x": 96,
         "y": 960
       },
       "size": {
@@ -3664,7 +3469,7 @@
     {
       "spriteId": "ina_tech00",
       "point": {
-        "x": 480,
+        "x": 192,
         "y": 960
       },
       "size": {
@@ -3679,7 +3484,7 @@
     {
       "spriteId": "ina_tech01",
       "point": {
-        "x": 576,
+        "x": 288,
         "y": 960
       },
       "size": {
@@ -3694,7 +3499,7 @@
     {
       "spriteId": "ina_tech02",
       "point": {
-        "x": 672,
+        "x": 384,
         "y": 960
       },
       "size": {
@@ -3709,7 +3514,7 @@
     {
       "spriteId": "ina_tech03",
       "point": {
-        "x": 768,
+        "x": 480,
         "y": 960
       },
       "size": {
@@ -3725,7 +3530,7 @@
       "spriteId": "ina_tentacle00",
       "point": {
         "x": 1952,
-        "y": 480
+        "y": 352
       },
       "size": {
         "x": 64,
@@ -3739,8 +3544,8 @@
     {
       "spriteId": "ina_tentacle01",
       "point": {
-        "x": 960,
-        "y": 960
+        "x": 1952,
+        "y": 416
       },
       "size": {
         "x": 64,
@@ -3754,8 +3559,8 @@
     {
       "spriteId": "ina_tentacle02",
       "point": {
-        "x": 1024,
-        "y": 960
+        "x": 1952,
+        "y": 480
       },
       "size": {
         "x": 64,
@@ -3769,7 +3574,7 @@
     {
       "spriteId": "ina_tentacle03",
       "point": {
-        "x": 1088,
+        "x": 576,
         "y": 960
       },
       "size": {
@@ -3784,7 +3589,7 @@
     {
       "spriteId": "ina_tentacle04",
       "point": {
-        "x": 1152,
+        "x": 640,
         "y": 960
       },
       "size": {
@@ -3799,7 +3604,7 @@
     {
       "spriteId": "ina_tentacle05",
       "point": {
-        "x": 1216,
+        "x": 704,
         "y": 960
       },
       "size": {
@@ -3814,7 +3619,7 @@
     {
       "spriteId": "ina_tentacle06",
       "point": {
-        "x": 1280,
+        "x": 768,
         "y": 960
       },
       "size": {
@@ -3829,7 +3634,7 @@
     {
       "spriteId": "ina_walkb00",
       "point": {
-        "x": 1344,
+        "x": 960,
         "y": 960
       },
       "size": {
@@ -3844,7 +3649,7 @@
     {
       "spriteId": "ina_walkb01",
       "point": {
-        "x": 1632,
+        "x": 1056,
         "y": 960
       },
       "size": {
@@ -3859,8 +3664,8 @@
     {
       "spriteId": "ina_walkb02",
       "point": {
-        "x": 864,
-        "y": 992
+        "x": 1152,
+        "y": 960
       },
       "size": {
         "x": 96,
@@ -3873,6 +3678,66 @@
     },
     {
       "spriteId": "ina_walkf00",
+      "point": {
+        "x": 1248,
+        "y": 960
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "ina_walkf01",
+      "point": {
+        "x": 1344,
+        "y": 960
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "ina_walkf02",
+      "point": {
+        "x": 1632,
+        "y": 960
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "ina_win00",
+      "point": {
+        "x": 832,
+        "y": 992
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "ina_win01",
       "point": {
         "x": 1440,
         "y": 992
@@ -3887,7 +3752,7 @@
       }
     },
     {
-      "spriteId": "ina_walkf01",
+      "spriteId": "ina_win02",
       "point": {
         "x": 1536,
         "y": 992
@@ -3902,69 +3767,9 @@
       }
     },
     {
-      "spriteId": "ina_walkf02",
-      "point": {
-        "x": 960,
-        "y": 1024
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_win00",
-      "point": {
-        "x": 1056,
-        "y": 1024
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_win01",
-      "point": {
-        "x": 1152,
-        "y": 1024
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_win02",
-      "point": {
-        "x": 1248,
-        "y": 1024
-      },
-      "size": {
-        "x": 96,
-        "y": 96
-      },
-      "pivot": {
-        "x": 48,
-        "y": 96
-      }
-    },
-    {
       "spriteId": "ina_win03",
       "point": {
-        "x": 1728,
+        "x": 576,
         "y": 1024
       },
       "size": {
@@ -3979,7 +3784,7 @@
     {
       "spriteId": "ina_win04",
       "point": {
-        "x": 1824,
+        "x": 672,
         "y": 1024
       },
       "size": {
@@ -3994,7 +3799,7 @@
     {
       "spriteId": "ina_win05",
       "point": {
-        "x": 1920,
+        "x": 1728,
         "y": 1024
       },
       "size": {
@@ -4009,8 +3814,8 @@
     {
       "spriteId": "ina_win06",
       "point": {
-        "x": 0,
-        "y": 1056
+        "x": 1824,
+        "y": 1024
       },
       "size": {
         "x": 96,
@@ -4024,8 +3829,8 @@
     {
       "spriteId": "ina_win07",
       "point": {
-        "x": 96,
-        "y": 1056
+        "x": 1920,
+        "y": 1024
       },
       "size": {
         "x": 96,
@@ -4034,141 +3839,6 @@
       "pivot": {
         "x": 48,
         "y": 96
-      }
-    },
-    {
-      "spriteId": "ina_wintako00",
-      "point": {
-        "x": 1728,
-        "y": 512
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako01",
-      "point": {
-        "x": 192,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako02",
-      "point": {
-        "x": 224,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako03",
-      "point": {
-        "x": 256,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako04",
-      "point": {
-        "x": 288,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako05",
-      "point": {
-        "x": 320,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako06",
-      "point": {
-        "x": 352,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako07",
-      "point": {
-        "x": 384,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
-      }
-    },
-    {
-      "spriteId": "ina_wintako08",
-      "point": {
-        "x": 416,
-        "y": 1056
-      },
-      "size": {
-        "x": 32,
-        "y": 32
-      },
-      "pivot": {
-        "x": 16,
-        "y": 32
       }
     }
   ]

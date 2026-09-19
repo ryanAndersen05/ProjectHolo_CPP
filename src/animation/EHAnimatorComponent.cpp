@@ -66,7 +66,7 @@ void EHAnimatorComponent::SetCurrentState(const FName& newState) {
     if (currentState == newState) return;
     frame = 0;
 
-    if (currentState.isValid()) {
+    if (currentState.IsValid()) {
         sol::table oldStateTable = stateMachineTable[currentState.GetKey()];
         if (oldStateTable.valid()) {
             sol::protected_function onExit = oldStateTable["onExit"];
@@ -75,7 +75,7 @@ void EHAnimatorComponent::SetCurrentState(const FName& newState) {
     }
 
     currentState = newState;
-    if (currentState.isValid()) {
+    if (currentState.IsValid()) {
         sol::table newStateTable = stateMachineTable[currentState.GetKey()];
         if (newStateTable.valid()) {
             sol::protected_function onEnter = newStateTable["onEnter"];

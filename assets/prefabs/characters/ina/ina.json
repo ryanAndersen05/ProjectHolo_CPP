@@ -1,13 +1,72 @@
 ﻿{
-  "actorId": "character",
-  "components":
-          [
-            {
-              "componentId": "animator",
-              "data":
-              {
-                "animatorController": ""
-              }
-            }
-          ]
+  "actorType": "character",
+  "components": [
+    {
+      "componentType": "physics",
+      "componentName": "physics",
+      "data": {
+        "useGravity": true,
+        "gravityScale": 1,
+        "useTerminalVelocity": true,
+        "terminalVelocity": 10
+      }
+    },
+    {
+      "componentType": "animator",
+      "componentName": "animator",
+      "data": {
+        "stateMachineAsset": "ina_state_machine"
+      }
+    },
+    {
+      "componentType": "charactermovement",
+      "componentName": "movement",
+      "data": {
+        "maxWalkSpeed": 3,
+        "maxBackWalkSpeed": 2.5,
+        "maxDashSpeed": 6,
+        "maxBackDashSpeed": 6,
+        "acceleration": 150,
+        "jumpTime": 0.32,
+        "jumpHeight": 2.5
+      }
+    },
+    {
+      "componentType": "input",
+      "componentName": "input",
+      "data": {}
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "sprite",
+      "data": {
+        "defaultSprite": "ina_idle00",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "materialAsset":
+        {
+          "vertAsset": "sprite_vert",
+          "fragAsset": "sprite_frag"
+        }
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "altSprite",
+      "data": {
+        "defaultSprite": "",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "componentType": "palette",
+      "componentName": "palette",
+      "data": {}
+    }
+  ]
 }

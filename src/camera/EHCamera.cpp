@@ -22,6 +22,7 @@ void EHCamera::DrawGame(sf::RenderWindow &window, const std::vector<FSpriteDispl
 
     for (const FSpriteDisplayData& data : displayables) {
         const FSpriteDrawData& drawData = data.drawData;
+        if (!drawData.IsValid()) continue;
         const FSpriteData& spriteData = drawData.spriteData;
         FVector position = data.position;
         position = position * EHGameInstance::GetPixelToUnitConversion();

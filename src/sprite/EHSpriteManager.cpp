@@ -28,7 +28,7 @@ bool EHSpriteManager::GetSpriteDrawData(const FName &spriteId, FSpriteDrawData& 
 
 void EHSpriteManager::LoadSpriteMetaData(const FName& spriteMetaAsset)
 {
-	if (!spriteMetaAsset.isValid()) {
+	if (!spriteMetaAsset.IsValid()) {
 		std::cout << "LoadSpriteMetaData() - Invalid spriteAssetPath" << std::endl;
 		return;
 	}

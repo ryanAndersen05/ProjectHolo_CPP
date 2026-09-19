@@ -87,6 +87,10 @@
               "assetPath": "assets/sprites/characters/gura/guraAtlas.png"
             },
             {
+              "rowId": "gura_state_machine",
+              "assetPath": "assets/animation/gura/gura.lua"
+            },
+            {
               "rowId": "gura_palette1",
               "assetPath": "assets/sprites/characters/gura/gurapalette_default.png"
             },
@@ -171,6 +175,18 @@
             {
               "rowId": "ina_tako",
               "assetPath": "assets/prefabs/characters/ina/inaTako.json"
+            },
+            {
+              "rowId": "ina_atlas",
+              "assetPath": "assets/sprites/characters/ina/inaAtlas.json"
+            },
+            {
+              "rowId": "ina_atlas_sprite",
+              "assetPath": "assets/sprites/characters/ina/inaAtlas.png"
+            },
+            {
+              "rowId": "ina_state_machine",
+              "assetPath": "assets/animation/ina/ina.lua"
             },
             {
               "rowId": "ina_palette1",

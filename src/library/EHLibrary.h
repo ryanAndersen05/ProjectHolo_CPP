@@ -83,7 +83,7 @@ public:
 
     bool operator==(const FName& name) const { return hash == name.hash; }
     bool operator!=(const FName& name) const { return hash != name.hash; }
-    [[nodiscard]] bool isValid() const { return hash != 0; }
+    [[nodiscard]] bool IsValid() const { return hash != 0; }
 
 public:
     [[nodiscard]] const std::string& GetKey() const { return key; }

@@ -15,6 +15,7 @@ public:
 	FSpriteDrawData() : texture(nullptr), spriteData(FSpriteData()) {}
 	FSpriteDrawData(sf::Texture* texture, FSpriteData  spriteData) :
 	texture(texture), spriteData(std::move(spriteData)) {}
+	[[nodiscard]] bool IsValid() const { return texture; }
 };
 
 struct FSpriteDisplayData {

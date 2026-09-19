@@ -1,5 +1,5 @@
 from PIL import Image
-import glob, os
+import os
 from pathlib import Path
 import math
 import json
@@ -26,9 +26,7 @@ class FSpriteData:
 
 def resizeImage(previousImage, previousOccupiedTiles):
     newImage = Image.new("RGBA", (previousImage.width * 2, previousImage.height * 2))
-    for i in range(previousImage.width):
-        for j in range(previousImage.height):
-            newImage.putpixel((i, j), previousImage.getpixel((i, j)))
+    newImage.paste(previousImage, (0, 0))
 
     previousTileSize = int(math.sqrt(len(previousOccupiedTiles)))
     newOccupiedTiles = [False] * (len(previousOccupiedTiles) * 4)
@@ -79,31 +77,28 @@ def markAsOccupied(occupiedSpace, startPoint, spriteSize):
             occupiedSpace[(x+i) + ((y+j)*atlasWidth)] = True
             
 
-def writeSpriteToAtlas(atlasImage, occupiedSpace, spriteImage):
-    spriteDataList = []
-    spriteWidth, spriteHeight = spriteImage.size
-    spriteCount = 1
-    if spriteWidth > spriteHeight: 
-        spriteCount = int(spriteWidth / spriteHeight)
-        spriteWidth = spriteHeight
-    for i in range(spriteCount):
-        coordinates = findValidCoordinates(occupiedSpace, (spriteWidth, spriteHeight))
-        while coordinates == None:
-            atlasImage, occupiedSpace = resizeImage(atlasImage, occupiedSpace)
-            coordinates = findValidCoordinates(occupiedSpace, (spriteWidth, spriteHeight))
+def writeSpriteToAtlas(atlas_image, occupied_space, sprite_image):
+    sprite_data_list = []
+    sprite_width, sprite_height = sprite_image.size
+    sprite_count = 1
+    if sprite_width > sprite_height:
+        sprite_count = int(sprite_width / sprite_height)
+        sprite_width = sprite_height
+    for i in range(sprite_count):
+        coordinates = findValidCoordinates(occupied_space, (sprite_width, sprite_height))
+        while coordinates is None:
+            atlas_image, occupied_space = resizeImage(atlas_image, occupied_space)
+            coordinates = findValidCoordinates(occupied_space, (sprite_width, sprite_height))
         x = coordinates[0]
         y = coordinates[1]
-        for j in range(spriteWidth):
-            for k in range(spriteHeight):
-                atlasImage.putpixel((x + j, y + k), spriteImage.getpixel(((i * spriteWidth) + j, k)))
-
-        spriteData = FSpriteData()
-        spriteData.point = FVector(x, y).__dict__
-        spriteData.size = FVector(spriteWidth, spriteHeight).__dict__
-        spriteData.pivot = FVector(int(spriteWidth / 2), spriteHeight).__dict__
-        spriteDataList.append(spriteData)
-        markAsOccupied(occupiedSpace, coordinates, (spriteWidth, spriteHeight))
-    return atlasImage, occupiedSpace, spriteDataList
+        atlas_image.paste(sprite_image.crop(((sprite_width * i), 0, (sprite_width * (i + 1)), sprite_height)), (x, y))
+        sprite_data = FSpriteData()
+        sprite_data.point = FVector(x, y).__dict__
+        sprite_data.size = FVector(sprite_width, sprite_height).__dict__
+        sprite_data.pivot = FVector(int(sprite_width / 2), sprite_height).__dict__
+        sprite_data_list.append(sprite_data)
+        markAsOccupied(occupied_space, coordinates, (sprite_width, sprite_height))
+    return atlas_image, occupied_space, sprite_data_list
 
 path = Path(input("Directory Of Atlas: "))
 atlasName = path.parts[-1]
@@ -133,6 +128,4 @@ data['spriteAsset'] = str(path.parts[-1] + "_atlas_sprite")
 data['sprites'] = spriteDataCollection
 
 with open(atlasJson, 'w') as file:
-    
     json.dump(data, file, indent=2)
-    file.close()

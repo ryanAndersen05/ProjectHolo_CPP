@@ -30,6 +30,10 @@ void EHSpriteComponent::InitializeComponent(EHActor *actr) {
 
 
 void EHSpriteComponent::SetDrawData(const FName& drawName) {
+    if (!drawName.IsValid()) {
+        drawData = FSpriteDrawData();
+        return;
+    }
     EHSpriteManager* spriteManager = EHGameInstance::GetInstance()->GetSpriteManager();
     if (!spriteManager) {
         std::cout << "Failed to find Sprite Manager" << std::endl;
@@ -49,9 +53,11 @@ void EHSpriteComponent::SetColor(const sf::Color &col) {
 void from_json(const json& j, EHSpriteComponent& component) {
     FName spriteId = j.at("defaultSprite").get<FName>();
     j.at("spriteOffset").get_to(component.spriteOffset);
-    j.at("materialAsset").get_to(component.materialAsset);
-
-    if (spriteId.isValid()) {
+    auto mat = j.find("materialAsset");
+    if (mat != j.end()) {
+        mat->get_to(component.materialAsset);
+    }
+    if (spriteId.IsValid()) {
         component.SetDrawData(spriteId);
     }
 }

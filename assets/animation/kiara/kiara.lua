@@ -14,6 +14,7 @@ states.parameters = {
     ["light"] = StateMachineCommon.EParameterType.Trigger,
     ["medium"] = StateMachineCommon.EParameterType.Trigger,
     ["heavy"] = StateMachineCommon.EParameterType.Trigger,
+    ["heavyHeld"] = StateMachineCommon.EParameterType.Bool,
     ["special"] = StateMachineCommon.EParameterType.Trigger,
 }
 
@@ -490,5 +491,59 @@ states.kiara_smedium = {
             return "kiara_idle"
         end
     end
+}
+
+states.kiara_sheavystart = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy00")  end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy01")  end,
+        [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy02")  end,
+    },
+    transitions = {
+        ["kiara_sheavy"] = {
+            {
+                parameter = "heavyHeld",
+                value = false
+            }
+        }
+    },
+    maxFrames = 30,
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_sheavy00")
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, false)
+        if frame >= self.maxFrames then
+            return "kiara_sheavyfull"
+        end
+        StateMachineCommon.evaluateTransitions(actor, self, states.parameters)
+    end,
+    onExit = function(actor)
+
+    end
+}
+
+states.kiara_sheavy = {
+    keyFrames = {
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy03")  end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy04")  end,
+        [5] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy05")  end,
+        [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy06")  end,
+        [20] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy07")  end,
+    },
+    maxFrames = 24,
+    onEnter = function(actor)
+        actor:Sprite("sprite"):SetSprite("kiara_sheavy03")
+    end,
+    tick = function(self, actor, frame)
+        StateMachineCommon.tickState(self, actor, frame, false)
+    end,
+    onExit = function(actor)
+
+    end
+}
+
+states.kiara_sheavyfull = {
+
 }
 return states
