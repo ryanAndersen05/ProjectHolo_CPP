@@ -65,6 +65,9 @@ void EHCharacterMovementComponent::AttemptJump() const {
 }
 
 void EHCharacterMovementComponent::SetIsFacingLeft(bool isLeft) {
+    if (isFacingLeft == isLeft) return;
+
     isFacingLeft = isLeft;
+    SetActorScale(FVector(isLeft ? -1.f : 1.f, 1.f));
 }
 

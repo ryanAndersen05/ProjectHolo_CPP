@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "character/EHCharacter.h"
+#include "character/EHCharacterMovementComponent.h"
 #include "character/EHPaletteComponent.h"
 #include "core/EHGameInstance.h"
 #include "datatable/EHCharacterTableRow.h"
@@ -38,6 +39,8 @@ void EHGameModeFighting::InitializeGameMode() {
         character->SetPosition(FVector(3.f * (i % 2 == 0 ? -1.f : 1.f), 0));
         EHPaletteComponent* palette = character->GetPaletteComponent();
         palette->ApplyColorPalette(playerSettings.characterId, playerSettings.colorSelection);
+        EHCharacterMovementComponent* movement = dynamic_cast<EHCharacterMovementComponent*>(character->GetActorComponent(FName("movement")));
+        if (movement) movement->SetIsFacingLeft(i % 2 == 0);
         i++;
     }
 }

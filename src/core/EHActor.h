@@ -36,7 +36,7 @@ private:
 
 public:
     EHDelegate<bool, EHActor*> OnActorActive;
-    EHActor() : isActive(true), position(FVector::Zero), rotation(0.f), scale(FVector::Zero), timeScale(1.f),
+    EHActor() : isActive(true), position(FVector::Zero), rotation(0.f), scale(FVector::One), timeScale(1.f),
     actorId(0), name(FName()), owner(nullptr), OnActorActive(EHDelegate<bool, EHActor*>()) {}
     virtual ~EHActor();
 

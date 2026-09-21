@@ -31,10 +31,12 @@ void EHCamera::DrawGame(sf::RenderWindow &window, const std::vector<FSpriteDispl
         position = position + offsetPosition;
         position = position * pixelScale;
 
+
         sf::Sprite sprite(*drawData.texture,
             sf::IntRect({spriteData.point.x, spriteData.point.y},{spriteData.size.x, spriteData.size.y}));
         sprite.setPosition({position.x, position.y});
         FVector spriteScale = FVector::One * pixelScale;
+        spriteScale = FVector(spriteScale.x * data.scale.x, spriteScale.y * data.scale.y);
         sprite.setScale({spriteScale.x, spriteScale.y});
         window.draw(sprite, data.shader);
     }

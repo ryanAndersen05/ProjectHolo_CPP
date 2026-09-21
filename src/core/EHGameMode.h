@@ -34,7 +34,7 @@ public:
     void DisplayGameMode(std::vector<FSpriteDisplayData>& displayData) const;
     [[nodiscard]] EHController* GetControllerAtIndex(int index) const;
 
-    EHActor* CreateActor(const FName& actorId, EHActor* owner, const FVector& position = FVector::Zero, float rotation = 0.f, const FVector& scale = FVector::Zero);
+    EHActor* CreateActor(const FName& actorId, EHActor* owner, const FVector& position = FVector::Zero, float rotation = 0.f, const FVector& scale = FVector::One);
     EHActor* CreateActor(const FName& actorId, const FVector& position, float rotation = 0.f) {return CreateActor(actorId, nullptr, position, rotation);}
     EHActor* CreateActor(const FName& actorId) {return CreateActor(actorId, nullptr, FVector::Zero, 0.0f);}
     void DestroyActor(EHActor* actor);
