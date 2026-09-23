@@ -13,13 +13,13 @@
           "characterId": "kiara",
           "colorSelection": 4,
           "controllerType": "player_controller",
-          "inputDeviceId": 0
+          "inputDeviceId": -1
         },
         {
           "characterId": "ina",
           "colorSelection": 5,
           "controllerType": "player_controller",
-          "inputDeviceId": 1
+          "inputDeviceId": 0
         }
       ]
     }

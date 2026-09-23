@@ -6,6 +6,10 @@
               "inputs":
               [
                 {
+                  "inputType": "Keyboard",
+                  "positive": "U"
+                },
+                {
                   "inputType": "Joystick",
                   "button": 0
                 }
@@ -15,6 +19,10 @@
               "name": "medium",
               "inputs":
               [
+                {
+                  "inputType": "Keyboard",
+                  "positive": "I"
+                },
                 {
                   "inputType": "Joystick",
                   "button": 3
@@ -26,6 +34,10 @@
               "inputs":
               [
                 {
+                  "inputType": "Keyboard",
+                  "positive": "O"
+                },
+                {
                   "inputType": "Joystick",
                   "button": 2
                 }
@@ -36,6 +48,10 @@
               "inputs":
               [
                 {
+                  "inputType": "Keyboard",
+                  "positive": "J"
+                },
+                {
                   "inputType": "Joystick",
                   "button": 1
                 }
@@ -44,6 +60,14 @@
             {
               "name": "pause",
               "inputs": [
+                {
+                  "inputType": "Keyboard",
+                  "positive": "Escape"
+                },
+                {
+                  "inputType": "Keyboard",
+                  "positive": "Enter"
+                },
                 {
                   "inputType": "Joystick",
                   "button": 9
@@ -54,6 +78,11 @@
               "name": "move_horizontal",
               "inputs":
               [
+                {
+                  "inputType": "KeyboardAxis",
+                  "positive": "D",
+                  "negative": "A"
+                },
                 {
                   "inputType": "JoystickAxis",
                   "axis": "X",
@@ -70,6 +99,11 @@
               "name": "move_vertical",
               "inputs":
               [
+                {
+                  "inputType": "KeyboardAxis",
+                  "positive": "W",
+                  "negative": "S"
+                },
                 {
                   "inputType": "JoystickAxis",
                   "axis": "Y",

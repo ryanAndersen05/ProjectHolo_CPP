@@ -14,7 +14,7 @@ bool EHKeyboardKey::OnKeyboardPressed(sf::Keyboard::Key key, bool isPressed) {
     }
     else return false;
     float oldValue = GetValue();
-    SetValue((static_cast<float>(isPositivePressed) * 100.f) + (static_cast<float>(isNegativePressed) * 100.f));
+    SetValue((static_cast<float>(isPositivePressed) * 100.f) - (static_cast<float>(isNegativePressed) * 100.f));
     return oldValue != GetValue();
 }
 

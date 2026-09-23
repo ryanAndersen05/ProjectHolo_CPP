@@ -40,11 +40,13 @@ private:
     float goalVelocity;
     EMovementType movementType;
     EHPhysicsComponent* cachedPhysics;
+    FVectorInt cachedInput;
 
 public:
     EHCharacterMovementComponent();
     void Tick(float deltaTime) override;
     void InitializeComponent(EHActor* actr) override;
+    void SetInput(const FVectorInt& input) { cachedInput = input;};
     void SetMovementType(EMovementType moveType);
     void AttemptJump() const;
     void AttemptAirDash();

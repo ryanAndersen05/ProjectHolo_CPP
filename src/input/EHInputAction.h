@@ -56,7 +56,9 @@ namespace sf::Keyboard {
     {sf::Keyboard::Key::V, "V"},
     {sf::Keyboard::Key::W, "W"},
     {sf::Keyboard::Key::X, "X"},
-    {sf::Keyboard::Key::Y, "Y"}});
+    {sf::Keyboard::Key::Y, "Y"},
+    {sf::Keyboard::Key::Escape, "Escape"},
+    {sf::Keyboard::Key::Enter, "Enter"}});
 }
 
 

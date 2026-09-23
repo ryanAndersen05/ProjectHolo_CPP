@@ -24,6 +24,7 @@ public:
 
     void RebindJoystickAction(const FName& actionName, unsigned int joystickId);
     void RebindKeyboardAction(const FName& actionName, sf::Keyboard::Key keyboardId);
+    void AssignDeviceId(const unsigned int inputDeviceId) { deviceIds.push_back(inputDeviceId); }
 
     friend void from_json(const json& j, EHInputMap& inputMap);
 };

@@ -35,6 +35,5 @@ public:
     void InitializeGameMode() override;
     void TickGameMode(float deltaTime) override;
 
-    void OnInputPressed(sf::Keyboard::Key keyPressed, bool isPressed);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHGameModeFighting, defaultMatchSettings)
 };

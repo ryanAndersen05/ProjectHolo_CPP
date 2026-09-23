@@ -118,3 +118,7 @@ void EHPlayerController::TickController(int gameFrame) {
     AssignButton(cachedButton, gameFrame);
     EHController::TickController(gameFrame);
 }
+
+void EHPlayerController::SetInputDeviceId(unsigned int inputDeviceId) {
+    inputMap.AssignDeviceId(inputDeviceId);
+}

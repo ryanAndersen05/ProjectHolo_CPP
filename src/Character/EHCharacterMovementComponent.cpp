@@ -4,7 +4,7 @@
 const FName EHCharacterMovementComponent::Anim_VVelocity = FName("vVelocity");
 const FName EHCharacterMovementComponent::Anim_IsInAir = FName("inAir");
 
-EHCharacterMovementComponent::EHCharacterMovementComponent() : EHActorComponent(){
+EHCharacterMovementComponent::EHCharacterMovementComponent() : EHActorComponent(), cachedInput(FVectorInt::Zero) {
     isFacingLeft = false;
 
     maxWalkSpeed = 5.f;
@@ -34,7 +34,7 @@ void EHCharacterMovementComponent::InitializeComponent(EHActor *actr)  {
 void EHCharacterMovementComponent::Tick(float deltaTime) {
     FVector velocity = cachedPhysics->GetVelocity();
     cachedAnimator->SetFloat(Anim_VVelocity, velocity.y);
-    cachedAnimator->SetBool(Anim_IsInAir, velocity.y != 0.f);
+    cachedAnimator->SetBool(Anim_IsInAir, velocity.y != 0.f); // Move this to an event
 
     if (movementType == EMovementType::None) return;
     float adjustedGoalVelocity = goalVelocity * (isFacingLeft ? -1.f : 1.f);

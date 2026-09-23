@@ -29,6 +29,7 @@ public:
 	void OnSpecialButtonAction(const FInputContext& inputContext) { ModifyCachedButton(EButton::Special, inputContext.GetValueAsButton()); }
 	void OnMoveHorizontalAction(const FInputContext& inputContext);
 	void OnMoveVerticalAction(const FInputContext& inputContext);
+	void SetInputDeviceId(unsigned int inputDeviceId);
 
 	void TickController(int gameFrame) override;
 };
