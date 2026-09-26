@@ -58,18 +58,22 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FVectorInt, x, y)
 
 struct FRect
 {
-public:
+private:
     FVector position;
     FVector size;
+    FVector maxBounds;
+    FVector minBounds;
 
 public:
-    FRect() : position(FVector::Zero), size(FVector::Zero) {}
-    FRect(const FVector& position, const FVector& size) : position(position), size(size) {}
+    FRect(const FVector& position, const FVector& size);
+    FRect() : FRect(FVector::Zero, FVector::Zero) {}
 
-    [[nodiscard]] bool isOverlapping(const FRect& rect) const;
+    [[nodiscard]] bool IsOverlapping(const FRect& rect) const;
+    [[nodiscard]] bool IsPointInsideRect(const FVector& point) const;
+    [[nodiscard]] FVector GetCenter() const;
 
+    friend void from_json(const json& j, FRect& rect);
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FRect, position, size)
 
 struct FName
 {

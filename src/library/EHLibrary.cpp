@@ -49,16 +49,36 @@ std::string FVectorInt::to_string() const {
     return "x: " + std::to_string(x) + "y: " + std::to_string(y);
 }
 
-bool FRect::isOverlapping(const FRect& rect) const
+FRect::FRect(const FVector& position, const FVector& size) : position(position), size(size) {
+    maxBounds = position + size;
+    minBounds = position;
+}
+
+bool FRect::IsOverlapping(const FRect& rect) const
 {
-    FVector min = position;
-    FVector max = position + size;
-    FVector rMin = rect.position;
-    FVector rMax = rect.position + rect.size;
+    FVector min = minBounds;
+    FVector max = maxBounds;
+    FVector rMin = rect.minBounds;
+    FVector rMax = rect.maxBounds;
 
     return min.x < rMax.x && max.x > rMin.x && min.y < rMax.y && max.y > rMin.y;
 }
 
+bool FRect::IsPointInsideRect(const FVector &point) const {
+
+    return point.x >= minBounds.x && point.x <= maxBounds.x && point.y >= minBounds.y && point.y <= maxBounds.y;
+}
+
+FVector FRect::GetCenter() const {
+    return (maxBounds + minBounds) * 0.5f;
+}
+
+void from_json(const json &j, FRect &rect) {
+    j.at("position").get_to(rect.position);
+    j.at("size").get_to(rect.size);
+    rect.maxBounds = rect.position + rect.size;
+    rect.minBounds = rect.position;
+}
 
 FName::FName(const std::string& key)
 {

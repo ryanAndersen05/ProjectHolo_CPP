@@ -21,7 +21,7 @@ struct FGameMatchSettings {
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FGameMatchSettings, sceneId, winRounds, secondsPerRound, playerSettings)
 
-class EHGameModeFighting : public EHGameMode{
+class EHGameModeFighting : public EHGameMode {
 public:
     static FGameMatchSettings MatchSettings;
 
