@@ -23,7 +23,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FWorldSettings, gameMode, gameHUD)
 class EHGameInstance
 {
 private:
-	static constexpr float PixelToUnitConversion = 32.f;
+	static constexpr float PixelsPerUnit = 32.f;
 	static EHGameInstance* instance;
 	// World
 	EHGameMode* gameMode;
@@ -81,7 +81,7 @@ public:
 	static bool LoadAsset(const FName& assetId, T& asset) { return instance->LoadAsset_Instance(assetId, asset); }
 	static bool LoadAssetAsJson(const FName& assetId, json& assetJson) { return instance->LoadAssetAsJson_Instance(assetId, assetJson); }
 	static bool GetAssetPath(const FName& assetId, std::string& assetPath) { return instance->GetAssetPath_Instance(assetId, assetPath); }
-	static float GetPixelToUnitConversion() { return PixelToUnitConversion; }
+	static float GetPixelToUnitConversion() { return PixelsPerUnit; }
 
 	[[nodiscard]] EHGameMode* GetGameMode() const { return gameMode; }
 	[[nodiscard]] EHGameHUD* GetGameHUD() const { return gameHUD; }

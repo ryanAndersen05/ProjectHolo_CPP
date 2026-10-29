@@ -68,3 +68,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shaders")
 else()
     message(WARNING "shaders folder not found")
 endif()
+
+option(PROJECT_HOLO_BUILD_HITBOX_TESTS "Build the hitbox C++/Lua smoke checks" OFF)
+if(PROJECT_HOLO_BUILD_HITBOX_TESTS)
+    set(HITBOX_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM HITBOX_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloHitboxTests
+            tests/hitbox/EHHitboxSmokeTests.cpp
+            ${HITBOX_TEST_SOURCES}
+    )
+    target_include_directories(ProjectHoloHitboxTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloHitboxTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloHitboxTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloHitboxTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+
+    enable_testing()
+    add_test(NAME hitbox-control COMMAND ProjectHoloHitboxTests)
+    set_tests_properties(hitbox-control PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/hitbox/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(HITBOX_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST hitbox-control APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${HITBOX_TEST_COMPILER_DIR}")
+    endif()
+endif()

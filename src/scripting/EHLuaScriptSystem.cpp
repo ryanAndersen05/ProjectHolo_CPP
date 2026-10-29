@@ -4,8 +4,35 @@
 #include "character/EHCharacterMovementComponent.h"
 #include "core/EHGameInstance.h"
 #include "core/EHActor.h"
+#include "factory/EHActorComponentFactory.h"
+#include "hitbox/EHHitboxComponent.h"
 #include "sprite/EHSpriteComponent.h"
 
+namespace {
+    sol::variadic_results LuaGeometry(sol::this_state state, const std::optional<FVector>& vector) {
+        sol::variadic_results result;
+        if (vector) {
+            result.push_back(sol::make_object(state, vector->x));
+            result.push_back(sol::make_object(state, vector->y));
+        }
+        else result.push_back(sol::make_object(state, sol::nil));
+        return result;
+    }
+
+    sol::variadic_results LuaGeometry(sol::this_state state, const std::optional<FRect>& bounds) {
+        sol::variadic_results result;
+        if (bounds) {
+            const FVector position = bounds->GetPosition();
+            const FVector size = bounds->GetSize();
+            result.push_back(sol::make_object(state, position.x));
+            result.push_back(sol::make_object(state, position.y));
+            result.push_back(sol::make_object(state, size.x));
+            result.push_back(sol::make_object(state, size.y));
+        }
+        else result.push_back(sol::make_object(state, sol::nil));
+        return result;
+    }
+}
 
 EHLuaScriptSystem::EHLuaScriptSystem() {
     loadedLibraries = std::unordered_map<FName, FLuaTableContainer>();
@@ -39,6 +66,47 @@ void EHLuaScriptSystem::InitializeScripting() {
             self.AttemptJump();
         });
 
+    lua.new_enum<EHHitboxType>("HitboxType", {
+        {"Hitbox", EHHitboxType::Hitbox},
+        {"Hurtbox", EHHitboxType::Hurtbox}
+    });
+
+    lua.new_usertype<EHHitboxComponent>("HitboxComponent", sol::no_constructor,
+        // "HasHitbox", [](const EHHitboxComponent& self, const std::string& name) {
+        //     return self.HasHitbox(FName(name));
+        // },
+        // "GetType", [](const EHHitboxComponent& self, const std::string& name) {
+        //     return self.GetType(FName(name));
+        // },
+        // "IsActive", [](const EHHitboxComponent& self, const std::string& name) {
+        //     return self.IsActive(FName(name));
+        // },
+        // "GetPosition", [](const EHHitboxComponent& self, const std::string& name, sol::this_state state) {
+        //     return LuaGeometry(state, self.GetPosition(FName(name)));
+        // },
+        // "GetSize", [](const EHHitboxComponent& self, const std::string& name, sol::this_state state) {
+        //     return LuaGeometry(state, self.GetSize(FName(name)));
+        // },
+        // "GetLocalBounds", [](const EHHitboxComponent& self, const std::string& name, sol::this_state state) {
+        //     return LuaGeometry(state, self.GetLocalBounds(FName(name)));
+        // },
+        // "GetWorldBounds", [](const EHHitboxComponent& self, const std::string& name, sol::this_state state) {
+        //     return LuaGeometry(state, self.GetWorldBounds(FName(name)));
+        // },
+        "SetActive", [](EHHitboxComponent& self, const std::string& name, bool active) {
+            return self.SetActive(FName(name), active);
+        },
+        "SetPosition", [](EHHitboxComponent& self, const std::string& name, float x, float y) {
+            return self.SetPosition(FName(name), FVector(x, y));
+        },
+        "SetSize", [](EHHitboxComponent& self, const std::string& name, float width, float height) {
+            return self.SetSize(FName(name), FVector(width, height));
+        },
+        "SetBounds", [](EHHitboxComponent& self, const std::string& name,
+            float x, float y, float width, float height) {
+            return self.SetBounds(FName(name), FVector(x, y), FVector(width, height));
+        });
+
     lua.new_usertype<EHActor>("Actor",
         "Sprite", [](const EHActor& self, const sol::optional<std::string>& name) -> EHSpriteComponent* {
             const FName key(name.value_or("sprite"));
@@ -51,6 +119,10 @@ void EHLuaScriptSystem::InitializeScripting() {
         "Movement", [](const EHActor& self, const sol::optional<std::string>& name) -> EHCharacterMovementComponent* {
             const FName key(name.value_or("movement"));
             return dynamic_cast<EHCharacterMovementComponent*>(self.GetActorComponent(key));
+        },
+        "Hitbox", [](const EHActor& self, const sol::optional<std::string>& name) -> EHHitboxComponent* {
+            const FName key = name ? FName(*name) : EHActorComponentFactory::HitboxComponentId;
+            return dynamic_cast<EHHitboxComponent*>(self.GetActorComponent(key));
         });
 }
 

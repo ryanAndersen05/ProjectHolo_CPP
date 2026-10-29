@@ -14,6 +14,7 @@ public:
     const static FName CameraComponentId;
     const static FName ColorPaletteComponentId;
     const static FName InputComponentId;
+    const static FName HitboxComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

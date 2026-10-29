@@ -71,6 +71,8 @@ public:
     [[nodiscard]] bool IsOverlapping(const FRect& rect) const;
     [[nodiscard]] bool IsPointInsideRect(const FVector& point) const;
     [[nodiscard]] FVector GetCenter() const;
+    [[nodiscard]] FVector GetPosition() const { return position; }
+    [[nodiscard]] FVector GetSize() const { return size; }
 
     friend void from_json(const json& j, FRect& rect);
 };

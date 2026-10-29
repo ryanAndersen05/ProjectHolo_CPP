@@ -1,0 +1,33 @@
+{
+  "actorType": "character",
+  "components": [
+    {
+      "componentType": "hitbox",
+      "componentName": "hitbox",
+      "data": {
+        "hitboxes": [
+          {
+            "name": "attack",
+            "type": "Hitbox",
+            "position": { "x": 1, "y": 2 },
+            "size": { "x": 3, "y": 4 }
+          },
+          {
+            "name": "body",
+            "type": "Hurtbox",
+            "position": { "x": -0.5, "y": 0 },
+            "size": { "x": 1, "y": 2 },
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "componentType": "animator",
+      "componentName": "animator",
+      "data": {
+        "stateMachineAsset": "hitbox_test_states"
+      }
+    }
+  ]
+}

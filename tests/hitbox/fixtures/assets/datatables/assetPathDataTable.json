@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {
+      "rowId": "character_table",
+      "assetPath": "assets/datatables/characterDataTable.json"
+    },
+    {
+      "rowId": "hitbox_test_actor",
+      "assetPath": "assets/prefabs/hitboxActor.json"
+    },
+    {
+      "rowId": "hitbox_test_states",
+      "assetPath": "assets/animation/hitbox.lua"
+    }
+  ]
+}
