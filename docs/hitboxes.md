@@ -51,22 +51,17 @@ strings and become `FName` keys for C++ lookup. Scripts cannot access mutable
 
 | Method | Result |
 | --- | --- |
-| `HasHitbox(name)` | Whether the box exists |
-| `GetType(name)` | `HitboxType.Hitbox` or `HitboxType.Hurtbox` |
-| `IsActive(name)` | The stored active flag |
-| `GetPosition(name)` | `x, y` in actor-local coordinates |
-| `GetSize(name)` | `width, height` in actor-local units |
-| `GetLocalBounds(name)` | `x, y, width, height` in actor-local coordinates |
-| `GetWorldBounds(name)` | `x, y, width, height` in world coordinates |
 | `SetActive(name, active)` | Whether the update succeeded |
 | `SetPosition(name, x, y)` | Whether the update succeeded |
 | `SetSize(name, width, height)` | Whether the update succeeded |
 | `SetBounds(name, x, y, width, height)` | Whether the update succeeded |
+| `ResetOverlappingComponents()` | Clears this component's hit history |
 
-Read queries other than `HasHitbox` return `nil` for a missing box. World bounds
-also return no value for an unattached C++ component. Setters return `false` for
-missing boxes or invalid geometry and leave existing state unchanged. They do
-not create boxes or change their type.
+Lua animations set actor state through these commands. Read queries remain
+available in C++. Setters return `false` for missing boxes or invalid geometry
+and leave existing state unchanged. They do not create boxes or change their
+type. Active lists update automatically when activation changes; repeating the
+same activation state does not add duplicate entries.
 
 Call the setters from existing Lua animation callbacks, preserving the sprite
 and movement work those callbacks already perform:
@@ -74,6 +69,7 @@ and movement work those callbacks already perform:
 ```lua
 -- During an attack's active frame:
 local boxes = actor:Hitbox()
+boxes:ResetOverlappingComponents() -- Start a new hit window when the move requires it.
 boxes:SetBounds("attack", 0.5, 0.25, 1, 0.75)
 boxes:SetActive("attack", true)
 
@@ -86,8 +82,42 @@ actor:Hitbox():SetActive("attack", false)
 ```
 
 Lua owns activation timing and cleanup. The engine preserves box state across
-animation transitions until Lua changes it. This component does not detect
-overlaps, apply damage, or draw debug shapes.
+animation transitions until Lua changes it. Reset clears hit history while
+preserving activation and geometry. Neither toggling boxes nor transitioning
+animations resets history automatically.
+
+## Component overlap checks in C++
+
+`DoesHitboxComponentOverlap(otherComponent, outHitPosition)` compares this
+component's active `Hitbox` boxes against the other component's active `Hurtbox`
+boxes. The check is directional. Checking the reverse attack direction requires
+a separate call on the other component. Supported directed type pairs are
+defined together internally for future extension.
+
+```cpp
+FVector hitPosition;
+if (attacker->DoesHitboxComponentOverlap(defender, hitPosition)) {
+    // hitPosition is the world-space center of the intersecting area.
+}
+```
+
+The first overlapping pair wins, following active-list order: prefab order for
+initially active boxes, then activation order for newly enabled boxes. World
+bounds reflect current actor transforms and box geometry. Touching edges and
+zero-area boxes do not count as overlaps.
+
+Success records the other component, so further checks against it return
+`false` until `ResetOverlappingComponents()` is called. Other targets remain
+eligible. Definition reloads also preserve history; reset explicitly when
+starting a new hit window. Overlap checks are non-const because they record hits.
+
+Null, self, unattached, previously recorded, and non-overlapping components
+return `false` without changing the output position or history. Failed prefab
+loads preserve both definitions and active lists; successful loads rebuild
+the active lists from the replacement definitions.
+
+The caller selects which components to check. Global collision scheduling,
+damage, and debug drawing are not part of this component API.
 
 ## Smoke checks
 

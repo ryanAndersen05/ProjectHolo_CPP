@@ -69,6 +69,8 @@ public:
     FRect() : FRect(FVector::Zero, FVector::Zero) {}
 
     [[nodiscard]] bool IsOverlapping(const FRect& rect) const;
+    // Requires positive intersection area; leaves outOverlapCenter unchanged on failure.
+    [[nodiscard]] bool IsOverlapping(const FRect& rect, FVector& outOverlapCenter) const;
     [[nodiscard]] bool IsPointInsideRect(const FVector& point) const;
     [[nodiscard]] FVector GetCenter() const;
     [[nodiscard]] FVector GetPosition() const { return position; }

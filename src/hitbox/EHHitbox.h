@@ -1,21 +1,24 @@
 ﻿#pragma once
 #include "library/EHLibrary.h"
 
-enum class EHHitboxType {
+enum class EHitboxType {
     Hitbox,
     Hurtbox,
 };
 
-NLOHMANN_JSON_SERIALIZE_ENUM_STRICT(EHHitboxType, {
-    {EHHitboxType::Hitbox, "Hitbox"},
-    {EHHitboxType::Hurtbox, "Hurtbox"}
+NLOHMANN_JSON_SERIALIZE_ENUM_STRICT(EHitboxType, {
+    {EHitboxType::Hitbox, "Hitbox"},
+    {EHitboxType::Hurtbox, "Hurtbox"}
 });
 
 class EHHitbox {
 private:
     friend class EHHitboxComponent;
 
-    EHHitboxType type = EHHitboxType::Hitbox;
+    EHitboxType type = EHitboxType::Hitbox;
     FRect localBounds;
     bool isActive = false;
+
+public:
+    bool IsHitboxOverlapping(const EHHitbox* other);
 };

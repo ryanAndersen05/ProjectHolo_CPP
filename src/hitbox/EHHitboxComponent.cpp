@@ -2,8 +2,13 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <utility>
 
 namespace {
+    constexpr std::pair<EHitboxType, EHitboxType> OverlapTypePairs[] = {
+        {EHitboxType::Hitbox, EHitboxType::Hurtbox}
+    };
+
     bool IsValidBounds(const FVector& position, const FVector& size) {
         return std::isfinite(position.x) && std::isfinite(position.y)
             && std::isfinite(size.x) && std::isfinite(size.y)
@@ -16,7 +21,7 @@ bool EHHitboxComponent::HasHitbox(const FName& name) const {
     return hitboxes.contains(name);
 }
 
-std::optional<EHHitboxType> EHHitboxComponent::GetType(const FName& name) const {
+std::optional<EHitboxType> EHHitboxComponent::GetType(const FName& name) const {
     const auto found = hitboxes.find(name);
     if (found == hitboxes.end()) return std::nullopt;
     return found->second.type;
@@ -64,7 +69,13 @@ std::optional<FRect> EHHitboxComponent::GetWorldBounds(const FName& name) const 
 bool EHHitboxComponent::SetActive(const FName& name, bool active) {
     const auto found = hitboxes.find(name);
     if (found == hitboxes.end()) return false;
-    found->second.isActive = active;
+    EHHitbox& box = found->second;
+    if (box.isActive == active) return true;
+
+    auto& activeNames = activeHitboxes[box.type];
+    if (active) activeNames.push_back(name);
+    else std::erase(activeNames, name);
+    box.isActive = active;
     return true;
 }
 
@@ -85,6 +96,32 @@ bool EHHitboxComponent::SetBounds(const FName& name, const FVector& position, co
     return true;
 }
 
+bool EHHitboxComponent::DoesHitboxComponentOverlap(const EHHitboxComponent* otherComponent, FVector& outHitPosition) {
+    if (!otherComponent || otherComponent == this || !GetActor() || !otherComponent->GetActor()) return false;
+    if (std::find(overlappingComponents.begin(), overlappingComponents.end(), otherComponent)
+        != overlappingComponents.end()) return false;
+
+    for (const auto& [sourceType, targetType] : OverlapTypePairs) {
+        const auto sourceNames = activeHitboxes.find(sourceType);
+        const auto targetNames = otherComponent->activeHitboxes.find(targetType);
+        if (sourceNames == activeHitboxes.end() || targetNames == otherComponent->activeHitboxes.end()) continue;
+
+        for (const FName& sourceName : sourceNames->second) {
+            const auto sourceBounds = GetWorldBounds(sourceName);
+            if (!sourceBounds) continue;
+
+            for (const FName& targetName : targetNames->second) {
+                const auto targetBounds = otherComponent->GetWorldBounds(targetName);
+                if (!targetBounds || !sourceBounds->IsOverlapping(*targetBounds, outHitPosition)) continue;
+
+                overlappingComponents.push_back(otherComponent);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void EHHitboxComponent::LoadHitboxes(const json& data) {
     const auto& definitions = data.at("hitboxes");
     if (!definitions.is_array()) {
@@ -93,6 +130,7 @@ void EHHitboxComponent::LoadHitboxes(const json& data) {
 
     // Only replace existing state after every definition has been validated.
     std::unordered_map<FName, EHHitbox> loaded;
+    std::unordered_map<EHitboxType, std::vector<FName>> loadedActive;
     for (const auto& definition : definitions) {
         const FName name = definition.at("name").get<FName>();
         if (!name.IsValid() || loaded.contains(name)) {
@@ -109,9 +147,11 @@ void EHHitboxComponent::LoadHitboxes(const json& data) {
         }
         box.localBounds = FRect(position, size);
         box.isActive = definition.value("active", false);
+        if (box.isActive) loadedActive[box.type].push_back(name);
         loaded.emplace(name, std::move(box));
     }
-    hitboxes = std::move(loaded);
+    hitboxes.swap(loaded);
+    activeHitboxes.swap(loadedActive);
 }
 
 void from_json(const json& data, EHHitboxComponent& component) {

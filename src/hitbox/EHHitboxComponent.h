@@ -3,16 +3,19 @@
 #include "core/EHActorComponent.h"
 #include <optional>
 #include <unordered_map>
+#include <vector>
 
 class EHHitboxComponent : public EHActorComponent {
 private:
     std::unordered_map<FName, EHHitbox> hitboxes;
+    std::unordered_map<EHitboxType, std::vector<FName>> activeHitboxes;
+    std::vector<const EHHitboxComponent*> overlappingComponents;
 
     void LoadHitboxes(const json& data);
 
 public:
     [[nodiscard]] bool HasHitbox(const FName& name) const;
-    [[nodiscard]] std::optional<EHHitboxType> GetType(const FName& name) const;
+    [[nodiscard]] std::optional<EHitboxType> GetType(const FName& name) const;
     [[nodiscard]] std::optional<bool> IsActive(const FName& name) const;
     [[nodiscard]] std::optional<FVector> GetPosition(const FName& name) const;
     [[nodiscard]] std::optional<FVector> GetSize(const FName& name) const;
@@ -25,7 +28,10 @@ public:
     bool SetSize(const FName& name, const FVector& size);
     bool SetBounds(const FName& name, const FVector& position, const FVector& size);
 
-    bool DoesHitboxOverlap(const FName& name, const FRect& rect) const;
+    // Checks our attacks against their hurtboxes once per component until reset.
+    // On failure, outHitPosition is unchanged.
+    bool DoesHitboxComponentOverlap(const EHHitboxComponent* otherComponent, FVector& outHitPosition);
+    void ResetOverlappingComponents() { overlappingComponents.clear(); }
 
     friend void from_json(const json& data, EHHitboxComponent& component);
 };

@@ -1,5 +1,7 @@
 #include "library/EHLibrary.h"
+#include <algorithm>
 #include <cmath>
+#include <numeric>
 
 const FVector FVector::Zero = FVector(0.f, 0.f);
 const FVector FVector::One = FVector(1.f, 1.f);
@@ -56,12 +58,18 @@ FRect::FRect(const FVector& position, const FVector& size) : position(position),
 
 bool FRect::IsOverlapping(const FRect& rect) const
 {
-    FVector min = minBounds;
-    FVector max = maxBounds;
-    FVector rMin = rect.minBounds;
-    FVector rMax = rect.maxBounds;
+    FVector overlapCenter;
+    return IsOverlapping(rect, overlapCenter);
+}
 
-    return min.x < rMax.x && max.x > rMin.x && min.y < rMax.y && max.y > rMin.y;
+bool FRect::IsOverlapping(const FRect& rect, FVector& outOverlapCenter) const
+{
+    const FVector minimum(std::max(minBounds.x, rect.minBounds.x), std::max(minBounds.y, rect.minBounds.y));
+    const FVector maximum(std::min(maxBounds.x, rect.maxBounds.x), std::min(maxBounds.y, rect.maxBounds.y));
+    if (!(maximum.x > minimum.x && maximum.y > minimum.y)) return false;
+
+    outOverlapCenter = FVector(std::midpoint(minimum.x, maximum.x), std::midpoint(minimum.y, maximum.y));
+    return true;
 }
 
 bool FRect::IsPointInsideRect(const FVector &point) const {
