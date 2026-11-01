@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "EHHitbox.h"
+#include "interface/IDisplayable.h"
 #include "core/EHActorComponent.h"
 #include <optional>
 #include <unordered_map>
 #include <vector>
 
-class EHHitboxComponent : public EHActorComponent {
+class EHHitboxComponent : public EHActorComponent, public IDisplayable {
 private:
     std::unordered_map<FName, EHHitbox> hitboxes;
     std::unordered_map<EHitboxType, std::vector<FName>> activeHitboxes;
@@ -14,6 +15,8 @@ private:
     void LoadHitboxes(const json& data);
 
 public:
+    void CollectDrawCommands(FRenderQueue& queue, const FRenderContext& context) const override;
+
     [[nodiscard]] bool HasHitbox(const FName& name) const;
     [[nodiscard]] std::optional<EHitboxType> GetType(const FName& name) const;
     [[nodiscard]] std::optional<bool> IsActive(const FName& name) const;

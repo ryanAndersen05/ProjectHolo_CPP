@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "sprite/EHSpriteManager.h"
+#include "render/EHRenderQueue.h"
 
 class IDisplayable {
 public:
-    [[nodiscard]] virtual FSpriteDisplayData GetSpriteDrawData() const = 0;
+    virtual ~IDisplayable() = default;
+    virtual void CollectDrawCommands(FRenderQueue& queue, const FRenderContext& context) const = 0;
 };

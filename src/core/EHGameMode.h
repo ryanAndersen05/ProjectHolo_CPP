@@ -31,7 +31,7 @@ public:
     virtual void InitializeGameMode();
     virtual void TickGameMode(float deltaTime);
 
-    void DisplayGameMode(std::vector<FSpriteDisplayData>& displayData) const;
+    void DisplayGameMode(FRenderQueue& displayData, const FRenderContext& context) const;
     [[nodiscard]] EHController* GetControllerAtIndex(int index) const;
 
     EHActor* CreateActor(const FName& actorId, EHActor* owner, const FVector& position = FVector::Zero, float rotation = 0.f, const FVector& scale = FVector::One);

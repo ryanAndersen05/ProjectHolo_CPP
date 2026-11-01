@@ -53,11 +53,11 @@ void EHGameInstance::TickGame(float deltaTime) const {
 
 void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
     window.clear(sf::Color::Black);
-    std::vector<FSpriteDisplayData> displayData;
+    FRenderQueue displayData;
 
     EHCamera* camera = EHCamera::MainCamera;
     if (gameMode) {
-        gameMode->DisplayGameMode(displayData);
+        gameMode->DisplayGameMode(displayData, FRenderContext{gameMode});
     }
     if (camera) {
         camera->DrawGame(window, displayData);

@@ -132,3 +132,20 @@ ctest --test-dir cmake-build-debug -R hitbox-control --output-on-failure
 Tests are optional and disabled by default. The checks use separate fixture
 assets through the real actor/component factories, scripting system, and
 animator, without opening a game window or changing production character moves.
+
+## Training visualization
+
+`EHHitboxComponent` implements `IDisplayable` and appends rectangle commands to
+`FRenderQueue`. The game mode is passed in `FRenderContext`; only
+`EHGameModeTraining` (including derived training modes) enables these commands.
+Other modes and a null mode emit no hitbox commands.
+
+Active attacks are red and active hurtboxes are blue, with translucent fills.
+Inactive and zero-area boxes are omitted. Bounds come from `GetWorldBounds()`,
+so visualization follows collision position, scale, mirroring, and the same
+rotation policy. Drawing does not change activation or hit history.
+
+The render queue has separate sprite and debug rectangle buffers. The camera
+draws sprites by draw order, preserving submission order for ties, then draws
+all debug rectangles on top in submission order. Displayables can append any
+number of commands, allowing future particle components to submit sprite commands.

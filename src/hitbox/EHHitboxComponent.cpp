@@ -1,4 +1,5 @@
 ﻿#include "EHHitboxComponent.h"
+#include "gamemode/EHGameModeTraining.h"
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
@@ -156,4 +157,19 @@ void EHHitboxComponent::LoadHitboxes(const json& data) {
 
 void from_json(const json& data, EHHitboxComponent& component) {
     component.LoadHitboxes(data);
+}
+
+void EHHitboxComponent::CollectDrawCommands(FRenderQueue& queue, const FRenderContext& context) const {
+    if (!dynamic_cast<const EHGameModeTraining*>(context.gameMode)) return;
+
+    for (const auto& [type, names] : activeHitboxes) {
+        const sf::Color outline = type == EHitboxType::Hitbox
+            ? sf::Color(255, 60, 60) : sf::Color(60, 140, 255);
+        const sf::Color fill(outline.r, outline.g, outline.b, 60);
+        for (const FName& name : names) {
+            const auto bounds = GetWorldBounds(name);
+            if (!bounds || bounds->GetSize().x <= 0.f || bounds->GetSize().y <= 0.f) continue;
+            queue.debugRectangles.push_back({*bounds, fill, outline});
+        }
+    }
 }

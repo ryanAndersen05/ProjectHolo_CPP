@@ -67,3 +67,7 @@ FSpriteDisplayData EHSpriteComponent::GetSpriteDrawData() const {
     FSpriteDisplayData spriteDisplayData(drawData, shader, drawOrder, spritePosition, GetActorScale(), GetActorRotation());
     return spriteDisplayData;
 }
+
+void EHSpriteComponent::CollectDrawCommands(FRenderQueue& queue, const FRenderContext&) const {
+    queue.sprites.push_back(GetSpriteDrawData());
+}

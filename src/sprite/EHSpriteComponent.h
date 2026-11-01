@@ -40,6 +40,8 @@ public:
     [[nodiscard]] sf::Shader* GetShader() const { return shader; }
     void SetColor(const sf::Color& col);
 
+    void CollectDrawCommands(FRenderQueue& queue, const FRenderContext& context) const override;
+
     friend void from_json(const json& j, EHSpriteComponent& component);
-    [[nodiscard]] FSpriteDisplayData GetSpriteDrawData() const override;
+    [[nodiscard]] FSpriteDisplayData GetSpriteDrawData() const;
 };

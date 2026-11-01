@@ -65,8 +65,8 @@ EHActorComponent* EHActor::GetActorComponent(const FName& componentId) const {
     return nullptr;
 }
 
-void EHActor::DisplayActor(std::vector<FSpriteDisplayData> &displayData) const {
+void EHActor::DisplayActor(FRenderQueue& displayData, const FRenderContext& context) const {
     for (const auto& displayable : displayables) {
-        displayData.push_back(displayable->GetSpriteDrawData());
+        displayable->CollectDrawCommands(displayData, context);
     }
 }

@@ -2,6 +2,8 @@
 #include "animation/EHAnimatorComponent.h"
 #include "factory/EHActorComponentFactory.h"
 #include "hitbox/EHHitboxComponent.h"
+#include "gamemode/EHGameModeTraining.h"
+#include "gamemode/EHGameModeReplay.h"
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -336,6 +338,48 @@ namespace {
         CheckOverlap(source, &target, false);
     }
 
+    void TestDrawCommands() {
+        EHGameModeTraining training;
+        EHGameModeFighting fighting;
+        EHGameModeReplay replay;
+        EHGameMode normal;
+        EHActor actor;
+        auto& boxes = AttachBoxes(actor, json::array({
+            Box("attack", EHitboxType::Hitbox, FVector(1, 2), FVector(3, 4)),
+            Box("body", EHitboxType::Hurtbox, FVector::Zero, FVector(2, 2)),
+            Box("inactive", EHitboxType::Hitbox, FVector::Zero, FVector(2, 2), false),
+            Box("empty", EHitboxType::Hitbox, FVector::Zero, FVector::Zero)}));
+        actor.SetPosition(FVector(10, 20));
+        actor.SetScale(FVector(-2, 3));
+        FRenderQueue queue;
+        for (const EHGameMode* mode : {static_cast<const EHGameMode*>(nullptr),
+                static_cast<const EHGameMode*>(&normal), static_cast<const EHGameMode*>(&fighting), static_cast<const EHGameMode*>(&replay)}) {
+            actor.DisplayActor(queue, FRenderContext{mode});
+            Check((queue.sprites.empty() && queue.debugRectangles.empty()), "Hitboxes rendered outside training mode");
+        }
+        actor.DisplayActor(queue, FRenderContext{&training});
+        Check(queue.debugRectangles.size() == 2, "Expected one command per active nonempty box");
+        bool foundAttack = false;
+        bool foundBody = false;
+        Check(queue.sprites.empty(), "Hitboxes unexpectedly emitted sprite commands");
+        for (const auto& command : queue.debugRectangles) {
+            const auto* rectangle = &command;
+            if (rectangle->outlineColor.r == 255) {
+                foundAttack = true;
+                CheckBounds(rectangle->bounds, FVector(2, 26), FVector(6, 12));
+            } else {
+                foundBody = true;
+                CheckBounds(rectangle->bounds, FVector(6, 20), FVector(4, 6));
+            }
+        }
+        Check(foundAttack && foundBody, "Missing attack or hurtbox visualization");
+        Check(boxes.IsActive(FName("inactive")) == false, "Rendering changed activation");
+        boxes.SetActive(FName("attack"), false);
+        queue.debugRectangles.clear();
+        actor.DisplayActor(queue, FRenderContext{&training});
+        Check(queue.debugRectangles.size() == 1, "Deactivated attack remained visible");
+    }
+
     void TestLuaAndAnimation(EHGameInstance& instance) {
         EHGameMode mode;
         EHActor* first = mode.CreateActor(FName("hitbox_test_actor"));
@@ -409,6 +453,7 @@ int main() {
         TestOverlapTypes();
         TestOverlapGeometry();
         TestActiveListsAndHistory();
+        TestDrawCommands();
         EHGameInstance instance;
         TestLuaAndAnimation(instance);
         std::cout << "Hitbox validation, overlaps, activation, Lua reset, and animation smoke checks passed\n";

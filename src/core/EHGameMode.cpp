@@ -129,8 +129,8 @@ void EHGameMode::LateTickActors(float deltaTime) const {
     }
 }
 
-void EHGameMode::DisplayGameMode(std::vector<FSpriteDisplayData> &displayData) const {
+void EHGameMode::DisplayGameMode(FRenderQueue& displayData, const FRenderContext& context) const {
     for (EHActor* actor : displayableActors) {
-        actor->DisplayActor(displayData);
+        actor->DisplayActor(displayData, context);
     }
 }
