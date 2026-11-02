@@ -15,6 +15,7 @@ public:
     const static FName ColorPaletteComponentId;
     const static FName InputComponentId;
     const static FName HitboxComponentId;
+    const static FName BoxColliderComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

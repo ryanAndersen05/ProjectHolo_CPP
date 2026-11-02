@@ -37,13 +37,14 @@ void EHCamera::DrawGame(sf::RenderWindow &window, const FRenderQueue& displayabl
         FVector position = data.position;
         position = position * EHGameInstance::GetPixelToUnitConversion();
         position.y = -position.y;
-        position = position - spriteData.pivot;
         position = position + offsetPosition;
         position = position * pixelScale;
 
 
         sf::Sprite sprite(*drawData.texture,
             sf::IntRect({spriteData.point.x, spriteData.point.y},{spriteData.size.x, spriteData.size.y}));
+        // The actor position anchors the pivot, including under scale and mirroring.
+        sprite.setOrigin({static_cast<float>(spriteData.pivot.x), static_cast<float>(spriteData.pivot.y)});
         sprite.setPosition({position.x, position.y});
         FVector spriteScale = FVector::One * pixelScale;
         spriteScale = FVector(spriteScale.x * data.scale.x, spriteScale.y * data.scale.y);

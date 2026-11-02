@@ -1,6 +1,14 @@
-﻿{
+{
   "actorType": "character",
   "components": [
+    {
+      "componentType": "boxcollider",
+      "componentName": "boxcollider",
+      "data": {
+        "size": { "x": 1, "y": 2 },
+        "offset": { "x": 0, "y": 0 }
+      }
+    },
     {
       "componentType": "physics",
       "componentName": "physics",

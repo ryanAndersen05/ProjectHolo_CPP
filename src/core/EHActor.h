@@ -18,6 +18,7 @@ public:
 
 class EHActor
 {
+    friend class EHPhysicsSystem;
 private:
     bool isActive;
     FVector position;

@@ -5,19 +5,21 @@
 
 using json = nlohmann::json;
 
-class EHPhysicsComponent : public EHActorComponent, public ITickable {
+class EHPhysicsComponent : public EHActorComponent {
 public:
     static constexpr float GravityConst = 9.8f;
 private:
     FVector velocity;
     bool useGravity;
+    friend class EHPhysicsSystem;
     float gravityScale;
     bool useTerminalVelocity;
     float terminalVelocity;
 
 public:
     EHPhysicsComponent() : EHActorComponent(), velocity(FVector::Zero), useGravity(true), gravityScale(1.0f), useTerminalVelocity(true), terminalVelocity(0.0f) {}
-    void Tick(float deltaTime) override;
+    // Standalone simulation; game modes use EHPhysicsSystem after component ticks.
+    void Tick(float deltaTime);
     void UpdateVelocityFromGravity(float deltaTime);
     void UpdatePositionFromVelocity(float deltaTime);
     void SetVelocity(const FVector& vel) { velocity = vel;}

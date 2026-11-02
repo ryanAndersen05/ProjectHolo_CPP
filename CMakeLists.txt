@@ -96,3 +96,28 @@ if(PROJECT_HOLO_BUILD_HITBOX_TESTS)
                 "PATH=path_list_prepend:${HITBOX_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_PHYSICS_TESTS "Build character physics checks" OFF)
+if(PROJECT_HOLO_BUILD_PHYSICS_TESTS)
+    add_executable(ProjectHoloPhysicsTests
+            tests/physics/EHPhysicsTests.cpp
+            src/core/EHActor.cpp
+            src/core/EHActorComponent.cpp
+            src/library/EHLibrary.cpp
+            src/physics/EHPhyicsComponent.cpp
+            src/physics/EHBoxColliderComponent.cpp
+            src/physics/EHPhysicsSystem.cpp)
+    target_include_directories(ProjectHoloPhysicsTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloPhysicsTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloPhysicsTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloPhysicsTests PRIVATE SFML::Graphics)
+    enable_testing()
+    add_test(NAME character-physics COMMAND ProjectHoloPhysicsTests)
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(PHYSICS_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST character-physics APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${PHYSICS_TEST_COMPILER_DIR}")
+    endif()
+endif()

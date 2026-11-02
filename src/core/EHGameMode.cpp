@@ -1,4 +1,5 @@
 ﻿#include "EHGameMode.h"
+#include "physics/EHPhysicsSystem.h"
 
 #include <iostream>
 
@@ -114,6 +115,7 @@ void EHGameMode::OnActorActive(bool isActive, EHActor *actor) {
 
 void EHGameMode::TickGameMode(float deltaTime) {
     TickActors(deltaTime);
+    EHPhysicsSystem::Step(allActors, deltaTime);
     LateTickActors(deltaTime);
 }
 
