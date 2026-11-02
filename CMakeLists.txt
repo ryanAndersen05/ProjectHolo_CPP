@@ -121,3 +121,27 @@ if(PROJECT_HOLO_BUILD_PHYSICS_TESTS)
                 "PATH=path_list_prepend:${PHYSICS_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_INPUT_TESTS "Build directional input checks" OFF)
+if(PROJECT_HOLO_BUILD_INPUT_TESTS)
+    set(INPUT_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM INPUT_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloInputTests tests/input/EHDirectionalInputTests.cpp ${INPUT_TEST_SOURCES})
+    target_include_directories(ProjectHoloInputTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloInputTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloInputTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloInputTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME directional-input COMMAND ProjectHoloInputTests)
+    set_tests_properties(directional-input PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/input/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(INPUT_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST directional-input APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${INPUT_TEST_COMPILER_DIR}")
+    endif()
+endif()

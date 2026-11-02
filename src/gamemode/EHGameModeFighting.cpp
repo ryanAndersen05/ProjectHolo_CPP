@@ -23,8 +23,7 @@ void EHGameModeFighting::InitializeGameMode() {
     int i = 0;
     for (const auto& playerSettings : MatchSettings.playerSettings) {
         auto* controller = dynamic_cast<EHController*>(CreateActor(playerSettings.controllerType));
-        auto* playerController = dynamic_cast<EHPlayerController*>(controller);
-        if (playerController) playerController->SetInputDeviceId(playerSettings.inputDeviceId);
+        if (auto* playerController = dynamic_cast<EHPlayerController*>(controller)) playerController->SetInputDeviceId(playerSettings.inputDeviceId);
         AddController(controller);
         EHCharacterTableRow characterData;
         if (!dataTableManager->GetCharacterDataById(playerSettings.characterId, characterData)) {
@@ -35,16 +34,15 @@ void EHGameModeFighting::InitializeGameMode() {
         character->SetPosition(FVector(3.f * (i % 2 == 0 ? -1.f : 1.f), 0));
         EHPaletteComponent* palette = character->GetPaletteComponent();
         palette->ApplyColorPalette(playerSettings.characterId, playerSettings.colorSelection);
-        EHCharacterMovementComponent* movement = dynamic_cast<EHCharacterMovementComponent*>(character->GetActorComponent(FName("movement")));
-        if (movement) movement->SetIsFacingLeft(i % 2 == 0);
+        if (EHCharacterMovementComponent* movement = dynamic_cast<EHCharacterMovementComponent*>(character->GetActorComponent(FName("movement")))) movement->SetIsFacingLeft(i % 2 == 0);
         i++;
     }
 }
 
 void EHGameModeFighting::TickGameMode(float deltaTime) {
-    EHGameMode::TickGameMode(deltaTime);
     for (EHController* controller : controllers) {
         controller->TickController(gameFrame);
     }
+    EHGameMode::TickGameMode(deltaTime);
     gameFrame++;
 }

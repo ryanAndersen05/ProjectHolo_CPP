@@ -3,6 +3,12 @@ local states = {}
 local StateMachineCommon = require("assets.animation.statemachine")
 
 states.parameters = {
+    ["doubleForward"] = StateMachineCommon.EParameterType.Trigger,
+    ["doubleBack"] = StateMachineCommon.EParameterType.Trigger,
+    ["doubleDown"] = StateMachineCommon.EParameterType.Trigger,
+    ["qcf"] = StateMachineCommon.EParameterType.Trigger,
+    ["qcb"] = StateMachineCommon.EParameterType.Trigger,
+    ["doubleQcf"] = StateMachineCommon.EParameterType.Trigger,
     ["hInput"] = StateMachineCommon.EParameterType.Int,
     ["vInput"] = StateMachineCommon.EParameterType.Int,
     ["inAir"] = StateMachineCommon.EParameterType.Bool,
