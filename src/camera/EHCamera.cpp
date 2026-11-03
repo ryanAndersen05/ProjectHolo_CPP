@@ -16,7 +16,9 @@ EHCamera::~EHCamera() {
 void EHCamera::DrawGame(sf::RenderWindow &window, const FRenderQueue& displayables) const {
     float horizontalOffset = cameraSize * 0.5f ;
     float verticalOffset = (cameraSize * 9.f / 16.f) * 0.5f;
-    FVector offsetPosition = -(offset + GetActorPosition()) + FVector(horizontalOffset, verticalOffset);
+    const FVector cameraPosition = offset + GetActorPosition();
+    // World Y points up; screen Y points down, so camera translation uses the opposite sign.
+    FVector offsetPosition(horizontalOffset - cameraPosition.x, verticalOffset + cameraPosition.y);
     offsetPosition = offsetPosition * EHGameInstance::GetPixelToUnitConversion();
 
     float pixelScale = EHUserSettings::ScreenWidth / (EHGameInstance::GetPixelToUnitConversion() * cameraSize);

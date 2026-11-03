@@ -41,10 +41,10 @@ public:
     actorId(0), name(FName()), owner(nullptr), OnActorActive(EHDelegate<bool, EHActor*>()) {}
     virtual ~EHActor();
 
-    virtual void InitializeActor(int id);
+    virtual void InitializeActor(const json& componentJson);
 
     void TickActor(float deltaTime) const;
-    void LateTickActor(float deltaTime) const;
+    void LateTickActor(float deltaTime);
 
     void SetIsActive(bool active);
     void SetPosition(const FVector& pos) { this->position = pos; }
@@ -59,12 +59,14 @@ public:
     [[nodiscard]] FVector GetScale() const { return scale; }
     [[nodiscard]] float GetActorTimeScale() const { return timeScale; }
     [[nodiscard]] bool GetIsTickable() const { return !tickables.empty(); }
-    [[nodiscard]] bool GetIsLateTickable() const { return !lateTickables.empty(); }
+    [[nodiscard]] bool GetIsLateTickable() const { return dynamic_cast<const ILateTickable*>(this) != nullptr || !lateTickables.empty(); }
     [[nodiscard]] bool GetIsDisplayable() const { return !displayables.empty(); }
 
     [[nodiscard]] EHActor* GetOwner() const { return owner; }
     [[nodiscard]] EHActorComponent* GetActorComponent(const FName& componentId) const;
-    void AddComponent(const FName& componentId, EHActorComponent* component);
     void DisplayActor(FRenderQueue& displayData, const FRenderContext& context) const;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHActor, name)
+
+private:
+    void AddComponent(const FName& componentId, EHActorComponent* component);
 };

@@ -1,9 +1,19 @@
 #include "EHActor.h"
 #include "EHActorComponent.h"
+#include "factory/EHActorComponentFactory.h"
 
-void EHActor::InitializeActor(int id)
+void EHActor::InitializeActor(const json& componentJson)
 {
-    this->actorId = id;
+    if (auto* tickable = dynamic_cast<ITickable*>(this)) tickables.push_back(tickable);
+    if (auto* lateTickable = dynamic_cast<ILateTickable*>(this)) lateTickables.push_back(lateTickable);
+
+    for (auto& component : componentJson) {
+        FName componentType = component.at("componentType").get<FName>();
+        FName componentName = component.at("componentName").get<FName>();
+        json componentData = component.at("data");
+        EHActorComponent* actorComponent = EHActorComponentFactory::CreateActorComponent(componentType, componentData);
+        AddComponent(componentName, actorComponent);
+    }
 }
 
 EHActor::~EHActor()
@@ -29,8 +39,9 @@ void EHActor::TickActor(float deltaTime) const {
     }
 }
 
-void EHActor::LateTickActor(float deltaTime) const {
+void EHActor::LateTickActor(float deltaTime) {
     float scaleTime = timeScale * deltaTime;
+    if (auto* lateTickableActor = dynamic_cast<ILateTickable*>(this)) lateTickableActor->LateTick(scaleTime);
     for (ILateTickable* lateTickable : lateTickables) {
         lateTickable->LateTick(scaleTime);
     }

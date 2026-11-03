@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "character/EHCharacter.h"
+#include "camera/EHFollowCamera.h"
 #include "character/EHCharacterMovementComponent.h"
 #include "character/EHPaletteComponent.h"
 #include "controller/EHPlayerController.h"
@@ -14,7 +15,7 @@ void EHGameModeFighting::InitializeGameMode() {
     EHGameMode::InitializeGameMode();
     if (!MatchSettings.IsValid()) MatchSettings = defaultMatchSettings;
 
-    CreateActor(FName("camera"), FVector(0, 0));
+    auto* followCamera = dynamic_cast<EHCameraFollow*>(CreateActor(FName("camera"), FVector(0, 0)));
     if (MatchSettings.playerSettings.size() < 2) {
         std::cerr << "Invalid size for Player Settings" << std::endl;
         return;
@@ -32,6 +33,7 @@ void EHGameModeFighting::InitializeGameMode() {
         auto* character = dynamic_cast<EHCharacter*>(CreateActor(characterData.GetAssetId()));
         character->AssignController(controller);
         character->SetPosition(FVector(3.f * (i % 2 == 0 ? -1.f : 1.f), 0));
+        if (followCamera) followCamera->AddTargetActor(character);
         EHPaletteComponent* palette = character->GetPaletteComponent();
         palette->ApplyColorPalette(playerSettings.characterId, playerSettings.colorSelection);
         if (EHCharacterMovementComponent* movement = dynamic_cast<EHCharacterMovementComponent*>(character->GetActorComponent(FName("movement")))) movement->SetIsFacingLeft(i % 2 == 0);

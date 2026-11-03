@@ -53,13 +53,7 @@ EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVe
     newActor->SetScale(scale);
 
     json componentJson = actorJson.at("components");
-    for (auto& component : componentJson) {
-        FName componentType = component.at("componentType").get<FName>();
-        FName componentName = component.at("componentName").get<FName>();
-        json componentData = component.at("data");
-        EHActorComponent* actorComponent = EHActorComponentFactory::CreateActorComponent(componentType, componentData);
-        newActor->AddComponent(componentName, actorComponent);
-    }
+    newActor->InitializeActor(componentJson);
     allActors.push_back(newActor);
     if (newActor->GetIsActive()) {
         if (newActor->GetIsTickable()) tickableActors.push_back(newActor);

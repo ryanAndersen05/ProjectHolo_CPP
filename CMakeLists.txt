@@ -145,3 +145,27 @@ if(PROJECT_HOLO_BUILD_INPUT_TESTS)
                 "PATH=path_list_prepend:${INPUT_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_CAMERA_TESTS "Build follow camera checks" OFF)
+if(PROJECT_HOLO_BUILD_CAMERA_TESTS)
+    set(CAMERA_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM CAMERA_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloCameraTests tests/camera/EHFollowCameraTests.cpp ${CAMERA_TEST_SOURCES})
+    target_include_directories(ProjectHoloCameraTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloCameraTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloCameraTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloCameraTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME follow-camera COMMAND ProjectHoloCameraTests)
+    set_tests_properties(follow-camera PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/camera/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(CAMERA_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST follow-camera APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CAMERA_TEST_COMPILER_DIR}")
+    endif()
+endif()

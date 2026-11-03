@@ -1,0 +1,4 @@
+{"rows":[
+{"rowId":"character_table","assetPath":"assets/datatables/characterDataTable.json"},
+{"rowId":"camera","assetPath":"assets/prefabs/camera.json"}
+]}
