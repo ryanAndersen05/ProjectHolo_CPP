@@ -8,6 +8,11 @@ EHSpriteComponent::~EHSpriteComponent() {
 
 void EHSpriteComponent::InitializeComponent(EHActor *actr) {
     EHActorComponent::InitializeComponent(actr);
+    // Plain background sprites do not require a material.
+    if (!materialAsset.vertAsset.IsValid() && !materialAsset.fragAsset.IsValid()) {
+        SetColor(sf::Color::White);
+        return;
+    }
     std::string vertPath;
     std::string fragPath;
     if (!EHGameInstance::GetAssetPath(materialAsset.vertAsset, vertPath)) {
@@ -51,6 +56,7 @@ void EHSpriteComponent::SetColor(const sf::Color &col) {
 }
 
 void from_json(const json& j, EHSpriteComponent& component) {
+    component.drawOrder = j.value("drawOrder", 0);
     FName spriteId = j.at("defaultSprite").get<FName>();
     j.at("spriteOffset").get_to(component.spriteOffset);
     auto mat = j.find("materialAsset");

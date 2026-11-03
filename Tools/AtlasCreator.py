@@ -81,8 +81,8 @@ def writeSpriteToAtlas(atlas_image, occupied_space, sprite_image):
     sprite_data_list = []
     sprite_width, sprite_height = sprite_image.size
     sprite_count = 1
-    if sprite_width > sprite_height:
-        sprite_count = int(sprite_width / sprite_height)
+    if sprite_width > sprite_height and sprite_width % sprite_height == 0:
+        sprite_count = sprite_width // sprite_height
         sprite_width = sprite_height
     for i in range(sprite_count):
         coordinates = findValidCoordinates(occupied_space, (sprite_width, sprite_height))
@@ -118,7 +118,11 @@ for sprite in allfiles:
     atlasImage, occupiedTiles, spriteData = writeSpriteToAtlas(atlasImage, occupiedTiles, img)
     img.close()
     for i in range(len(spriteData)):
-        spriteData[i].spriteId = sprite.stem + format(i, "02d")
+        stringIndex = ""
+        if len(spriteData) > 1:
+            stringIndex = format(i, "02d")
+
+        spriteData[i].spriteId = sprite.stem + stringIndex
         spriteDataCollection.append(spriteData[i].__dict__)
 
 atlasImage.save(atlasName)

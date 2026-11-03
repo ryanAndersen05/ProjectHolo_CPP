@@ -16,6 +16,7 @@ void EHGameModeFighting::InitializeGameMode() {
     if (!MatchSettings.IsValid()) MatchSettings = defaultMatchSettings;
 
     auto* followCamera = dynamic_cast<EHCameraFollow*>(CreateActor(FName("camera"), FVector(0, 0)));
+    if (MatchSettings.sceneId.IsValid()) CreateActor(MatchSettings.sceneId);
     if (MatchSettings.playerSettings.size() < 2) {
         std::cerr << "Invalid size for Player Settings" << std::endl;
         return;

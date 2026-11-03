@@ -14,6 +14,8 @@ public:
     EHCamera();
     ~EHCamera() override;
 
+    [[nodiscard]] FVector GetViewPosition() const { return offset + GetActorPosition(); }
+
     void DrawGame(sf::RenderWindow& window, const FRenderQueue& displayables) const;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHCamera, offset, cameraSize);
 };

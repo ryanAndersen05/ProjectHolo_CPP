@@ -169,3 +169,25 @@ if(PROJECT_HOLO_BUILD_CAMERA_TESTS)
                 "PATH=path_list_prepend:${CAMERA_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_PARALLAX_TESTS "Build parallax world checks" OFF)
+if(PROJECT_HOLO_BUILD_PARALLAX_TESTS)
+    set(PARALLAX_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM PARALLAX_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloParallaxTests tests/parallax/EHParallaxWorldTests.cpp ${PARALLAX_TEST_SOURCES})
+    target_include_directories(ProjectHoloParallaxTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloParallaxTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloParallaxTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloParallaxTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME parallax-world COMMAND ProjectHoloParallaxTests)
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(PARALLAX_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST parallax-world APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${PARALLAX_TEST_COMPILER_DIR}")
+    endif()
+endif()

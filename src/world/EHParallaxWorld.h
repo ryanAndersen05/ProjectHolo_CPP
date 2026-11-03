@@ -1,24 +1,22 @@
 ﻿#pragma once
-#include "interface/ILateTickable.h"
 #include "core/EHActor.h"
-#include "library/EHLibrary.h"
-#include <vector>
+
+class EHSpriteComponent;
 
 struct FBackgroundLayer {
-public:
-    float parallaxEffectStrength;
-    int spriteLength;
     FName componentName;
-    FVector offset;
-
-    FBackgroundLayer() : parallaxEffectStrength(1.0f), spriteLength(480), componentName(FName()), offset(FVector::Zero) {}
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FBackgroundLayer, parallaxEffectStrength, spriteLength, componentName, offset)
+    float z = 0.f;
+    FVector offset = FVector::Zero;
+    EHSpriteComponent* spriteComponent = nullptr; // Resolved once during actor initialization.
 };
 
-class EHParallaxWorld : public EHActor, public ILateTickable {
+class EHParallaxWorld : public EHActor {
 private:
     std::vector<FBackgroundLayer> backgroundLayers;
-
+    FName spriteAsset;
 public:
-    void LateTick(float deltaTime) override;
+    void InitializeActor(const json& componentJson) override;
+    void DisplayActor(FRenderQueue& queue, const FRenderContext& context) const override;
+    [[nodiscard]] const std::vector<FBackgroundLayer>& GetBackgroundLayers() const { return backgroundLayers; }
+    friend void from_json(const json& data, EHParallaxWorld& world);
 };

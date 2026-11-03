@@ -57,7 +57,7 @@ void EHGameInstance::DisplayGame(sf::RenderWindow &window) const {
 
     EHCamera* camera = EHCamera::MainCamera;
     if (gameMode) {
-        gameMode->DisplayGameMode(displayData, FRenderContext{gameMode});
+        gameMode->DisplayGameMode(displayData, FRenderContext{gameMode, camera});
     }
     if (camera) {
         camera->DrawGame(window, displayData);

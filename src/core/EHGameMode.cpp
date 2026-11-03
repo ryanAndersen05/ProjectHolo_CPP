@@ -42,7 +42,7 @@ EHActor* EHGameMode::CreateActor(const FName& actorId, EHActor* owner, const FVe
     }
 
     FName actorType = actorJson.at("actorType").get<FName>();
-    EHActor* newActor = EHActorFactory::CreateActor(actorType);
+    EHActor* newActor = EHActorFactory::CreateActor(actorType, actorJson.value("data", json::object()));
     if (!newActor) {
         std::cout << "Failed to create new Actor: " << std::endl;
         return nullptr;

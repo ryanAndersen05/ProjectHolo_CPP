@@ -1,6 +1,18 @@
-﻿{
+{
   "rows":
           [
+            {
+              "rowId": "atlantis",
+              "assetPath": "assets/level/atlantis.json"
+            },
+            {
+              "rowId": "atlantis_background_atlas",
+              "assetPath": "assets/sprites/backgrounds/atlantis/atlantisAtlas.json"
+            },
+            {
+              "rowId": "atlantis_atlas_sprite",
+              "assetPath": "assets/sprites/backgrounds/atlantis/atlantisAtlas.png"
+            },
             {
               "rowId": "game_settings",
               "assetPath": "assets/gameSettings.json"

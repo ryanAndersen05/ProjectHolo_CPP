@@ -3,9 +3,11 @@
 #include <vector>
 
 class EHGameMode;
+class EHCamera;
 
 struct FRenderContext {
     const EHGameMode* gameMode = nullptr;
+    const EHCamera* camera = nullptr;
 };
 
 struct FRectangleDrawCommand {

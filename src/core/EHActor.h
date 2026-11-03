@@ -64,7 +64,7 @@ public:
 
     [[nodiscard]] EHActor* GetOwner() const { return owner; }
     [[nodiscard]] EHActorComponent* GetActorComponent(const FName& componentId) const;
-    void DisplayActor(FRenderQueue& displayData, const FRenderContext& context) const;
+    virtual void DisplayActor(FRenderQueue& displayData, const FRenderContext& context) const;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHActor, name)
 
 private:

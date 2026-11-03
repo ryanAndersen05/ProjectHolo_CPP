@@ -1,0 +1,95 @@
+{
+  "spriteAsset": "atlantis_atlas_sprite",
+  "sprites": [
+    {
+      "spriteId": "atlantis_city",
+      "point": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "atlantis_city_back",
+      "point": {
+        "x": 0,
+        "y": 240
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "atlantis_city_back2",
+      "point": {
+        "x": 480,
+        "y": 0
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "atlantis_ground",
+      "point": {
+        "x": 480,
+        "y": 240
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "atlantis_lighting",
+      "point": {
+        "x": 0,
+        "y": 480
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "atlantis_ripple",
+      "point": {
+        "x": 480,
+        "y": 480
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    }
+  ]
+}
