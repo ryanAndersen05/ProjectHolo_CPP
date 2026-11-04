@@ -1,0 +1,140 @@
+{
+  "spriteAsset": "shrine_atlas_sprite",
+  "sprites": [
+    {
+      "spriteId": "ancient_shrine_01",
+      "point": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "ancient_shrine_02",
+      "point": {
+        "x": 0,
+        "y": 240
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "ancient_shrine_03",
+      "point": {
+        "x": 480,
+        "y": 0
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "ancient_shrine_04",
+      "point": {
+        "x": 480,
+        "y": 240
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "rain_drop",
+      "point": {
+        "x": 960,
+        "y": 0
+      },
+      "size": {
+        "x": 8,
+        "y": 8
+      },
+      "pivot": {
+        "x": 4,
+        "y": 8
+      }
+    },
+    {
+      "spriteId": "rain_drop_impact00",
+      "point": {
+        "x": 968,
+        "y": 0
+      },
+      "size": {
+        "x": 8,
+        "y": 8
+      },
+      "pivot": {
+        "x": 4,
+        "y": 8
+      }
+    },
+    {
+      "spriteId": "rain_drop_impact01",
+      "point": {
+        "x": 976,
+        "y": 0
+      },
+      "size": {
+        "x": 8,
+        "y": 8
+      },
+      "pivot": {
+        "x": 4,
+        "y": 8
+      }
+    },
+    {
+      "spriteId": "rain_drop_impact02",
+      "point": {
+        "x": 984,
+        "y": 0
+      },
+      "size": {
+        "x": 8,
+        "y": 8
+      },
+      "pivot": {
+        "x": 4,
+        "y": 8
+      }
+    },
+    {
+      "spriteId": "rain_drop_impact03",
+      "point": {
+        "x": 992,
+        "y": 0
+      },
+      "size": {
+        "x": 8,
+        "y": 8
+      },
+      "pivot": {
+        "x": 4,
+        "y": 8
+      }
+    }
+  ]
+}

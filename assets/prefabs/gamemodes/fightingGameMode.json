@@ -4,7 +4,7 @@
   {
     "defaultMatchSettings":
     {
-      "sceneId": "atlantis",
+      "sceneId": "training",
       "winRounds": 2,
       "secondsPerRound": 99,
       "playerSettings":

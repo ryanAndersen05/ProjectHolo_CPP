@@ -7,6 +7,7 @@
 #include <memory>
 #include <fstream>
 #include <filesystem>
+#include <unordered_set>
 #include <stdexcept>
 
 namespace {
@@ -73,36 +74,52 @@ namespace {
         const auto root = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
         std::ifstream tableFile(root / "assets/datatables/assetPathDataTable.json");
         const json table = json::parse(tableFile);
-        std::ifstream atlasFile(root / "assets/sprites/backgrounds/atlantis/atlantisAtlas.json");
-        const json atlas = json::parse(atlasFile);
-        const std::string textureId = atlas.at("spriteAsset").get<std::string>();
-        for (const auto& id : {std::string("atlantis"), std::string("atlantis_background_atlas"), textureId}) {
+        const auto assetPath = [&](const std::string& id) {
+            std::filesystem::path path;
             int matches = 0;
             for (const auto& row : table.at("rows")) {
                 if (row.at("rowId") == id) {
                     ++matches;
-                    Check(std::filesystem::is_regular_file(root / row.at("assetPath").get<std::string>()),
-                        "Stage asset path is missing");
+                    path = root / row.at("assetPath").get<std::string>();
                 }
             }
             Check(matches == 1, "Stage asset registration is missing or duplicated");
-        }
-        std::ifstream stageFile(root / "assets/level/atlantis.json");
-        json stage = json::parse(stageFile);
-        // Keep the real prefab's geometry and ordering; avoid GPU resource creation in checks.
-        stage["data"].erase("spriteAsset");
-        for (auto& component : stage["components"]) component["data"]["defaultSprite"] = "";
-        std::unique_ptr<EHActor> actor(EHActorFactory::CreateActor(
-            stage.at("actorType").get<FName>(), stage.at("data")));
-        actor->InitializeActor(stage.at("components"));
-        FRenderQueue queue;
-        actor->DisplayActor(queue, {});
-        Check(queue.sprites.size() == stage.at("data").at("backgroundLayers").size(),
-            "Atlantis did not produce all authored background layers");
-        for (std::size_t i = 0; i < queue.sprites.size(); ++i) {
-            Check(queue.sprites[i].drawOrder < 0, "Background must render behind characters");
-            if (i > 0) Check(queue.sprites[i - 1].drawOrder < queue.sprites[i].drawOrder,
-                "Atlantis background ordering is incorrect");
+            Check(std::filesystem::is_regular_file(path), "Stage asset path is missing");
+            return path;
+        };
+        for (const char* stageId : {"atlantis", "holotalk", "shrine", "training"}) {
+            std::ifstream stageFile(assetPath(stageId));
+            json stage = json::parse(stageFile);
+            Check(stage.at("actorType") == "parallaxStage", "Incorrect background actor type");
+            Check(!stage.at("data").contains("worldSize") && !stage.at("data").contains("spawnPoints"),
+                "Background stage contains gameplay world rules");
+            std::ifstream atlasFile(assetPath(stage.at("data").at("spriteAsset").get<std::string>()));
+            const json atlas = json::parse(atlasFile);
+            assetPath(atlas.at("spriteAsset").get<std::string>());
+            std::unordered_set<std::string> spriteIds;
+            for (const auto& sprite : atlas.at("sprites")) {
+                Check(spriteIds.insert(sprite.at("spriteId").get<std::string>()).second,
+                    "Atlas contains duplicate sprite names");
+            }
+            for (auto& component : stage["components"]) {
+                Check(spriteIds.contains(component.at("data").at("defaultSprite").get<std::string>()),
+                    "Background references a missing atlas sprite");
+                // Keep authored positions and ordering, without creating GPU resources in checks.
+                component["data"]["defaultSprite"] = "";
+            }
+            stage["data"].erase("spriteAsset");
+            std::unique_ptr<EHActor> actor(EHActorFactory::CreateActor(
+                stage.at("actorType").get<FName>(), stage.at("data")));
+            actor->InitializeActor(stage.at("components"));
+            FRenderQueue queue;
+            actor->DisplayActor(queue, {});
+            Check(!queue.sprites.empty() && queue.sprites.size() == stage.at("data").at("backgroundLayers").size(),
+                "Stage did not produce all authored background layers");
+            for (std::size_t i = 0; i < queue.sprites.size(); ++i) {
+                Check(queue.sprites[i].drawOrder < 0, "Background must render behind characters");
+                if (i > 0) Check(queue.sprites[i - 1].drawOrder < queue.sprites[i].drawOrder,
+                    "Background layer ordering is incorrect");
+            }
         }
     }
     void TestValidationAndFactory() {

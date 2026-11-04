@@ -1,0 +1,74 @@
+{
+  "actorType": "parallaxStage",
+  "data": {
+    "spriteAsset": "shrine_background_atlas",
+    "backgroundLayers": [
+      {
+        "componentName": "mountains",
+        "z": 8
+      },
+      {
+        "componentName": "distantTrees",
+        "z": 4
+      },
+      {
+        "componentName": "nearTrees",
+        "z": 1
+      },
+      {
+        "componentName": "ground",
+        "z": 0
+      }
+    ]
+  },
+  "components": [
+    {
+      "componentType": "sprite",
+      "componentName": "mountains",
+      "data": {
+        "defaultSprite": "ancient_shrine_04",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -20
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "distantTrees",
+      "data": {
+        "defaultSprite": "ancient_shrine_03",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -15
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "nearTrees",
+      "data": {
+        "defaultSprite": "ancient_shrine_02",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -10
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "ground",
+      "data": {
+        "defaultSprite": "ancient_shrine_01",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -5
+      }
+    }
+  ]
+}

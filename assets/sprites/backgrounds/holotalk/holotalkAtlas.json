@@ -1,0 +1,425 @@
+{
+  "spriteAsset": "holotalk_atlas_sprite",
+  "sprites": [
+    {
+      "spriteId": "holotalk_boommic00",
+      "point": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_boommic01",
+      "point": {
+        "x": 96,
+        "y": 0
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_boommic02",
+      "point": {
+        "x": 0,
+        "y": 96
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_cityback",
+      "point": {
+        "x": 0,
+        "y": 192
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "holotalk_cityfront",
+      "point": {
+        "x": 480,
+        "y": 0
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "holotalk_crewcam00",
+      "point": {
+        "x": 192,
+        "y": 0
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_crewcam01",
+      "point": {
+        "x": 288,
+        "y": 0
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_crewcam02",
+      "point": {
+        "x": 384,
+        "y": 0
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "holotalk_guest00",
+      "point": {
+        "x": 96,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_guest01",
+      "point": {
+        "x": 160,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_guest02",
+      "point": {
+        "x": 224,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_guest03",
+      "point": {
+        "x": 288,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_guest04",
+      "point": {
+        "x": 352,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair00",
+      "point": {
+        "x": 416,
+        "y": 96
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair01",
+      "point": {
+        "x": 480,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair02",
+      "point": {
+        "x": 544,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair03",
+      "point": {
+        "x": 608,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair04",
+      "point": {
+        "x": 672,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_hair05",
+      "point": {
+        "x": 736,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_host00",
+      "point": {
+        "x": 800,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_host01",
+      "point": {
+        "x": 864,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_host02",
+      "point": {
+        "x": 928,
+        "y": 240
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_host03",
+      "point": {
+        "x": 480,
+        "y": 304
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_host04",
+      "point": {
+        "x": 544,
+        "y": 304
+      },
+      "size": {
+        "x": 64,
+        "y": 64
+      },
+      "pivot": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "spriteId": "holotalk_sky",
+      "point": {
+        "x": 480,
+        "y": 368
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "holotalk_stagelights",
+      "point": {
+        "x": 0,
+        "y": 432
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "holotalk_stagemain",
+      "point": {
+        "x": 480,
+        "y": 608
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    },
+    {
+      "spriteId": "holotalk_wall",
+      "point": {
+        "x": 0,
+        "y": 672
+      },
+      "size": {
+        "x": 480,
+        "y": 235
+      },
+      "pivot": {
+        "x": 240,
+        "y": 235
+      }
+    }
+  ]
+}

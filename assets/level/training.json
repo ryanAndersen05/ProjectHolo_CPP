@@ -1,0 +1,26 @@
+{
+  "actorType": "parallaxStage",
+  "data": {
+    "spriteAsset": "training_background_atlas",
+    "backgroundLayers": [
+      {
+        "componentName": "background",
+        "z": 0
+      }
+    ]
+  },
+  "components": [
+    {
+      "componentType": "sprite",
+      "componentName": "background",
+      "data": {
+        "defaultSprite": "training",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -5
+      }
+    }
+  ]
+}

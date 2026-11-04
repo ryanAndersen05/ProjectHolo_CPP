@@ -1,7 +1,47 @@
 {
   "rows":
           [
-            { "rowId": "default_world", "assetPath": "assets/prefabs/world/world.json" },
+            {
+              "rowId": "holotalk",
+              "assetPath": "assets/level/holotalk.json"
+            },
+            {
+              "rowId": "holotalk_background_atlas",
+              "assetPath": "assets/sprites/backgrounds/holotalk/holotalkAtlas.json"
+            },
+            {
+              "rowId": "holotalk_atlas_sprite",
+              "assetPath": "assets/sprites/backgrounds/holotalk/holotalkAtlas.png"
+            },
+            {
+              "rowId": "shrine",
+              "assetPath": "assets/level/shrine.json"
+            },
+            {
+              "rowId": "shrine_background_atlas",
+              "assetPath": "assets/sprites/backgrounds/shrine/shrineAtlas.json"
+            },
+            {
+              "rowId": "shrine_atlas_sprite",
+              "assetPath": "assets/sprites/backgrounds/shrine/shrineAtlas.png"
+            },
+            {
+              "rowId": "training",
+              "assetPath": "assets/level/training.json"
+            },
+            {
+              "rowId": "training_background_atlas",
+              "assetPath": "assets/sprites/backgrounds/training/trainingAtlas.json"
+            },
+            {
+              "rowId": "training_atlas_sprite",
+              "assetPath": "assets/sprites/backgrounds/training/trainingAtlas.png"
+            },
+
+            {
+              "rowId": "default_world",
+              "assetPath": "assets/prefabs/world/world.json"
+            },
             {
               "rowId": "atlantis",
               "assetPath": "assets/level/atlantis.json"

@@ -1,0 +1,106 @@
+{
+  "actorType": "parallaxStage",
+  "data": {
+    "spriteAsset": "holotalk_background_atlas",
+    "backgroundLayers": [
+      {
+        "componentName": "sky",
+        "z": 10
+      },
+      {
+        "componentName": "cityback",
+        "z": 6
+      },
+      {
+        "componentName": "cityfront",
+        "z": 3
+      },
+      {
+        "componentName": "wall",
+        "z": 0
+      },
+      {
+        "componentName": "stagemain",
+        "z": 0
+      },
+      {
+        "componentName": "stagelights",
+        "z": 0
+      }
+    ]
+  },
+  "components": [
+    {
+      "componentType": "sprite",
+      "componentName": "sky",
+      "data": {
+        "defaultSprite": "holotalk_sky",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -30
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "cityback",
+      "data": {
+        "defaultSprite": "holotalk_cityback",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -25
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "cityfront",
+      "data": {
+        "defaultSprite": "holotalk_cityfront",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -20
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "wall",
+      "data": {
+        "defaultSprite": "holotalk_wall",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -15
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "stagemain",
+      "data": {
+        "defaultSprite": "holotalk_stagemain",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -10
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "stagelights",
+      "data": {
+        "defaultSprite": "holotalk_stagelights",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "drawOrder": -5
+      }
+    }
+  ]
+}
