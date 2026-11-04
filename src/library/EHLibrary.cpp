@@ -47,6 +47,10 @@ float FVector::Dot(const FVector &vec1, const FVector &vec2) {
     return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
+FVector FVector::Lerp(const FVector &vec1, const FVector &vec2, float t) {
+    return  vec1 * (1 - t) + vec2 * t;
+}
+
 std::string FVectorInt::to_string() const {
     return "x: " + std::to_string(x) + "y: " + std::to_string(y);
 }

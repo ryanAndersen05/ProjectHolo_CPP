@@ -162,6 +162,7 @@ namespace {
         auto* physics = dynamic_cast<EHPhysicsComponent*>(actor->GetActorComponent(FName("physics")));
         physics->SetVelocity(FVector(100, 6));
         auto* camera = dynamic_cast<EHCameraFollow*>(mode.CreateActor(FName("test_camera")));
+        camera->SetFollowSpeed(0.f); // Check the resolved world position without camera lag.
         camera->AddTargetActor(actor);
         mode.TickGameMode(1);
         Near(actor->GetPosition().x, 7.5f);
@@ -185,6 +186,7 @@ namespace {
             auto* physics = dynamic_cast<EHPhysicsComponent*>(actor->GetActorComponent(FName("physics")));
             physics->SetVelocity(FVector(100, -10));
             auto* camera = dynamic_cast<EHCameraFollow*>(generic.CreateActor(FName("test_camera")));
+            camera->SetFollowSpeed(0.f);
             camera->AddTargetActor(actor);
             generic.TickGameMode(1);
             Near(actor->GetPosition().x, 20);

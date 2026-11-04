@@ -1,8 +1,9 @@
 #include "EHFollowCamera.h"
 #include "factory/EHActorComponentFactory.h"
 #include <algorithm>
+#include <cmath>
 
-void EHCameraFollow::LateTick(float) {
+void EHCameraFollow::LateTick(float deltaTime) {
     float totalX = 0.f;
     float highestY = 0.f;
     std::size_t count = 0;
@@ -14,7 +15,10 @@ void EHCameraFollow::LateTick(float) {
         ++count;
     }
     if (count == 0) return;
-    SetPosition(FVector(totalX / static_cast<float>(count), std::max(0.f, highestY - heightThreshold)));
+    const FVector targetPosition(totalX / static_cast<float>(count), std::max(0.f, highestY - heightThreshold));
+    // Exponential interpolation gives the same response across different tick rates.
+    const float blend = followSpeed > 0.f ? 1.f - std::exp(-followSpeed * deltaTime) : 1.f;
+    SetPosition(FVector::Lerp(GetPosition(), targetPosition, blend));
 }
 
 void EHCameraFollow::AddTargetActor(EHActor* target) {
@@ -28,6 +32,10 @@ void EHCameraFollow::RemoveTargetActor(EHActor* target) {
 
 void EHCameraFollow::SetHeightThreshold(float threshold) {
     heightThreshold = std::max(0.f, threshold);
+}
+
+void EHCameraFollow::SetFollowSpeed(float speed) {
+    followSpeed = std::max(0.f, speed);
 }
 
 EHCamera* EHCameraFollow::GetMainCamera() const {

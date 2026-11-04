@@ -1,16 +1,17 @@
 local states = dofile("assets/animation/gura/gura.lua")
 local function expect(value, message) assert(value, message or "Gura conversion check failed") end
 
-local function actor(initial)
+local function actor(initial, parameterTypes)
+    parameterTypes = parameterTypes or states.parameters
     local result = { values = {}, sprites = {}, resets = {}, frame = 0 }
-    for name, kind in pairs(states.parameters) do
+    for name, kind in pairs(parameterTypes) do
         if kind == 1 or kind == 4 then result.values[name] = false else result.values[name] = 0 end
     end
     for name, value in pairs(initial or {}) do result.values[name] = value end
     local animator = {}
-    function animator:GetBool(name) expect(states.parameters[name], "Unknown parameter " .. name); return result.values[name] end
-    function animator:GetInt(name) expect(states.parameters[name], "Unknown parameter " .. name); return result.values[name] end
-    function animator:GetFloat(name) expect(states.parameters[name], "Unknown parameter " .. name); return result.values[name] end
+    function animator:GetBool(name) expect(parameterTypes[name], "Unknown parameter " .. name); return result.values[name] end
+    function animator:GetInt(name) expect(parameterTypes[name], "Unknown parameter " .. name); return result.values[name] end
+    function animator:GetFloat(name) expect(parameterTypes[name], "Unknown parameter " .. name); return result.values[name] end
     function animator:ResetTrigger(name) result.values[name] = false; result.resets[name] = (result.resets[name] or 0) + 1 end
     local sprite = {}
     function sprite:SetSprite(name)
@@ -162,7 +163,7 @@ for _, character in ipairs({ina, kiara}) do
             end
         end
     end
-    local ready = actor({ special = true })
+    local ready = actor({ special = true }, character.parameters)
     local route = character.ina_standingattack or character.kiara_standingattack
     expect(common.evaluateTransitions(ready, route, character.parameters) == (character.ina_standingattack and "ina_sspecial" or "kiara_sspecial"),
         "Unconditional fallback overrode an attack input")

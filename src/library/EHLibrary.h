@@ -33,6 +33,7 @@ public:
     FVector operator-() const { return {-x, -y}; }
 
     static float Dot(const FVector& vec1, const FVector& vec2);
+    static FVector Lerp(const FVector& vec1, const FVector& vec2, float t);
 
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FVector, x, y)

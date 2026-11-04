@@ -18,6 +18,7 @@ namespace {
     }
     void TestFollowing() {
         EHCameraFollow camera;
+        camera.SetFollowSpeed(0.f); // Test target calculation independently of smoothing.
         Check(camera.GetMainCamera() == nullptr, "Unattached camera accessor returned garbage");
         camera.InitializeActor(json::array({{{"componentType", "camera"}, {"componentName", "camera"},
             {"data", {{"offset", FVector::Zero}, {"cameraSize", 20}}}}}));
@@ -71,6 +72,7 @@ namespace {
         EHGameModeFighting mode;
         auto* camera = dynamic_cast<EHCameraFollow*>(mode.CreateActor(FName("camera")));
         Check(camera != nullptr, "Factory did not create follow camera");
+        camera->SetFollowSpeed(0.f);
         // A second follow actor can act as a moving target without any character assets.
         EHActor* target = mode.CreateActor(FName("moving_camera"));
         auto* physics = dynamic_cast<EHPhysicsComponent*>(target->GetActorComponent(FName("physics")));
@@ -80,10 +82,40 @@ namespace {
         Position(*target, 4, 6);
         Position(*camera, 4, 1); // Must use the post-physics position this same step.
     }
+    void TestSmoothing() {
+        EHActor target;
+        target.SetPosition(FVector(10, 9));
+        EHCameraFollow camera;
+        camera.AddTargetActor(&target);
+        camera.LateTick(0.f);
+        Position(camera, 0, 0);
+        camera.LateTick(1.f / 60.f);
+        const FVector firstStep = camera.GetPosition();
+        Check(firstStep.x > 0.f && firstStep.x < 10.f && firstStep.y > 0.f && firstStep.y < 4.f,
+            "Camera snapped or overshot instead of smoothing both axes");
+        camera.LateTick(2.f);
+        Position(camera, 10, 4); // A long step approaches the target without overshooting.
+
+        EHCameraFollow sixtyHz, thirtyHz;
+        sixtyHz.AddTargetActor(&target);
+        thirtyHz.AddTargetActor(&target);
+        for (int i = 0; i < 12; ++i) sixtyHz.LateTick(1.f / 60.f);
+        for (int i = 0; i < 6; ++i) thirtyHz.LateTick(1.f / 30.f);
+        const FVector atSixtyHz = sixtyHz.GetPosition();
+        Position(thirtyHz, atSixtyHz.x, atSixtyHz.y);
+
+        camera.SetFollowSpeed(0.f);
+        target.SetPosition(FVector(-5, 2));
+        camera.LateTick(1.f / 60.f);
+        Position(camera, -5, 0);
+        camera.SetFollowSpeed(-1.f);
+        Check(camera.GetFollowSpeed() == 0.f, "Negative follow speed was not clamped");
+    }
 }
 int main() {
     try {
         TestFollowing();
+        TestSmoothing();
         TestGameModePhase();
         std::cout << "Follow camera checks passed\n";
     } catch (const std::exception& error) {

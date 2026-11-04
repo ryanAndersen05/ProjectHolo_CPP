@@ -4035,6 +4035,171 @@
         "x": 48,
         "y": 96
       }
+    },
+    {
+      "spriteId": "kiara_aheavy00",
+      "point": {
+        "x": 576,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy01",
+      "point": {
+        "x": 672,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy02",
+      "point": {
+        "x": 768,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy03",
+      "point": {
+        "x": 1056,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy04",
+      "point": {
+        "x": 1152,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy05",
+      "point": {
+        "x": 1248,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy06",
+      "point": {
+        "x": 1344,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy07",
+      "point": {
+        "x": 1536,
+        "y": 1280
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_aheavy08",
+      "point": {
+        "x": 864,
+        "y": 1312
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_airdashfend00",
+      "point": {
+        "x": 960,
+        "y": 1312
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
+    },
+    {
+      "spriteId": "kiara_airdashfend01",
+      "point": {
+        "x": 1632,
+        "y": 1312
+      },
+      "size": {
+        "x": 96,
+        "y": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 96
+      }
     }
   ]
 }
