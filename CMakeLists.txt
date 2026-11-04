@@ -215,3 +215,27 @@ if(PROJECT_HOLO_BUILD_WORLD_TESTS)
                 "PATH=path_list_prepend:${WORLD_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_ANIMATOR_TESTS "Build animator any_state checks" OFF)
+if(PROJECT_HOLO_BUILD_ANIMATOR_TESTS)
+    set(ANIMATOR_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM ANIMATOR_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloAnimatorTests tests/animation/EHAnimatorTests.cpp ${ANIMATOR_TEST_SOURCES})
+    target_include_directories(ProjectHoloAnimatorTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloAnimatorTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloAnimatorTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloAnimatorTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME animator-any-state COMMAND ProjectHoloAnimatorTests)
+    set_tests_properties(animator-any-state PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/animation/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(ANIMATOR_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST animator-any-state APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${ANIMATOR_TEST_COMPILER_DIR}")
+    endif()
+endif()

@@ -9,16 +9,20 @@ using json = nlohmann::json;
 class EHAnimatorComponent : public EHActorComponent, public ITickable
 {
 private:
+    static const FName AnyStateKey;
     FName stateMachineAsset;
 
     FName currentState;
     sol::table stateMachineTable;
+    sol::table anyState;
     std::unordered_map<FName, FParameterValue> parameters;
     int frame;
 
 public:
     EHAnimatorComponent() : EHActorComponent(), frame(0) {}
     void InitializeComponent(EHActor *actr) override;
+    bool EvaluateState(const sol::table& state, FName& outState);
+    bool TickCurrentState();
     void Tick(float deltaTime) override;
 
     [[nodiscard]] bool GetBool(const FName& parameter);
@@ -33,9 +37,5 @@ public:
 
     void SetCurrentState(const FName& newState);
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHAnimatorComponent, stateMachineAsset);
-
-private:
-    void InitializeParameters();
-
 };
 

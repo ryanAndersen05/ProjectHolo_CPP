@@ -2,24 +2,44 @@
 #include "core/EHGameInstance.h"
 #include "sprite/EHSpriteManager.h"
 
+const FName EHAnimatorComponent::AnyStateKey("any_state");
 
 void EHAnimatorComponent::Tick(float)
 {
+    if (TickCurrentState()) return;
+    frame++;
+}
+
+bool EHAnimatorComponent::TickCurrentState() {
+    FName nextState;
+    if (EvaluateState(anyState, nextState)) {
+        SetCurrentState(nextState);
+        return true;
+    }
     sol::table state = stateMachineTable[currentState.GetKey()];
-    if (state.valid()) {
-        sol::protected_function tickFunction = state["tick"];
-        if (tickFunction.valid()) {
-            sol::protected_function_result result = tickFunction(state, GetActor(), frame);
-            if (result.valid()) {
-                if (result.get_type() == sol::type::string) {
-                    // If we get a string result it will tell us that we need to change to a new state
-                    SetCurrentState(FName(result.get<std::string>()));
-                    return;
-                }
+    if (EvaluateState(state, nextState)) {
+        SetCurrentState(nextState);
+        return true;
+    }
+    return false;
+}
+
+bool EHAnimatorComponent::EvaluateState(const sol::table &state, FName& outState) {
+
+    if (!state.valid()) return false;
+
+    sol::protected_function tickFunction = state["tick"];
+    if (tickFunction.valid()) {
+        sol::protected_function_result result = tickFunction(state, GetActor(), frame);
+        if (result.valid()) {
+            if (result.get_type() == sol::type::string) {
+                // If we get a string result it will tell us that we need to change to a new state
+                outState = result.get<std::string>();
+                return true;
             }
         }
     }
-    frame++;
+    return false;
 }
 
 void EHAnimatorComponent::InitializeComponent(EHActor *actr) {
@@ -32,6 +52,8 @@ void EHAnimatorComponent::InitializeComponent(EHActor *actr) {
     luaScripting->LoadTable(stateMachineAsset);
     stateMachineTable = luaScripting->GetTable(stateMachineAsset);
     if (stateMachineTable.valid()) {
+        sol::optional<sol::table> anyStateTable = stateMachineTable[AnyStateKey.GetKey()];
+        anyState = anyStateTable.value_or(sol::table{});
         sol::optional<std::string> defaultState = stateMachineTable["defaultState"];
         SetCurrentState(defaultState.value_or(""));
         sol::optional<std::string> spriteAsset = stateMachineTable["spriteAsset"];

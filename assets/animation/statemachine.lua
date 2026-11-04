@@ -97,18 +97,23 @@ StateMachineCommon.validateConditions = function(actor, parameters, conditions)
     return true
 end
 
-StateMachineCommon.evaluateTransitions = function(actor, state, parameters)
-    local transitions = state["transitions"]
-    if transitions then
-        for stateId, conditions in pairs(transitions) do
-            if StateMachineCommon.validateConditions(actor, parameters, conditions) then
-                for _, condition in ipairs(conditions) do
-                    if parameters[condition.parameter] == StateMachineCommon.EParameterType.Trigger then
-                        actor:Animator():ResetTrigger(condition.parameter)
-                    end
-                end
-                return stateId
-            end
+local function consumeTriggers(actor, parameters, conditions)
+    for _, condition in ipairs(conditions) do
+        if parameters[condition.parameter] == StateMachineCommon.EParameterType.Trigger then
+            actor:Animator():ResetTrigger(condition.parameter)
+        end
+    end
+end
+
+StateMachineCommon.evaluateTransitions = function(actor, state, parameters, frame)
+    local transitions = state.transitions
+    if not transitions then return nil end
+    for _, transition in ipairs(transitions) do
+        local conditions = transition.conditions or {}
+        if (not transition.minFrame or (frame and frame >= transition.minFrame))
+            and StateMachineCommon.validateConditions(actor, parameters, conditions) then
+            consumeTriggers(actor, parameters, conditions)
+            return transition.state
         end
     end
     return nil

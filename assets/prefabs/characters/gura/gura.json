@@ -2,11 +2,47 @@
   "actorType": "character",
   "components": [
     {
+      "componentType": "boxcollider",
+      "componentName": "boxcollider",
+      "data": {
+        "size": { "x": 1, "y": 2 },
+        "offset": { "x": 0, "y": 0 }
+      }
+    },
+    {
+      "componentType": "physics",
+      "componentName": "physics",
+      "data": {
+        "useGravity": true,
+        "gravityScale": 1,
+        "useTerminalVelocity": true,
+        "terminalVelocity": 10
+      }
+    },
+    {
       "componentType": "animator",
       "componentName": "animator",
       "data": {
         "stateMachineAsset": "gura_state_machine"
       }
+    },
+    {
+      "componentType": "charactermovement",
+      "componentName": "movement",
+      "data": {
+        "maxWalkSpeed": 3,
+        "maxBackWalkSpeed": 2.5,
+        "maxDashSpeed": 6,
+        "maxBackDashSpeed": 6,
+        "acceleration": 150,
+        "jumpTime": 0.32,
+        "jumpHeight": 2.5
+      }
+    },
+    {
+      "componentType": "input",
+      "componentName": "input",
+      "data": {}
     },
     {
       "componentType": "sprite",

@@ -1,0 +1,6 @@
+{"rows":[
+{"rowId":"character_table","assetPath":"assets/datatables/characterDataTable.json"},
+{"rowId":"animator_any","assetPath":"assets/animation/with_any.lua"},
+{"rowId":"animator_without_any","assetPath":"assets/animation/without_any.lua"},
+{"rowId":"animator_empty_any","assetPath":"assets/animation/empty_any.lua"}
+]}

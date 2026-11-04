@@ -27,6 +27,13 @@ states.parameters = {
 states.defaultState = "ina_default"
 states.spriteAsset = "ina_atlas"
 
+states.any_state = {
+    transitions = {},
+    tick = function(self, actor, frame)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
+    end
+}
+
 states.ina_default = {
     onEnter = function(actor)
         return "ina_idle"
@@ -45,32 +52,48 @@ states.ina_idle = {
         [49] = function(actor) actor:Sprite("sprite"):SetSprite("ina_idle07") end
     },
     transitions = {
-        ["ina_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "ina_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
         },
-        ["ina_walkf"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = 0
+        {
+            state = "ina_walkf",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = 0
+                }
+
             }
         },
-        ["ina_walkb"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "ina_walkb",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
         },
-        ["ina_standingattack"] = {
-            {
-                parameter = "button"
+        {
+            state = "ina_standingattack",
+            conditions = {
+                {
+                    parameter = "button"
+                }
+
             }
-        }
+        },
     },
     maxFrames = 56,
     onEnter = function(actor)
@@ -94,13 +117,17 @@ states.ina_walkf = {
     },
     maxFrames = 21,
     transitions = {
-        ["ina_idle"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 1
+        {
+            state = "ina_idle",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 1
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_walkf00")
@@ -123,13 +150,17 @@ states.ina_walkb = {
     },
     maxFrames = 21,
     transitions = {
-        ["ina_idle"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = -1
+        {
+            state = "ina_idle",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = -1
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_walkb00")
@@ -153,7 +184,6 @@ states.ina_dashf = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_dashf00")
@@ -177,7 +207,6 @@ states.ina_dashb = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_dashb00")
@@ -200,13 +229,17 @@ states.ina_stand2crouch = {
     },
     maxFrames = 15,
     transitions = {
-        ["ina_crouch2stand"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = -1
+        {
+            state = "ina_crouch2stand",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = -1
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_crouch00")
@@ -226,13 +259,17 @@ states.ina_crouch2stand = {
     },
     maxFrames = 5,
     transitions = {
-        ["ina_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "ina_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_crouch03")
@@ -255,7 +292,6 @@ states.ina_jump = {
     },
     maxFrames = 5,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_jump00")
@@ -277,7 +313,6 @@ states.ina_rise2fall = {
     },
     maxFrames = 10,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_jump01")
@@ -298,7 +333,6 @@ states.ina_fall = {
     },
     maxFrames = 10,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_jump03")
@@ -319,7 +353,6 @@ states.ina_hits = {
     },
     maxFrames = 10,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_hits00")
@@ -342,7 +375,6 @@ states.ina_hitc = {
     },
     maxFrames = 10,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_hitc00")
@@ -370,7 +402,6 @@ states.ina_hita = {
     },
     maxFrames = 35,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_hita00")
@@ -394,7 +425,6 @@ states.ina_blocks = {
     },
     maxFrames = 15,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_blocks00")
@@ -410,27 +440,46 @@ states.ina_blocks = {
 
 states.ina_standingattack = {
     transitions = {
-        ["ina_sheavy"] = {
-            {
-                parameter = "heavy"
+        {
+            state = "ina_sheavy",
+            conditions = {
+                {
+                    parameter = "heavy"
+                }
+
             }
         },
-        ["ina_smedium"] = {
-            {
-                parameter = "medium"
+        {
+            state = "ina_smedium",
+            conditions = {
+                {
+                    parameter = "medium"
+                }
+
             }
         },
-        ["ina_slight"] = {
-            {
-                parameter = "light"
+        {
+            state = "ina_slight",
+            conditions = {
+                {
+                    parameter = "light"
+                }
+
             }
         },
-        ["ina_sspecial"] = {
-            {
-                parameter = "special"
+        {
+            state = "ina_sspecial",
+            conditions = {
+                {
+                    parameter = "special"
+                }
+
             }
         },
-        ["ina_slight"] = {} --fallthrough states
+        {
+            state = "ina_slight",
+            conditions = {}
+        },
     },
     onEnter = function(actor)
         return StateMachineCommon.evaluateTransitions(actor, states.ina_standingattack, states.parameters)
@@ -446,11 +495,15 @@ states.ina_slight = {
     },
     maxFrames = 24,
     transitions = {
-        ["ina_slightfollowup"] = {
-            {
-                parameter = "light"
+        {
+            state = "ina_slightfollowup",
+            conditions = {
+                {
+                    parameter = "light"
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_slight00")
@@ -475,7 +528,8 @@ states.ina_slightfollowup = {
         [22] = function(actor) actor:Sprite("sprite"):SetSprite("ina_slight08") end,
         [29] = function(actor) actor:Sprite("sprite"):SetSprite("ina_slight09") end
     },
-    transitions = {},
+    transitions = {
+    },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_slight04")
     end,
@@ -503,7 +557,6 @@ states.ina_smedium = {
     },
     maxFrames = 38,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_smedium01")
@@ -535,7 +588,6 @@ states.ina_sheavy = {
     },
     maxFrames = 39,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_sheavy00")
@@ -563,7 +615,6 @@ states.ina_sspecial = {
     },
     maxFrames = 35,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_sspecial00")
@@ -597,7 +648,6 @@ states.ina_ssuper = {
     },
     maxFrames = 65,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_ssuper00")
@@ -615,27 +665,46 @@ states.ina_ssuper = {
 
 states.ina_crouchingattack = {
     transitions = {
-        ["ina_cheavy"] = {
-            {
-                parameter = "heavy"
+        {
+            state = "ina_cheavy",
+            conditions = {
+                {
+                    parameter = "heavy"
+                }
+
             }
         },
-        ["ina_cmedium"] = {
-            {
-                parameter = "medium"
+        {
+            state = "ina_cmedium",
+            conditions = {
+                {
+                    parameter = "medium"
+                }
+
             }
         },
-        ["ina_clight"] = {
-            {
-                parameter = "light"
+        {
+            state = "ina_clight",
+            conditions = {
+                {
+                    parameter = "light"
+                }
+
             }
         },
-        ["ina_sspecial"] = {
-            {
-                parameter = "special"
+        {
+            state = "ina_sspecial",
+            conditions = {
+                {
+                    parameter = "special"
+                }
+
             }
         },
-        ["ina_clight"] = {} --fallthrough state
+        {
+            state = "ina_clight",
+            conditions = {}
+        },
     }
 }
 
@@ -650,7 +719,6 @@ states.ina_clight = {
     },
     maxFrames = 30,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_clight00")
@@ -679,7 +747,6 @@ states.ina_cmedium = {
     },
     maxFrames = 40,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_cmedium00")
@@ -712,7 +779,6 @@ states.ina_cheavy = {
     },
     maxFrames = 45,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_cheavy00")
@@ -740,7 +806,6 @@ states.ina_cheavytentacle = {
     },
     maxFrames = 30,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_cheavytentacle00")
@@ -758,27 +823,46 @@ states.ina_cheavytentacle = {
 
 states.ina_airattack = {
     transitions = {
-        ["ina_aheavy"] = {
-            {
-                parameter = "heavy"
+        {
+            state = "ina_aheavy",
+            conditions = {
+                {
+                    parameter = "heavy"
+                }
+
             }
         },
-        ["ina_amedium"] = {
-            {
-                parameter = "medium"
+        {
+            state = "ina_amedium",
+            conditions = {
+                {
+                    parameter = "medium"
+                }
+
             }
         },
-        ["ina_alight"] = {
-            {
-                parameter = "light"
+        {
+            state = "ina_alight",
+            conditions = {
+                {
+                    parameter = "light"
+                }
+
             }
         },
-        ["ina_aspecial"] = {
-            {
-                parameter = "special"
+        {
+            state = "ina_aspecial",
+            conditions = {
+                {
+                    parameter = "special"
+                }
+
             }
         },
-        ["ina_alight"] = { } --Fallthrough state
+        {
+            state = "ina_alight",
+            conditions = {}
+        },
     }
 }
 
@@ -794,7 +878,6 @@ states.ina_alight = {
     },
     maxFrames = 35,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_alight00")
@@ -825,7 +908,6 @@ states.ina_aheavy = {
     },
     maxFrames = 50,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_aheavy00")
@@ -855,7 +937,6 @@ states.ina_aheavyfist = {
     },
     maxFrames = 45,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_aheavyfist00")
@@ -886,7 +967,6 @@ states.ina_qcf = {
     },
     maxFrames = 50,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_qcf00")
@@ -915,7 +995,6 @@ states.ina_qcb = {
     },
     maxFrames = 40,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_qcb00")
@@ -952,7 +1031,6 @@ states.ina_grab = {
     },
     maxFrames = 80,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_grab00")
@@ -977,7 +1055,6 @@ states.ina_grabtech = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_grabtech00")
@@ -1002,7 +1079,6 @@ states.ina_tech = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_tech00")
@@ -1031,7 +1107,6 @@ states.ina_knockdown = {
     },
     maxFrames = 40,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_knockdown00")
@@ -1053,7 +1128,6 @@ states.ina_burst = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_burst00")
@@ -1078,7 +1152,6 @@ states.ina_burstexp = {
     },
     maxFrames = 20,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_burstexp00")
@@ -1117,7 +1190,6 @@ states.ina_beam = {
     },
     maxFrames = 90,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_beam00")
@@ -1150,7 +1222,6 @@ states.ina_portal = {
     },
     maxFrames = 60,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_portal00")
@@ -1178,7 +1249,6 @@ states.ina_tentacle = {
     },
     maxFrames = 35,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_tentacle00")
@@ -1201,7 +1271,6 @@ states.ina_lightning = {
     },
     maxFrames = 10,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_lightning00")
@@ -1230,7 +1299,6 @@ states.ina_win = {
     },
     maxFrames = 40,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("ina_win00")

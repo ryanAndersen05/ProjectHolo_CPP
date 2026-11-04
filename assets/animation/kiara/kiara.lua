@@ -27,6 +27,13 @@ states.parameters = {
 states.defaultState = "kiara_default"
 states.spriteAsset = "kiara_atlas"
 
+states.any_state = {
+    transitions = {},
+    tick = function(self, actor, frame)
+        return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
+    end
+}
+
 states.kiara_default = {
     onEnter = function(actor)
         return "kiara_idle"
@@ -46,39 +53,59 @@ states.kiara_idle = {
         [40] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle08")  end
     },
     transitions = {
-        ["kiara_jump"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = 0
-            }
-        },
-        ["kiara_standingattack"] = {
-            {
-                parameter = "button"
-            }
+        {
+            state = "kiara_jump",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = 0
+                }
 
-        },
-        ["kiara_walkfstart"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = 0
             }
         },
-        ["kiara_walkbstart"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "kiara_standingattack",
+            conditions = {
+                {
+                    parameter = "button"
+                }
+
+
             }
         },
-        ["kiara_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
-            },
+        {
+            state = "kiara_walkfstart",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = 0
+                }
+
+            }
+        },
+        {
+            state = "kiara_walkbstart",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
+            }
+        },
+        {
+            state = "kiara_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                },
+
+            }
         },
     },
     maxFrames = 45,
@@ -131,27 +158,39 @@ states.kiara_walkf = {
     },
     maxFrames = 55,
     transitions = {
-        ["kiara_jump"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = 0
+        {
+            state = "kiara_jump",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = 0
+                }
+
             }
         },
-        ["kiara_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "kiara_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
         },
-        ["kiara_idle"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 1
+        {
+            state = "kiara_idle",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 1
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite():SetSprite("kiara_walkf01")
@@ -201,27 +240,39 @@ states.kiara_walkb = {
         [46] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb11")  end
     },
     transitions = {
-        ["kiara_jump"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = 0
+        {
+            state = "kiara_jump",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = 0
+                }
+
             }
         },
-        ["kiara_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "kiara_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
         },
-        ["kiara_idle"] = {
-            {
-                parameter = "hInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = -1
+        {
+            state = "kiara_idle",
+            conditions = {
+                {
+                    parameter = "hInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = -1
+                }
+
             }
-        }
+        },
     },
     maxFrames = 50,
     onEnter = function(actor)
@@ -244,13 +295,17 @@ states.kiara_stand2crouch = {
         [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch02")  end
     },
     transitions = {
-        ["kiara_crouch2stand"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Greater,
-                value = -1
+        {
+            state = "kiara_crouch2stand",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Greater,
+                    value = -1
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_crouch00")
@@ -270,16 +325,20 @@ states.kiara_crouch2stand = {
     },
     maxFrames = 4,
     transitions = {
-        ["kiara_stand2crouch"] = {
-            {
-                parameter = "vInput",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "kiara_stand2crouch",
+            conditions = {
+                {
+                    parameter = "vInput",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
-        
+
     end,
     tick = function(self, actor, frame)
         StateMachineCommon.tickState(self, actor, frame)
@@ -351,20 +410,28 @@ states.kiara_jump = {
         [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump00")  end
     },
     transitions = {
-        ["kiara_rise2fall"] = {
-            {
-                parameter = "vVelocity",
-                conditionType = StateMachineCommon.EConditionType.Lesser,
-                value = 0
+        {
+            state = "kiara_rise2fall",
+            conditions = {
+                {
+                    parameter = "vVelocity",
+                    conditionType = StateMachineCommon.EConditionType.Lesser,
+                    value = 0
+                }
+
             }
         },
-        ["kiara_idle"] = {
-            {
-                parameter = "inAir",
-                conditionType = StateMachineCommon.EConditionType.Equal,
-                value = 0
+        {
+            state = "kiara_idle",
+            conditions = {
+                {
+                    parameter = "inAir",
+                    conditionType = StateMachineCommon.EConditionType.Equal,
+                    value = 0
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_jump00")
@@ -383,12 +450,16 @@ states.kiara_rise2fall = {
     },
     maxFrames = 6,
     transitions = {
-        ["kiara_idle"] = {
-            {
-                parameter = "inAir",
-                value = false
+        {
+            state = "kiara_idle",
+            conditions = {
+                {
+                    parameter = "inAir",
+                    value = false
+                }
+
             }
-        }
+        },
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_jump01")
@@ -424,27 +495,46 @@ states.kiara_fall = {
 
 states.kiara_standingattack = {
     transitions = {
-        ["kiara_sheavy"] = {
-            {
-                parameter = "heavy"
+        {
+            state = "kiara_sheavy",
+            conditions = {
+                {
+                    parameter = "heavy"
+                }
+
             }
         },
-        ["kiara_smedium"] = {
-            {
-                parameter = "medium"
+        {
+            state = "kiara_smedium",
+            conditions = {
+                {
+                    parameter = "medium"
+                }
+
             }
         },
-        ["kiara_slight"] = {
-            {
-                parameter = "light"
+        {
+            state = "kiara_slight",
+            conditions = {
+                {
+                    parameter = "light"
+                }
+
             }
         },
-        ["kiara_sspecial"] = {
-            {
-                parameter = "special"
+        {
+            state = "kiara_sspecial",
+            conditions = {
+                {
+                    parameter = "special"
+                }
+
             }
         },
-        ["kiara_slight"] = {} --fallthrough states
+        {
+            state = "kiara_slight",
+            conditions = {}
+        },
     },
     onEnter = function(actor)
         return StateMachineCommon.evaluateTransitions(actor, states.kiara_standingattack, states.parameters)
@@ -460,7 +550,6 @@ states.kiara_slight = {
     },
     maxFrames = 16,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_slight00");
@@ -486,7 +575,6 @@ states.kiara_smedium = {
     },
     maxFrames = 28,
     transitions = {
-
     },
     onEnter = function(actor)
         actor:Sprite("sprite"):SetSprite("kiara_smedium00")
@@ -506,12 +594,16 @@ states.kiara_sheavystart = {
         [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_sheavy02")  end,
     },
     transitions = {
-        ["kiara_sheavy"] = {
-            {
-                parameter = "heavyHeld",
-                value = false
+        {
+            state = "kiara_sheavy",
+            conditions = {
+                {
+                    parameter = "heavyHeld",
+                    value = false
+                }
+
             }
-        }
+        },
     },
     maxFrames = 30,
     onEnter = function(actor)
