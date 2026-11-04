@@ -1,6 +1,6 @@
-# Parallax backgrounds
+# Parallax stages
 
-`EHParallaxWorld` owns normal sprite components and groups named components into
+`EHParallaxStage` owns normal sprite components and groups named components into
 background layers. Each layer specifies a nonnegative depth `z` and an optional
 additional world-space `offset`. Sprite components retain their original offsets,
 pivots, shader, actor scale, and draw order.
@@ -20,7 +20,7 @@ when the actor initializes.
 
 ```json
 {
-  "actorType": "parallaxWorld",
+  "actorType": "parallaxStage",
   "data": {
     "spriteAsset": "background_atlas",
     "backgroundLayers": [
@@ -56,19 +56,24 @@ initialization. Layers must reference unique, existing sprite components.
 Malformed layer definitions are rejected. A layer's `offset` is added to its
 component's `spriteOffset`; neither is modified during rendering.
 
-The fighting game mode now spawns the actor asset selected by `sceneId`.
-Atlantis uses the existing sprite sheet split into skyline, ruins, and floor
-regions, with depths 5, 2, and 0. These initial placements/pivots can be tuned in
-`assets/level/atlantis.json` and `assets/sprites/backgrounds/atlantisAtlas.json`.
-No automatic repeating or world boundaries are introduced. Negative sprite
-`drawOrder` values place the backgrounds behind characters at order zero.
+The fighting game mode loads the shared `default_world` gameplay prefab and,
+separately, the background actor selected by `sceneId`. `EHParallaxStage` derives
+from `EHActor` and owns no gameplay bounds or spawn points. Changing a background
+scene does not change the shared world rules.
+
+Atlantis's authored layers and depths are defined in `assets/level/atlantis.json`.
+Generate background atlases from source sprites with `Tools/AtlasCreator.py`;
+Atlantis uses `assets/sprites/backgrounds/atlantis/atlantisAtlas.json` and its
+matching PNG. Existing offsets, pivots, and ordering remain authored in those
+assets. No automatic repeating is introduced. Negative sprite `drawOrder` values
+place backgrounds behind characters at order zero.
 
 ## Checks
 
 ```text
 cmake -S . -B cmake-build-debug -DPROJECT_HOLO_BUILD_PARALLAX_TESTS=ON
 cmake --build cmake-build-debug --target ProjectHoloParallaxTests
-ctest --test-dir cmake-build-debug -R parallax-world --output-on-failure
+ctest --test-dir cmake-build-debug -R parallax-stage --output-on-failure
 ```
 
 Checks cover multiple depths, both position axes, camera offsets, unchanged base

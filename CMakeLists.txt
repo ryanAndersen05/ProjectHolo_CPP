@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 4.3)
+cmake_minimum_required(VERSION 4.3)
 project(ProjectHolo_CPP LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -174,7 +174,7 @@ option(PROJECT_HOLO_BUILD_PARALLAX_TESTS "Build parallax world checks" OFF)
 if(PROJECT_HOLO_BUILD_PARALLAX_TESTS)
     set(PARALLAX_TEST_SOURCES ${SRC_FILES})
     list(REMOVE_ITEM PARALLAX_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
-    add_executable(ProjectHoloParallaxTests tests/parallax/EHParallaxWorldTests.cpp ${PARALLAX_TEST_SOURCES})
+    add_executable(ProjectHoloParallaxTests tests/parallax/EHParallaxStageTests.cpp ${PARALLAX_TEST_SOURCES})
     target_include_directories(ProjectHoloParallaxTests PRIVATE
             $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
     target_compile_features(ProjectHoloParallaxTests PRIVATE cxx_std_20)
@@ -184,10 +184,34 @@ if(PROJECT_HOLO_BUILD_PARALLAX_TESTS)
             SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
             ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
     enable_testing()
-    add_test(NAME parallax-world COMMAND ProjectHoloParallaxTests)
+    add_test(NAME parallax-stage COMMAND ProjectHoloParallaxTests)
     if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         get_filename_component(PARALLAX_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
-        set_property(TEST parallax-world APPEND PROPERTY ENVIRONMENT_MODIFICATION
+        set_property(TEST parallax-stage APPEND PROPERTY ENVIRONMENT_MODIFICATION
                 "PATH=path_list_prepend:${PARALLAX_TEST_COMPILER_DIR}")
+    endif()
+endif()
+
+option(PROJECT_HOLO_BUILD_WORLD_TESTS "Build world bounds and spawn checks" OFF)
+if(PROJECT_HOLO_BUILD_WORLD_TESTS)
+    set(WORLD_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM WORLD_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloWorldTests tests/world/EHWorldTests.cpp ${WORLD_TEST_SOURCES})
+    target_include_directories(ProjectHoloWorldTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloWorldTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloWorldTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloWorldTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME world-bounds COMMAND ProjectHoloWorldTests)
+    set_tests_properties(world-bounds PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/world/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(WORLD_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST world-bounds APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${WORLD_TEST_COMPILER_DIR}")
     endif()
 endif()

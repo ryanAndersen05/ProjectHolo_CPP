@@ -1,6 +1,8 @@
 #include "EHPhysicsSystem.h"
 #include "EHBoxColliderComponent.h"
 #include "EHPhyicsComponent.h"
+#include "world/EHWorld.h"
+#include "character/EHCharacter.h"
 #include <algorithm>
 #include <cmath>
 
@@ -11,6 +13,7 @@ namespace {
         FVector start;
         FVector end;
         bool collides;
+        bool worldBounded;
     };
 
     // Restrict the time interval to positive vertical overlap during this step.
@@ -79,9 +82,41 @@ namespace {
         left->end.x = leftContact + remainingMove + leftMove * (1.f - exit);
         right->end.x = rightContact + remainingMove + rightMove * (1.f - exit);
     }
+
+    FRect EndBounds(const FBody& body) {
+        return FRect(body.bounds.GetPosition() + (body.end - body.start), body.bounds.GetSize());
+    }
+
+    void SeparateAtWorldEdge(FBody& a, FBody& b, const EHWorld& world) {
+        if (!a.worldBounded && !b.worldBounded) return;
+        const FRect aBounds = EndBounds(a);
+        const FRect bBounds = EndBounds(b);
+        if (!aBounds.IsOverlapping(bBounds)) return;
+        FBody* left = &a;
+        FBody* right = &b;
+        FRect leftBounds = aBounds;
+        FRect rightBounds = bBounds;
+        if (leftBounds.GetCenter().x > rightBounds.GetCenter().x) {
+            std::swap(left, right);
+            std::swap(leftBounds, rightBounds);
+        }
+        const float penetration = leftBounds.GetPosition().x + leftBounds.GetSize().x - rightBounds.GetPosition().x;
+        const float leftRoom = left->worldBounded ? std::max(0.f, left->end.x - world.GetMinX()) : penetration;
+        const float rightRoom = right->worldBounded ? std::max(0.f, world.GetMaxX() - right->end.x) : penetration;
+        float leftShift = std::min(penetration * 0.5f, leftRoom);
+        float rightShift = std::min(penetration * 0.5f, rightRoom);
+        float remaining = penetration - leftShift - rightShift;
+        const float extraLeft = std::min(remaining, leftRoom - leftShift);
+        leftShift += extraLeft;
+        remaining -= extraLeft;
+        rightShift += std::min(remaining, rightRoom - rightShift);
+        left->end.x -= leftShift;
+        right->end.x += rightShift;
+    }
+
 }
 
-void EHPhysicsSystem::Step(const std::vector<EHActor*>& actors, float deltaTime) {
+void EHPhysicsSystem::Step(const std::vector<EHActor*>& actors, float deltaTime, const EHWorld* world) {
     if (deltaTime <= 0.f) return;
     std::vector<FBody> bodies;
     for (EHActor* actor : actors) {
@@ -92,7 +127,11 @@ void EHPhysicsSystem::Step(const std::vector<EHActor*>& actors, float deltaTime)
             if (auto* component = dynamic_cast<EHPhysicsComponent*>(container.component)) physics = component;
             if (auto* component = dynamic_cast<EHBoxColliderComponent*>(container.component)) collider = component;
         }
-        if (!physics) continue;
+        const bool worldBounded = world && dynamic_cast<EHCharacter*>(actor) != nullptr;
+        if (!physics) {
+            if (worldBounded) actor->SetPosition(world->ClampPosition(actor->GetPosition()));
+            continue;
+        }
         const float step = deltaTime * actor->GetActorTimeScale();
         if (step < 0.f) continue;
         if (physics->useGravity) physics->UpdateVelocityFromGravity(step);
@@ -104,7 +143,7 @@ void EHPhysicsSystem::Step(const std::vector<EHActor*>& actors, float deltaTime)
         }
         const auto bounds = collider ? collider->GetWorldBounds() : std::nullopt;
         const bool collides = bounds && bounds->GetSize().x > 0.f && bounds->GetSize().y > 0.f;
-        bodies.push_back({actor, bounds.value_or(FRect()), start, end, collides});
+        bodies.push_back({actor, bounds.value_or(FRect()), start, end, collides, worldBounded});
     }
     // Stable spatial order keeps pair processing independent of the actor tick order.
     std::stable_sort(bodies.begin(), bodies.end(), [](const FBody& a, const FBody& b) {
@@ -114,6 +153,18 @@ void EHPhysicsSystem::Step(const std::vector<EHActor*>& actors, float deltaTime)
         if (!bodies[i].collides) continue;
         for (std::size_t j = i + 1; j < bodies.size(); ++j) {
             if (bodies[j].collides) ResolvePair(bodies[i], bodies[j], deltaTime);
+        }
+    }
+    if (world) {
+        for (FBody& body : bodies) {
+            if (body.worldBounded) body.end = world->ClampPosition(body.end);
+        }
+        // A character pinned to a wall transfers the separation to the other body.
+        for (std::size_t i = 0; i < bodies.size(); ++i) {
+            if (!bodies[i].collides) continue;
+            for (std::size_t j = i + 1; j < bodies.size(); ++j) {
+                if (bodies[j].collides) SeparateAtWorldEdge(bodies[i], bodies[j], *world);
+            }
         }
     }
     for (const FBody& body : bodies) body.actor->SetPosition(body.end);

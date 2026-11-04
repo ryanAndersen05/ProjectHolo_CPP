@@ -1,4 +1,4 @@
-#include "world/EHParallaxWorld.h"
+#include "world/EHParallaxStage.h"
 #include "camera/EHCamera.h"
 #include "factory/EHActorFactory.h"
 #include "sprite/EHSpriteComponent.h"
@@ -26,7 +26,7 @@ namespace {
             {{"componentName", "far"}, {"z", 5}, {"offset", FVector(-2, 1)}}})}};
     }
     void TestLayers() {
-        auto world = Definition().get<EHParallaxWorld>();
+        auto world = Definition().get<EHParallaxStage>();
         world.InitializeActor(json::array({Sprite("near", -100), Sprite("far", -200)}));
         world.SetPosition(FVector(10, 20));
         Check(world.GetIsDisplayable(), "World not registered for drawing");
@@ -73,7 +73,10 @@ namespace {
         const auto root = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
         std::ifstream tableFile(root / "assets/datatables/assetPathDataTable.json");
         const json table = json::parse(tableFile);
-        for (const char* id : {"atlantis", "atlantis_background_atlas", "atlantis_background_texture"}) {
+        std::ifstream atlasFile(root / "assets/sprites/backgrounds/atlantis/atlantisAtlas.json");
+        const json atlas = json::parse(atlasFile);
+        const std::string textureId = atlas.at("spriteAsset").get<std::string>();
+        for (const auto& id : {std::string("atlantis"), std::string("atlantis_background_atlas"), textureId}) {
             int matches = 0;
             for (const auto& row : table.at("rows")) {
                 if (row.at("rowId") == id) {
@@ -94,13 +97,16 @@ namespace {
         actor->InitializeActor(stage.at("components"));
         FRenderQueue queue;
         actor->DisplayActor(queue, {});
-        Check(queue.sprites.size() == 3, "Atlantis did not produce all three background layers");
-        Check(queue.sprites[0].drawOrder < queue.sprites[1].drawOrder
-            && queue.sprites[1].drawOrder < queue.sprites[2].drawOrder
-            && queue.sprites[2].drawOrder < 0, "Atlantis background ordering is incorrect");
+        Check(queue.sprites.size() == stage.at("data").at("backgroundLayers").size(),
+            "Atlantis did not produce all authored background layers");
+        for (std::size_t i = 0; i < queue.sprites.size(); ++i) {
+            Check(queue.sprites[i].drawOrder < 0, "Background must render behind characters");
+            if (i > 0) Check(queue.sprites[i - 1].drawOrder < queue.sprites[i].drawOrder,
+                "Atlantis background ordering is incorrect");
+        }
     }
     void TestValidationAndFactory() {
-        auto world = Definition().get<EHParallaxWorld>();
+        auto world = Definition().get<EHParallaxStage>();
         for (int invalidCase = 0; invalidCase < 4; ++invalidCase) {
             json invalid = Definition();
             if (invalidCase == 0) invalid["backgroundLayers"][0]["z"] = -1;
@@ -114,8 +120,8 @@ namespace {
         bool rejected = false;
         try { world.InitializeActor(json::array()); } catch (const std::exception&) { rejected = true; }
         Check(rejected, "Missing sprite reference was accepted");
-        std::unique_ptr<EHActor> created(EHActorFactory::CreateActor(FName("parallaxWorld"), Definition()));
-        Check(dynamic_cast<EHParallaxWorld*>(created.get()) != nullptr, "Factory did not create parallax world");
+        std::unique_ptr<EHActor> created(EHActorFactory::CreateActor(FName("parallaxStage"), Definition()));
+        Check(dynamic_cast<EHParallaxStage*>(created.get()) != nullptr, "Factory did not create parallax world");
         created->InitializeActor(json::array({Sprite("near", -100), Sprite("far", -200)}));
         FRenderQueue queue;
         created->DisplayActor(queue, {});

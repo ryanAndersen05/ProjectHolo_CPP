@@ -1,5 +1,5 @@
 {
-  "actorType": "parallaxWorld",
+  "actorType": "parallaxStage",
   "data": {
     "spriteAsset": "atlantis_background_atlas",
     "backgroundLayers": [

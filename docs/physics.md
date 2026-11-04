@@ -29,9 +29,14 @@ artwork-derived measurements. Gura currently has no physics/movement setup.
 
 ## Simulation order
 
-`EHGameMode::TickGameMode` updates component logic, calls
-`EHPhysicsSystem::Step(allActors, deltaTime)`, then runs late ticks. Physics is
-no longer an `ITickable`: moving an individual actor with `TickActor()` does
+`EHGameMode::TickGameMode` updates actor logic, calls the virtual `Simulate()`
+hook, then runs late ticks. The base hook does nothing, so generic modes such
+as menus and splash screens do not run physics. `EHGameModeFighting` overrides
+it to call `EHPhysicsSystem::Step(GetActors(), deltaTime, world)`. Training modes
+inherit that simulation. Controllers still update before actor logic, and camera
+late ticks see the positions resolved in the same simulation step.
+
+Physics is not an `ITickable`: moving an individual actor with `TickActor()` does
 not integrate its physics. Standalone callers can use the shared step with a
 list of actors (or the existing physics `Tick()` for movement without contacts).
 Do not call both physics `Tick()` and the shared step for the same frame.

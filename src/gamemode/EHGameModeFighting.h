@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "core/EHGameMode.h"
 
+class EHWorld;
+
 struct FPlayerSettings {
     FName characterId;
     int colorSelection;
@@ -26,14 +28,22 @@ public:
     static FGameMatchSettings MatchSettings;
 
 private:
+    static const FName WorldAssetId;
+    EHWorld* world = nullptr; // Actor lifetime is owned by the base game mode.
     int colorPaletteIndex;
     int gameFrame;
     FGameMatchSettings defaultMatchSettings;
+
+protected:
+    void InitializeWorld();
+    void Simulate(float deltaTime) override;
 
 public:
     EHGameModeFighting() : EHGameMode(), colorPaletteIndex(0), gameFrame(0) {}
     void InitializeGameMode() override;
     void TickGameMode(float deltaTime) override;
+    void DestroyActor(EHActor* actor) override;
+    [[nodiscard]] EHWorld* GetWorld() const { return world; }
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(EHGameModeFighting, defaultMatchSettings)
 };

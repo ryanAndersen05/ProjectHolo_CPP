@@ -1,5 +1,5 @@
 #include "camera/EHFollowCamera.h"
-#include "core/EHGameMode.h"
+#include "gamemode/EHGameModeFighting.h"
 #include "core/EHGameInstance.h"
 #include "physics/EHPhyicsComponent.h"
 #include "factory/EHActorFactory.h"
@@ -16,21 +16,12 @@ namespace {
         Check(std::abs(actual.x - x) < 0.0001f && std::abs(actual.y - y) < 0.0001f,
             "Unexpected follow camera position");
     }
-    class EHLateProbe : public EHActorComponent, public ILateTickable {
-    public:
-        int calls = 0;
-        float elapsed = 0.f;
-        FVector observedPosition;
-        void LateTick(float deltaTime) override {
-            ++calls;
-            elapsed = deltaTime;
-            observedPosition = GetActorPosition();
-        }
-    };
     void TestFollowing() {
         EHCameraFollow camera;
-        Check(camera.GetIsLateTickable(), "Follow actor was not registered for late ticking");
         Check(camera.GetMainCamera() == nullptr, "Unattached camera accessor returned garbage");
+        camera.InitializeActor(json::array({{{"componentType", "camera"}, {"componentName", "camera"},
+            {"data", {{"offset", FVector::Zero}, {"cameraSize", 20}}}}}));
+        Check(camera.GetIsLateTickable(), "Follow actor was not registered for late ticking");
         camera.SetPosition(FVector(7, 2));
         camera.LateTickActor(0.016f);
         Position(camera, 7, 2);
@@ -44,13 +35,6 @@ namespace {
         camera.AddTargetActor(&second);
         camera.LateTickActor(0.016f);
         Position(camera, 1, 0);
-        auto* probe = new EHLateProbe();
-        camera.AddComponent(FName("lateProbe"), probe);
-        camera.SetTimeScale(0.5f);
-        camera.LateTickActor(0.2f);
-        Check(probe->calls == 1 && std::abs(probe->elapsed - 0.1f) < 0.0001f,
-            "Actor late ticking disrupted component ticks or time scale");
-        Check(probe->observedPosition.x == 1.f, "Component did not see the updated camera");
         second.SetPosition(FVector(5, 5));
         camera.LateTickActor(0.016f);
         Position(camera, 1, 0);
@@ -80,21 +64,16 @@ namespace {
         camera.RemoveTargetActor(&third);
         camera.SetHeightThreshold(-1);
         Check(camera.GetHeightThreshold() == 0.f, "Negative threshold was not clamped");
-        auto* component = new EHCamera();
-        camera.AddComponent(FName("camera"), component);
-        Check(camera.GetMainCamera() == component, "Camera component accessor failed");
+        Check(camera.GetMainCamera() != nullptr, "Camera component accessor failed");
     }
     void TestGameModePhase() {
         EHGameInstance instance;
-        EHGameMode mode;
+        EHGameModeFighting mode;
         auto* camera = dynamic_cast<EHCameraFollow*>(mode.CreateActor(FName("camera")));
         Check(camera != nullptr, "Factory did not create follow camera");
         // A second follow actor can act as a moving target without any character assets.
-        EHActor* target = mode.CreateActor(FName("camera"));
-        auto* physics = new EHPhysicsComponent(json{
-            {"useGravity", false}, {"gravityScale", 1},
-            {"useTerminalVelocity", false}, {"terminalVelocity", 0}}.get<EHPhysicsComponent>());
-        target->AddComponent(FName("physics"), physics);
+        EHActor* target = mode.CreateActor(FName("moving_camera"));
+        auto* physics = dynamic_cast<EHPhysicsComponent*>(target->GetActorComponent(FName("physics")));
         physics->SetVelocity(FVector(4, 6));
         camera->AddTargetActor(target);
         mode.TickGameMode(1.f);

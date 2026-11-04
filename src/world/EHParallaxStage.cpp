@@ -1,4 +1,4 @@
-﻿#include "EHParallaxWorld.h"
+#include "EHParallaxStage.h"
 #include "camera/EHCamera.h"
 #include "core/EHGameInstance.h"
 #include "sprite/EHSpriteComponent.h"
@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <unordered_set>
 
-void EHParallaxWorld::InitializeActor(const json& componentJson) {
+void EHParallaxStage::InitializeActor(const json& componentJson) {
     if (spriteAsset.IsValid()) EHGameInstance::GetInstance()->GetSpriteManager()->LoadSpriteMetaData(spriteAsset);
     EHActor::InitializeActor(componentJson);
     for (auto& layer : backgroundLayers) {
@@ -17,7 +17,7 @@ void EHParallaxWorld::InitializeActor(const json& componentJson) {
     }
 }
 
-void EHParallaxWorld::DisplayActor(FRenderQueue& queue, const FRenderContext& context) const {
+void EHParallaxStage::DisplayActor(FRenderQueue& queue, const FRenderContext& context) const {
     const FVector cameraPosition = context.camera ? context.camera->GetViewPosition() : FVector::Zero;
     for (const auto& layer : backgroundLayers) {
         if (!layer.spriteComponent) continue;
@@ -29,7 +29,7 @@ void EHParallaxWorld::DisplayActor(FRenderQueue& queue, const FRenderContext& co
     }
 }
 
-void from_json(const json& data, EHParallaxWorld& world) {
+void from_json(const json& data, EHParallaxStage& stage) {
     const auto& definitions = data.at("backgroundLayers");
     if (!definitions.is_array()) throw std::invalid_argument("Background layers must be an array");
     std::vector<FBackgroundLayer> layers;
@@ -47,6 +47,6 @@ void from_json(const json& data, EHParallaxWorld& world) {
         layers.push_back(layer);
     }
     const FName asset = data.value("spriteAsset", FName());
-    world.backgroundLayers.swap(layers);
-    world.spriteAsset = asset;
+    stage.backgroundLayers.swap(layers);
+    stage.spriteAsset = asset;
 }

@@ -1,0 +1,8 @@
+{"rows":[
+{"rowId":"default_world","assetPath":"assets/prefabs/world.json"},
+{"rowId":"test_camera","assetPath":"assets/prefabs/camera.json"},
+{"rowId":"test_stage","assetPath":"assets/prefabs/stage.json"},
+{"rowId":"character_table","assetPath":"assets/datatables/characterDataTable.json"},
+{"rowId":"test_world","assetPath":"assets/prefabs/world.json"},
+{"rowId":"test_character","assetPath":"assets/prefabs/character.json"}
+]}

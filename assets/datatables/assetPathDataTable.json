@@ -1,6 +1,7 @@
 {
   "rows":
           [
+            { "rowId": "default_world", "assetPath": "assets/prefabs/world/world.json" },
             {
               "rowId": "atlantis",
               "assetPath": "assets/level/atlantis.json"

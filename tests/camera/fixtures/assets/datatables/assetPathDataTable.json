@@ -1,4 +1,16 @@
-{"rows":[
-{"rowId":"character_table","assetPath":"assets/datatables/characterDataTable.json"},
-{"rowId":"camera","assetPath":"assets/prefabs/camera.json"}
-]}
+{
+  "rows": [
+    {
+      "rowId": "moving_camera",
+      "assetPath": "assets/prefabs/movingCamera.json"
+    },
+    {
+      "rowId": "character_table",
+      "assetPath": "assets/datatables/characterDataTable.json"
+    },
+    {
+      "rowId": "camera",
+      "assetPath": "assets/prefabs/camera.json"
+    }
+  ]
+}

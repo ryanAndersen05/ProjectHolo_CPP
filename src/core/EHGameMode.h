@@ -21,6 +21,8 @@ private:
     void OnActorActive(bool isActive, EHActor* actor);
 
 protected:
+    virtual void Simulate(float deltaTime);
+    [[nodiscard]] const std::vector<EHActor*>& GetActors() const { return allActors; }
     void TickActors(float deltaTime) const;
     void LateTickActors(float deltaTime) const;
     void AddController(EHController* controller);
@@ -37,5 +39,5 @@ public:
     EHActor* CreateActor(const FName& actorId, EHActor* owner, const FVector& position = FVector::Zero, float rotation = 0.f, const FVector& scale = FVector::One);
     EHActor* CreateActor(const FName& actorId, const FVector& position, float rotation = 0.f) {return CreateActor(actorId, nullptr, position, rotation);}
     EHActor* CreateActor(const FName& actorId) {return CreateActor(actorId, nullptr, FVector::Zero, 0.0f);}
-    void DestroyActor(EHActor* actor);
+    virtual void DestroyActor(EHActor* actor);
 };

@@ -1,0 +1,4 @@
+{"actorType":"character","components":[
+{"componentType":"physics","componentName":"physics","data":{"useGravity":false,"gravityScale":1,"useTerminalVelocity":false,"terminalVelocity":10}},
+{"componentType":"boxcollider","componentName":"boxcollider","data":{"size":{"x":2,"y":4},"offset":{"x":0,"y":0}}}
+]}
