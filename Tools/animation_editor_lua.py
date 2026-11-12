@@ -15,6 +15,14 @@ TOKEN = re.compile(
 )
 OPEN = {"{": "}", "(": ")", "[": "]"}
 BLOCKS = {"function": "end", "if": "end", "do": "end", "repeat": "until"}
+MANAGED_BOX_BLOCK = re.compile(
+    r"^ +-- animation editor boxes\r?\n.*?^ +-- end animation editor boxes[^\r\n]*",
+    re.M | re.S,
+)
+EXIT_BOX_BLOCK = re.compile(
+    r"^ +-- animation editor exit cleanup\r?\n.*?^ +-- end animation editor exit cleanup\r?\n",
+    re.M | re.S,
+)
 
 
 def string_value(token):
@@ -31,7 +39,7 @@ def quote(value):
 @dataclass(frozen=True)
 class Box:
     name: str
-    kind: str
+    kind: str | None
     bounds: tuple
     active: bool = False
 
@@ -60,6 +68,8 @@ class Callback:
     sprite_token: int = -1
     sprite_calls: int = 0
     box_calls: list = field(default_factory=list)
+    managed_box_calls: dict = field(default_factory=dict)
+    managed_box_indices: list = field(default_factory=list)
     has_return: bool = False
 
 
@@ -67,11 +77,16 @@ class Callback:
 class State:
     name: str
     opening: int
+    assignment: int
     table: int = -1
     max_frames: int = 0
     enter: Callback = None
+    tick: Callback = None
+    exit_field: int = -1
+    exit_callback: Callback = None
     keys: dict = field(default_factory=dict)
     occupied: set = field(default_factory=set)
+    frame_tokens: dict = field(default_factory=dict)
 
 
 class Script:
@@ -102,7 +117,7 @@ class Script:
             if name == "spriteAsset":
                 self.atlas_id = string_value(self.values[value]) or ""
             elif name != "parameters" and self.values[value] == "{" and value in self.ends:
-                self.states[name] = self.read_state(name, value)
+                self.states[name] = self.read_state(name, value, i)
 
     def top_level(self, opening):
         i = opening + 1
@@ -110,8 +125,8 @@ class Script:
             yield i
             i = self.ends.get(i, i) + 1
 
-    def read_state(self, name, opening):
-        state = State(name, opening)
+    def read_state(self, name, opening, assignment):
+        state = State(name, opening, assignment)
         for i in self.top_level(opening):
             fields = self.values[i:i + 3]
             if len(fields) != 3:
@@ -123,6 +138,11 @@ class Script:
                 state.max_frames = int(value)
             if field_name == "onEnter" and value == "function":
                 state.enter = self.read_callback(i + 2)
+            if field_name == "tick" and value == "function":
+                state.tick = self.read_callback(i + 2, actor_parameter=1)
+            if field_name == "onExit":
+                state.exit_field = i
+                state.exit_callback = self.read_callback(i + 2) if value == "function" else None
             if field_name != "keyFrames" or value != "{" or i + 2 not in self.ends:
                 continue
             state.table = i + 2
@@ -138,18 +158,26 @@ class Script:
                     state.keys[index] = callback
                 else:
                     state.keys.pop(index, None)
+                if index in state.occupied:
+                    state.frame_tokens.pop(index, None)
+                else:
+                    state.frame_tokens[index] = key + 1
                 state.occupied.add(index)
         return state
 
-    def read_callback(self, first):
+    def read_callback(self, first, actor_parameter=0):
         close = self.ends.get(first)
         parameters = self.ends.get(first + 1)
-        if close is None or parameters is None or parameters < first + 3:
+        actor_token = first + 2 + 2 * actor_parameter
+        if close is None or parameters is None or parameters <= actor_token:
             return None
-        actor = self.values[first + 2]
+        actor = self.values[actor_token]
         if not re.fullmatch(r"[A-Za-z_]\w*", actor):
             return None
         callback = Callback(actor, first, parameters + 1, close)
+        managed = MANAGED_BOX_BLOCK.search(
+            self.source, self.tokens[first].start(), self.tokens[close].start()
+        )
         direct = set(self.top_level(first))
         aliases = set()
         for i in range(callback.body, close):
@@ -199,9 +227,16 @@ class Script:
                 expected = 4 if method == "SetBounds" else 2
                 if len(bounds) == expected and all(math.isfinite(v) for v in bounds):
                     callback.box_calls.append((name, method, bounds))
+                else:
+                    continue
+            else:
+                continue
+            if managed and managed.start() <= self.tokens[i].start() < managed.end():
+                callback.managed_box_calls[name, method] = callback.box_calls[-1][2]
+                callback.managed_box_indices.append(len(callback.box_calls) - 1)
         return callback
 
-    def preview(self, state, frame, defaults, default_sprite=""):
+    def preview(self, state, frame, defaults, default_sprite="", box_commands=None):
         boxes = dict(defaults)
         sprite = default_sprite
         callbacks = [state.enter] + [state.keys[i] for i in sorted(state.keys) if i <= frame]
@@ -209,8 +244,13 @@ class Script:
             if callback is None:
                 continue
             sprite = callback.sprite or sprite
-            for name, method, value in callback.box_calls:
-                box = boxes.get(name, Box(name, "Hitbox", (0, 0, 0, 0)))
+            calls = callback.box_calls
+            if box_commands is not None and callback is state.keys.get(frame):
+                calls = [call for index, call in enumerate(calls) if index not in callback.managed_box_indices]
+                insert = next(iter(callback.managed_box_indices), len(calls))
+                calls[insert:insert] = [(name, method, value) for (name, method), value in box_commands.items()]
+            for name, method, value in calls:
+                box = boxes.get(name, Box(name, None, (0, 0, 0, 0)))
                 bounds, active = box.bounds, box.active
                 if method == "SetBounds":
                     bounds = value
@@ -221,9 +261,75 @@ class Script:
                 else:
                     active = value
                 boxes[name] = Box(name, box.kind, bounds, active)
+        if box_commands is not None and frame not in state.keys:
+            # A draft at a new keyframe follows the inherited preview.
+            for (name, method), value in box_commands.items():
+                box = boxes.get(name, Box(name, None, (0, 0, 0, 0)))
+                bounds = value if method == "SetBounds" else box.bounds
+                active = value if method == "SetActive" else box.active
+                boxes[name] = Box(name, box.kind, bounds, active)
         return sprite, boxes
 
-    def edit(self, state, frame, sprite, boxes):
+    def move_keyframe(self, state, frame, destination):
+        if frame not in state.frame_tokens:
+            raise ValueError("Select a keyframe with a unique literal frame number.")
+        if not 0 <= destination <= 2147483647:
+            raise ValueError("Enter a nonnegative 32-bit frame index.")
+        if destination == frame:
+            return self.source
+        if destination in state.occupied:
+            raise ValueError(f"Frame {destination} already has a keyframe.")
+        token = self.tokens[state.frame_tokens[frame]]
+        return self.source[:token.start()] + str(destination) + self.source[token.end():]
+
+    def state_text(self, state):
+        start = self.tokens[state.assignment].start()
+        end = self.tokens[self.ends[state.opening]].end()
+        return self.source[start:end]
+
+    def sync_exit_cleanup(self, state):
+        names = sorted({
+            name for callback in [state.enter, state.tick, *state.keys.values()] if callback
+            for name, method, value in callback.box_calls if method == "SetActive" and value is True
+        })
+        callback = state.exit_callback
+        if names and state.exit_field >= 0 and callback is None:
+            raise ValueError("This state uses a computed onExit. Add its box cleanup in Lua.")
+        if not names and callback is None:
+            return self.source
+
+        eol = "\r\n" if "\r\n" in self.source else "\n"
+        actor = callback.actor if callback else "actor"
+        block = ""
+        if names:
+            lines = ["        -- animation editor exit cleanup", f"        if {actor}:Hitbox() then"]
+            lines.extend(f"            {actor}:Hitbox():SetActive({quote(name)}, false)" for name in names)
+            lines.extend(["        end", "        -- end animation editor exit cleanup"])
+            block = eol.join(lines) + eol
+
+        if callback is None:
+            opening = self.tokens[state.opening].end()
+            suffix = self.source[opening:]
+            separator = "" if suffix.startswith(("\r\n", "\n")) else eol
+            handler = eol + "    onExit = function(actor)" + eol + block + "    end,"
+            return self.source[:opening] + handler + separator + suffix
+
+        body = self.tokens[callback.body - 1].end()
+        close = self.tokens[callback.close].start()
+        existing = EXIT_BOX_BLOCK.search(self.source, body, close)
+        if existing:
+            return self.source[:existing.start()] + block + self.source[existing.end():]
+        if not block:
+            return self.source
+        if "return" in self.values[callback.body:callback.close]:
+            # Run before the existing body when it may exit early.
+            return self.source[:body] + eol + block + "        " + self.source[body:]
+        line_start = self.source.rfind("\n", body, close) + 1
+        if line_start >= body and not self.source[line_start:close].strip():
+            return self.source[:line_start] + block + self.source[line_start:]
+        return self.source[:close] + eol + block + "    " + self.source[close:]
+
+    def edit(self, state, frame, sprite, box_commands=None):
         """Return (updated source, pasteable frame entry or new keyFrames field)."""
         callback = state.keys.get(frame)
         if frame in state.occupied and callback is None:
@@ -236,14 +342,14 @@ class Script:
         actor = callback.actor if callback else "actor"
         sprite_call = f'{actor}:Sprite("sprite"):SetSprite({quote(sprite)})'
         box_lines = []
-        if boxes:
+        if box_commands:
             box_lines.append("            -- animation editor boxes")
             box_lines.append(f"            if {actor}:Hitbox() then")
-            for box in boxes.values():
-                name = quote(box.name)
-                bounds = ", ".join(format(v, ".15g") for v in box.bounds)
-                box_lines.append(f"                {actor}:Hitbox():SetBounds({name}, {bounds})")
-                box_lines.append(f"                {actor}:Hitbox():SetActive({name}, {str(box.active).lower()})")
+            for (name, method), value in box_commands.items():
+                args = str(value).lower() if isinstance(value, bool) else ", ".join(
+                    format(number, ".15g") for number in value
+                )
+                box_lines.append(f"                {actor}:Hitbox():{method}({quote(name)}, {args})")
             box_lines.extend(["            end", "            -- end animation editor boxes"])
 
         if callback:
@@ -260,16 +366,16 @@ class Script:
                 else:
                     offset = self.tokens[callback.body - 1].end() - start
                     edits.append((offset, offset, eol + "            " + sprite_call + eol + "            "))
-            if box_lines:
-                if callback.has_return:
-                    raise ValueError("This frame returns early. Place box calls manually in its Lua callback.")
-                block = re.search(
-                    r"(?m)^ +-- animation editor boxes\r?\n.*?^ +-- end animation editor boxes[^\r\n]*",
-                    original, re.S,
-                )
+            if box_commands is not None:
+                block = MANAGED_BOX_BLOCK.search(original)
                 if block:
-                    edits.append((block.start(), block.end(), eol.join(box_lines)))
-                else:
+                    left, right = block.span()
+                    if not box_lines and original[right:].startswith(eol):
+                        right += len(eol)
+                    edits.append((left, right, eol.join(box_lines)))
+                elif box_lines:
+                    if callback.has_return:
+                        raise ValueError("This frame returns early. Place box calls manually in its Lua callback.")
                     edits.append((len(original), len(original), eol + eol.join(box_lines) + eol + "        "))
             for left, right, replacement in sorted(edits, reverse=True):
                 original = original[:left] + replacement + original[right:]
@@ -289,15 +395,3 @@ class Script:
         suffix = self.source[opening:]
         separator = "" if suffix.startswith(("\n", "\r\n")) else eol
         return self.source[:opening] + eol + entry + separator + suffix, entry
-
-    def managed_names(self, callback):
-        if callback is None:
-            return set()
-        body = self.source[self.tokens[callback.first].start():self.tokens[callback.close].start()]
-        marker = "            -- animation editor boxes"
-        if marker not in body:
-            return set()
-        tail = body.split(marker, 1)[1].split("-- end animation editor boxes", 1)[0]
-        return {string_value(match[1]) for match in re.finditer(
-            r':SetBounds\(("(?:\\.|[^"\\])*")\s*,', tail
-        )}

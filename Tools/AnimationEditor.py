@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 from time import perf_counter
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import filedialog, messagebox, simpledialog, ttk
 
 from PIL import Image, ImageTk
 
@@ -99,12 +99,12 @@ class Editor:
         self.loop = tk.BooleanVar(value=True)
         self.drag = None
         self.draft = {}
+        self.cleared_box_commands = set()
         self.sprite = tk.StringVar()
         self.state_name = tk.StringVar()
         self.frame_text = tk.StringVar(value="0")
         self.status = tk.StringVar(value="Open a character Lua script.")
         self.name = tk.StringVar()
-        self.kind = tk.StringVar(value="Hitbox")
         self.active = tk.BooleanVar(value=True)
         self.coordinates = [tk.StringVar(value="0") for _ in range(4)]
         self.frame_label = tk.StringVar()
@@ -142,6 +142,8 @@ class Editor:
         self.keys = tk.Listbox(timeline, width=23, exportselection=False)
         self.keys.pack(fill="both", expand=True, pady=(5, 0))
         self.keys.bind("<<ListboxSelect>>", self.pick_key)
+        move_key = ttk.Button(timeline, text="Move keyframe…", command=self.move_keyframe)
+        move_key.pack(fill="x", pady=(5, 0))
 
         controls = ttk.Frame(preview, padding=5)
         controls.pack(fill="x")
@@ -170,13 +172,9 @@ class Editor:
         self.boxes = tk.Listbox(inspector, exportselection=False, height=8)
         self.boxes.pack(fill="x", pady=(3, 6))
         self.boxes.bind("<<ListboxSelect>>", self.pick_box)
-        ttk.Label(inspector, text="Box name and type").pack(anchor="w")
-        name_row = ttk.Frame(inspector)
-        name_row.pack(fill="x")
-        self.name_entry = ttk.Entry(name_row, textvariable=self.name, width=18)
-        self.name_entry.pack(side="left", fill="x", expand=True)
-        ttk.Combobox(name_row, textvariable=self.kind, values=("Hitbox", "Hurtbox"),
-                     state="readonly", width=9).pack(side="left", padx=(5, 0))
+        ttk.Label(inspector, text="Box name").pack(anchor="w")
+        self.name_entry = ttk.Entry(inspector, textvariable=self.name, width=18)
+        self.name_entry.pack(fill="x")
         ttk.Checkbutton(inspector, text="Active on this frame", variable=self.active).pack(anchor="w", pady=5)
         bounds = ttk.Frame(inspector)
         bounds.pack(fill="x")
@@ -185,20 +183,28 @@ class Editor:
             ttk.Label(bounds, text=label).grid(row=0, column=index, sticky="w")
             ttk.Entry(bounds, textvariable=value, width=7).grid(row=1, column=index, sticky="ew", padx=(0, 3))
         ttk.Button(inspector, text="Apply box values", command=self.apply_box).pack(fill="x", pady=5)
-        ttk.Button(inspector, text="New box", command=self.new_box).pack(fill="x")
+        box_actions = ttk.Frame(inspector)
+        box_actions.pack(fill="x")
+        ttk.Button(inspector, text="New box", command=self.new_box).pack(fill="x", pady=(0, 5))
+        for label, methods in (
+            ("Clear bounds", ("SetBounds",)),
+            ("Clear activation", ("SetActive",)),
+            ("Clear both", ("SetBounds", "SetActive")),
+        ):
+            ttk.Button(box_actions, text=label, command=lambda methods=methods: self.clear_box_commands(methods)
+                       ).pack(side="left", fill="x", expand=True)
 
         ttk.Separator(inspector).pack(fill="x", pady=12)
         ttk.Button(inspector, text="Copy keyframe Lua", command=lambda: self.export(False)).pack(fill="x")
         ttk.Button(inspector, text="Write keyframe to Lua…", command=lambda: self.export(True)).pack(fill="x", pady=5)
-        ttk.Button(inspector, text="Copy prefab box component", command=self.copy_component).pack(fill="x")
         ttk.Label(root, textvariable=self.status, padding=8, wraplength=850).pack(fill="x")
-        self.playback_edit_controls = [frame_input] + [
-            widget for parent in (inspector, name_row, bounds) for widget in parent.winfo_children()
+        self.playback_edit_controls = [frame_input, move_key] + [
+            widget for parent in (inspector, bounds, box_actions) for widget in parent.winfo_children()
             if isinstance(widget, (ttk.Button, ttk.Entry, ttk.Checkbutton))
         ]
 
     def dirty(self):
-        return bool(self.draft) or self.sprite.get() != self.baseline_sprite
+        return bool(self.draft or self.cleared_box_commands) or self.sprite.get() != self.baseline_sprite
 
     def may_leave(self):
         return not self.dirty() or messagebox.askyesno(
@@ -226,7 +232,6 @@ class Editor:
             messagebox.showerror("Open animation", str(error))
             return
         self.raw, self.script, self.texture, self.sprites, self.defaults, self.default_sprite = project
-        self.authored_types = {}
         self.photo_key = None
         self.path = path
         self.sprite_picker["values"] = tuple(sorted(self.sprites))
@@ -285,10 +290,6 @@ class Editor:
         self.baseline_sprite, self.base_boxes = self.script.preview(
             self.state, frame, self.defaults, self.default_sprite)
         self.sprite.set(self.baseline_sprite)
-        for name, kind in self.authored_types.items():
-            if name in self.base_boxes:
-                box = self.base_boxes[name]
-                self.base_boxes[name] = Box(name, kind, box.bounds, box.active)
         self.highlight_frame()
         label = "Existing keyframe" if frame in self.state.occupied else "New keyframe"
         if self.state.max_frames:
@@ -305,6 +306,7 @@ class Editor:
 
     def load_frame(self, frame):
         self.draft.clear()
+        self.cleared_box_commands.clear()
         self.preview_frame(frame)
         self.reset_box_selection()
         self.sprite_picker["values"] = tuple(sorted(self.sprites))
@@ -394,10 +396,10 @@ class Editor:
         else:
             self.canvas.create_text(12, 12, anchor="nw", fill="#e1e8f0",
                                     text="Choose a sprite ID from the atlas.")
-        for box in (self.base_boxes | self.draft).values():
+        for box in self.visible_boxes().values():
             if min(box.bounds[2:]) <= 0:
                 continue
-            color = "#ff7373" if box.kind == "Hitbox" else "#67c7ff"
+            color = {"Hitbox": "#ff7373", "Hurtbox": "#67c7ff"}.get(box.kind, "#b6bfc9")
             left, top, right, bottom = box.rectangle((ox, oy), self.zoom)
             self.canvas.create_rectangle(left, top, right, bottom, outline=color,
                                          width=3 if box.name == self.selected_box else 1,
@@ -414,21 +416,59 @@ class Editor:
         self.selected_box = None
         self.boxes.selection_clear(0, "end")
         self.name.set("")
-        self.kind.set("Hitbox")
         self.active.set(True)
         for value in self.coordinates:
             value.set("0")
 
+    def visible_boxes(self):
+        if not self.draft and not self.cleared_box_commands:
+            return self.base_boxes
+        _, boxes = self.script.preview(
+            self.state, self.frame, self.defaults, self.default_sprite, self.keyframe_box_commands()
+        )
+        return boxes
+
+    def saved_box_commands(self):
+        callback = self.state.keys.get(self.frame)
+        commands = callback.managed_box_calls if callback else {}
+        return {key: value for key, value in commands.items() if key not in self.cleared_box_commands}
+
+    def keyframe_box_commands(self):
+        return self.saved_box_commands() | self.draft
+
     def refresh_boxes(self):
-        boxes = self.base_boxes | self.draft
+        boxes = self.visible_boxes()
         self.box_names = sorted(boxes)
         self.boxes.delete(0, "end")
         for index, name in enumerate(self.box_names):
             box = boxes[name]
-            self.boxes.insert("end", f"{name}  ·  {box.kind}  ·  {'on' if box.active else 'off'}")
+            self.boxes.insert("end", f"{name}  ·  {box.kind or 'Undefined'}  ·  {'on' if box.active else 'off'}")
             if name == self.selected_box:
                 self.boxes.selection_set(index)
         self.redraw()
+
+    def clear_box_commands(self, methods):
+        if self.path is None or self.play_timer is not None:
+            return
+        name = self.selected_box
+        if name is None:
+            self.status.set("Select a box to clear its keyframe commands.")
+            return
+        matching = {(name, method) for method in methods} & self.keyframe_box_commands().keys()
+        if not matching:
+            self.status.set(f"{name} has no matching editor-authored command on this keyframe.")
+            return
+        callback = self.state.keys.get(self.frame)
+        if callback:
+            self.cleared_box_commands.update(matching & callback.managed_box_calls.keys())
+        for key in matching:
+            self.draft.pop(key, None)
+        self.refresh_boxes()
+        if name in self.box_names:
+            self.pick_box(None)
+        else:
+            self.reset_box_selection()
+        self.status.set(f"Cleared {len(matching)} command(s) for {name}. Copy or write the keyframe to apply.")
 
     def pick_box(self, _event):
         if self.play_timer is not None:
@@ -437,9 +477,8 @@ class Editor:
         if not selection:
             return
         self.selected_box = self.box_names[selection[0]]
-        box = self.draft.get(self.selected_box) or self.base_boxes[self.selected_box]
+        box = self.visible_boxes()[self.selected_box]
         self.name.set(box.name)
-        self.kind.set(box.kind)
         self.active.set(box.active)
         for field, number in zip(self.coordinates, box.bounds):
             field.set(format(number, ".15g"))
@@ -484,20 +523,60 @@ class Editor:
         except ValueError as error:
             self.status.set(str(error))
             return
-        existing = self.defaults.get(name)
-        kind = existing.kind if existing else self.kind.get()
-        self.kind.set(kind)
-        self.draft[name] = Box(name, kind, bounds, self.active.get())
+        activation = (name, "SetActive")
+        baseline = self.base_boxes
+        if activation in self.cleared_box_commands:
+            _, baseline = self.script.preview(
+                self.state, self.frame, self.defaults, self.default_sprite, self.saved_box_commands()
+            )
+        previous = baseline.get(name)
+        was_active = previous.active if previous else False
+        self.draft[name, "SetBounds"] = bounds
+        if self.active.get() != was_active:
+            self.draft[activation] = self.active.get()
+        else:
+            self.draft.pop(activation, None)
         self.selected_box = name
         self.refresh_boxes()
         if name in self.defaults:
             self.status.set(f"Updated {name} in the frame draft.")
         else:
-            self.status.set(f"{name} needs a matching prefab definition. Use Copy prefab box component.")
+            self.status.set(f"{name} needs a matching definition in the prefab JSON.")
 
     def copy(self, value):
         self.root.clipboard_clear()
         self.root.clipboard_append(value)
+
+    def move_keyframe(self):
+        if self.path is None or self.play_timer is not None:
+            return
+        if self.frame not in self.state.frame_tokens:
+            self.status.set("Select a keyframe with a unique literal frame number to move.")
+            return
+        if self.dirty():
+            self.status.set("Write or discard the current draft before moving its keyframe.")
+            return
+        destination = simpledialog.askinteger(
+            "Move keyframe",
+            f"Move frame {self.frame} in {self.state.name} to this frame in {self.path.name}:",
+            initialvalue=self.frame, minvalue=0, maxvalue=2147483647, parent=self.root,
+        )
+        if destination is None or destination == self.frame:
+            return
+        try:
+            source = self.script.move_keyframe(self.state, self.frame, destination)
+            updated = Script(source)
+            state = updated.states[self.state.name]
+            if destination not in state.frame_tokens or self.frame in state.occupied:
+                raise ValueError("The moved keyframe could not be read back.")
+            self.raw = write_script(self.path, self.raw, source)
+            self.script, self.state = updated, state
+            original_frame = self.frame
+            self.refresh_keys()
+            self.load_frame(destination)
+            self.status.set(f"Moved keyframe from {original_frame} to {destination}.")
+        except (OSError, ValueError) as error:
+            messagebox.showerror("Move keyframe", str(error), parent=self.root)
 
     def export(self, write):
         if self.path is None:
@@ -508,23 +587,31 @@ class Editor:
                 raise ValueError("Choose a valid atlas sprite ID.")
             callback = self.state.keys.get(self.frame)
             sprite_edit = sprite if sprite != self.baseline_sprite or callback is None else ""
-            if not sprite_edit and not self.draft and callback is None:
+            box_edits = self.keyframe_box_commands() if self.draft or self.cleared_box_commands else None
+            if not sprite_edit and not box_edits and callback is None:
                 raise ValueError("Choose a sprite or add a box for the new keyframe.")
-            boxes = {name: self.base_boxes[name] for name in sorted(self.script.managed_names(callback))
-                     if name in self.base_boxes}
-            boxes.update(self.draft)
-            source, entry = self.script.edit(self.state, self.frame, sprite_edit, boxes if self.draft else {})
+            source, entry = self.script.edit(self.state, self.frame, sprite_edit, box_edits)
+            updated = Script(source) if source != self.script.source else self.script
+            edited_state = updated.states[self.state.name]
+            synced = updated.sync_exit_cleanup(edited_state)
+            cleanup_changed = synced != source
+            if cleanup_changed:
+                source = synced
+                updated = Script(source)
             if not write:
-                self.copy(entry)
-                if self.state.table < 0:
+                if cleanup_changed:
+                    self.copy(updated.state_text(updated.states[self.state.name]))
+                    self.status.set("Copied the state with its onExit. Replace the existing state assignment in Lua.")
+                elif self.state.table < 0:
+                    self.copy(entry)
                     self.status.set("Copied a keyFrames field. Paste it inside the state table.")
                 else:
+                    self.copy(entry)
                     self.status.set("Copied Lua. Replace this frame entry or paste it into the state's keyFrames table.")
                 return
             if source == self.script.source:
                 self.status.set("No keyframe changes to write.")
                 return
-            updated = Script(source)
             if self.frame not in updated.states[self.state.name].keys:
                 raise ValueError("The edited keyframe could not be read back.")
             if not messagebox.askyesno("Write keyframe?", f"Write {self.state.name} frame {self.frame} to {self.path.name}?"):
@@ -533,31 +620,12 @@ class Editor:
             self.script = updated
             self.state = updated.states[self.state.name]
             self.refresh_keys()
-            undefined = sorted(self.draft.keys() - self.defaults.keys())
-            self.authored_types.update({name: boxes[name].kind for name in undefined})
+            undefined = sorted({name for name, _ in self.draft} - self.defaults.keys())
             self.load_frame(self.frame)
-            self.status.set("Wrote keyframe." + (f" Add prefab definitions for {', '.join(undefined)}." if undefined else ""))
+            status = "Wrote keyframe and onExit cleanup." if cleanup_changed else "Wrote keyframe."
+            self.status.set(status + (f" Add prefab definitions for {', '.join(undefined)}." if undefined else ""))
         except (OSError, ValueError) as error:
             messagebox.showerror("Export keyframe", str(error))
-
-    def copy_component(self):
-        if self.path is None:
-            return
-        boxes = self.defaults | self.base_boxes | self.draft
-        if not boxes:
-            self.status.set("Draw or apply a named box first.")
-            return
-        definitions = []
-        for name, box in sorted(boxes.items()):
-            initial = self.defaults.get(name, box)
-            x, y, width, height = initial.bounds
-            definitions.append({"name": name, "type": initial.kind, "position": {"x": x, "y": y},
-                                "size": {"x": width, "y": height},
-                                "active": initial.active if name in self.defaults else False})
-        self.copy(json.dumps({"componentType": "hitbox", "componentName": "hitbox",
-                              "data": {"hitboxes": definitions}}, indent=2))
-        self.status.set("Copied the prefab component JSON. Add or merge it in the character's components array.")
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
