@@ -1,5 +1,6 @@
 """Standalone sprite keyframe and hitbox editor for Project Holo."""
 import argparse
+from dataclasses import dataclass
 import json
 import math
 import os
@@ -17,6 +18,14 @@ from animation_editor_lua import Box, PIXELS_PER_UNIT, Script
 ROOT = Path(__file__).resolve().parents[1]
 KIARA = ROOT / "assets/animation/kiara/kiara.lua"
 PLAYBACK_FPS = 60
+
+
+@dataclass(frozen=True)
+class SpriteLayer:
+    default_sprite: str = ""
+    offset_x: float = 0
+    offset_y: float = 0
+    draw_order: int = 0
 
 
 def read_json(path):
@@ -50,19 +59,23 @@ def load_project(lua_path, atlas_path=None, texture_path=None, prefab_path=None)
         raise ValueError("The atlas has no sprites.")
 
     prefab = prefab_path or ROOT / "assets/prefabs/characters" / lua_path.stem / (lua_path.stem + ".json")
-    defaults, default_sprite = {}, ""
+    defaults, layers = {}, {}
     if prefab_path or prefab.is_file():
         for component in read_json(prefab)["components"]:
             data = component["data"]
-            if component.get("componentName") == "sprite":
-                default_sprite = data.get("defaultSprite", "")
+            if component.get("componentType") == "sprite":
+                offset = data.get("spriteOffset", {})
+                layers[component["componentName"]] = SpriteLayer(
+                    data.get("defaultSprite", ""), offset.get("x", 0), offset.get("y", 0),
+                    data.get("drawOrder", 0),
+                )
             if component.get("componentName") == "hitbox":
                 for entry in data["hitboxes"]:
                     point, size = entry["position"], entry["size"]
                     box = Box(entry["name"], entry["type"], (point["x"], point["y"], size["x"], size["y"]),
                               entry.get("active", False))
                     defaults[box.name] = box
-    return raw, script, texture, sprites, defaults, default_sprite
+    return raw, script, texture, sprites, defaults, layers
 
 
 def write_script(path, expected, source):
@@ -93,8 +106,7 @@ class Editor:
         self.path = None
         self.frame = 0
         self.zoom = 3
-        self.photo = None
-        self.photo_key = None
+        self.photos = {}
         self.play_timer = None
         self.loop = tk.BooleanVar(value=True)
         self.drag = None
@@ -144,6 +156,8 @@ class Editor:
         self.keys.bind("<<ListboxSelect>>", self.pick_key)
         move_key = ttk.Button(timeline, text="Move keyframe…", command=self.move_keyframe)
         move_key.pack(fill="x", pady=(5, 0))
+        edit_duration = ttk.Button(timeline, text="Edit max frames…", command=self.edit_max_frames)
+        edit_duration.pack(fill="x", pady=(5, 0))
 
         controls = ttk.Frame(preview, padding=5)
         controls.pack(fill="x")
@@ -198,7 +212,7 @@ class Editor:
         ttk.Button(inspector, text="Copy keyframe Lua", command=lambda: self.export(False)).pack(fill="x")
         ttk.Button(inspector, text="Write keyframe to Lua…", command=lambda: self.export(True)).pack(fill="x", pady=5)
         ttk.Label(root, textvariable=self.status, padding=8, wraplength=850).pack(fill="x")
-        self.playback_edit_controls = [frame_input, move_key] + [
+        self.playback_edit_controls = [frame_input, move_key, edit_duration] + [
             widget for parent in (inspector, bounds, box_actions) for widget in parent.winfo_children()
             if isinstance(widget, (ttk.Button, ttk.Entry, ttk.Checkbutton))
         ]
@@ -231,8 +245,9 @@ class Editor:
         except (OSError, ValueError, KeyError, TypeError) as error:
             messagebox.showerror("Open animation", str(error))
             return
-        self.raw, self.script, self.texture, self.sprites, self.defaults, self.default_sprite = project
-        self.photo_key = None
+        self.raw, self.script, self.texture, self.sprites, self.defaults, self.layers = project
+        self.default_sprites = {name: layer.default_sprite for name, layer in self.layers.items()}
+        self.photos.clear()
         self.path = path
         self.sprite_picker["values"] = tuple(sorted(self.sprites))
         self.state_picker["values"] = tuple(self.script.states)
@@ -287,8 +302,9 @@ class Editor:
     def preview_frame(self, frame):
         self.frame = frame
         self.frame_text.set(str(frame))
-        self.baseline_sprite, self.base_boxes = self.script.preview(
-            self.state, frame, self.defaults, self.default_sprite)
+        self.frame_sprites, self.base_boxes = self.script.preview(
+            self.state, frame, self.defaults, self.default_sprites)
+        self.baseline_sprite = self.frame_sprites.get("sprite", "")
         self.sprite.set(self.baseline_sprite)
         self.highlight_frame()
         label = "Existing keyframe" if frame in self.state.occupied else "New keyframe"
@@ -381,19 +397,8 @@ class Editor:
             self.canvas.create_line(0, y, width, y, fill="#343d49")
         self.canvas.create_line(0, oy, width, oy, fill="#748294")
         self.canvas.create_line(ox, 0, ox, height, fill="#748294")
-        sprite = self.sprites.get(self.sprite.get())
-        if sprite:
-            x, y = sprite["point"]["x"], sprite["point"]["y"]
-            w, h = sprite["size"]["x"], sprite["size"]["y"]
-            pivot = sprite["pivot"]
-            photo_key = (self.sprite.get(), self.zoom)
-            if photo_key != self.photo_key:
-                crop = self.texture.crop((x, y, x + w, y + h))
-                self.photo = ImageTk.PhotoImage(crop.resize((w * self.zoom, h * self.zoom), Image.Resampling.NEAREST))
-                self.photo_key = photo_key
-            self.canvas.create_image(ox - pivot["x"] * self.zoom, oy - pivot["y"] * self.zoom,
-                                     anchor="nw", image=self.photo)
-        else:
+        self.draw_sprite_layers(ox, oy)
+        if self.sprite.get() not in self.sprites:
             self.canvas.create_text(12, 12, anchor="nw", fill="#e1e8f0",
                                     text="Choose a sprite ID from the atlas.")
         for box in self.visible_boxes().values():
@@ -407,6 +412,28 @@ class Editor:
             self.canvas.create_text(left + 3, top + 2, text=box.name, fill=color, anchor="nw")
         self.canvas.create_line(ox - 5, oy, ox + 5, oy, fill="white")
         self.canvas.create_line(ox, oy - 5, ox, oy + 5, fill="white")
+
+    def draw_sprite_layers(self, ox, oy):
+        sprite_ids = self.default_sprites | {"sprite": ""} | self.frame_sprites | {"sprite": self.sprite.get()}
+        layers = [(self.layers.get(name, SpriteLayer()), sprite_id) for name, sprite_id in sprite_ids.items()]
+        photos = {}
+        for layer, sprite_id in sorted(layers, key=lambda entry: entry[0].draw_order):
+            sprite = self.sprites.get(sprite_id)
+            if not sprite:
+                continue
+            key = (sprite_id, self.zoom)
+            photo = photos.get(key) or self.photos.get(key)
+            if photo is None:
+                x, y = sprite["point"]["x"], sprite["point"]["y"]
+                w, h = sprite["size"]["x"], sprite["size"]["y"]
+                crop = self.texture.crop((x, y, x + w, y + h))
+                photo = ImageTk.PhotoImage(crop.resize((w * self.zoom, h * self.zoom), Image.Resampling.NEAREST))
+            photos[key] = photo
+            pivot = sprite["pivot"]
+            x = ox + (layer.offset_x * PIXELS_PER_UNIT - pivot["x"]) * self.zoom
+            y = oy - (layer.offset_y * PIXELS_PER_UNIT + pivot["y"]) * self.zoom
+            self.canvas.create_image(x, y, anchor="nw", image=photo)
+        self.photos = photos
 
     def new_box(self):
         self.reset_box_selection()
@@ -424,7 +451,7 @@ class Editor:
         if not self.draft and not self.cleared_box_commands:
             return self.base_boxes
         _, boxes = self.script.preview(
-            self.state, self.frame, self.defaults, self.default_sprite, self.keyframe_box_commands()
+            self.state, self.frame, self.defaults, self.default_sprites, self.keyframe_box_commands()
         )
         return boxes
 
@@ -527,7 +554,7 @@ class Editor:
         baseline = self.base_boxes
         if activation in self.cleared_box_commands:
             _, baseline = self.script.preview(
-                self.state, self.frame, self.defaults, self.default_sprite, self.saved_box_commands()
+                self.state, self.frame, self.defaults, self.default_sprites, self.saved_box_commands()
             )
         previous = baseline.get(name)
         was_active = previous.active if previous else False
@@ -577,6 +604,39 @@ class Editor:
             self.status.set(f"Moved keyframe from {original_frame} to {destination}.")
         except (OSError, ValueError) as error:
             messagebox.showerror("Move keyframe", str(error), parent=self.root)
+
+    def edit_max_frames(self):
+        if self.path is None or self.play_timer is not None:
+            return
+        if self.dirty():
+            self.status.set("Write or discard the current draft before changing maxFrames.")
+            return
+        last_key = max(self.state.occupied, default=0)
+        count = simpledialog.askinteger(
+            "Edit max frames",
+            f"Set maxFrames for {self.state.name} in {self.path.name}.\n"
+            f"The preview includes keyframes through frame {last_key}.",
+            initialvalue=self.state.max_frames or last_key + 1,
+            minvalue=1, maxvalue=2147483647, parent=self.root,
+        )
+        if count is None:
+            return
+        try:
+            source = self.script.set_max_frames(self.state, count)
+            if source == self.script.source:
+                return
+            updated = Script(source)
+            state = updated.states[self.state.name]
+            if state.max_frames != count:
+                raise ValueError("The updated maxFrames could not be read back.")
+            self.raw = write_script(self.path, self.raw, source)
+            self.script, self.state = updated, state
+            self.load_frame(self.frame)
+            self.status.set(f"Set maxFrames to {count}." + (
+                f" The preview still includes frame {last_key}." if last_key >= count else ""
+            ))
+        except (OSError, ValueError) as error:
+            messagebox.showerror("Edit max frames", str(error), parent=self.root)
 
     def export(self, write):
         if self.path is None:

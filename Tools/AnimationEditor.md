@@ -19,7 +19,11 @@ python Tools/AnimationEditor.py assets/animation/kiara/kiara.lua --atlas assets/
 
 Click **Play** to preview the selected state at 60 frames per second with its sprite and box overlays. **Pause** lets you edit the current frame. Playback loops by default. Clear **Loop** to stop on the final frame. The preview runs through the state's `maxFrames` or its last authored keyframe, whichever extends farther.
 
+The preview draws named sprite layers such as Kiara's `altSprite` from literal `SetSprite` calls in `onEnter` and keyframes. Layers use their atlas pivots and prefab offsets and draw order. A layer stays visible until a later assignment changes it or `SetSprite("")` clears it. The **Sprite ID** field edits the main sprite.
+
 To retime an existing keyframe, select it and click **Move keyframe…** below the keyframe list. Enter a free frame number to update the open Lua file and jump to that frame. The move changes only the numeric key. Check `maxFrames` and the state's tick logic when moving a key later in the animation.
+
+Use **Edit max frames…** below the keyframe list to write a positive `maxFrames` value for the selected state. If you shorten the state, playback still shows any authored keys past the new duration so you can retime them. Computed `maxFrames` expressions can be edited in Lua.
 
 Select a box and click **Clear bounds**, **Clear activation**, or **Clear both** to delete the corresponding editor-authored Lua calls from the selected keyframe. The preview shows the values inherited from the prefab or earlier Lua. Copy or write the keyframe to apply the change. Clear controls apply to editor-authored commands, including unsaved drafts. Handwritten Lua calls can be edited in the script.
 

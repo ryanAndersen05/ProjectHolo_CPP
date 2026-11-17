@@ -67,6 +67,7 @@ class Callback:
     sprite: str = ""
     sprite_token: int = -1
     sprite_calls: int = 0
+    sprite_layers: dict = field(default_factory=dict)
     box_calls: list = field(default_factory=list)
     managed_box_calls: dict = field(default_factory=dict)
     managed_box_indices: list = field(default_factory=list)
@@ -80,6 +81,7 @@ class State:
     assignment: int
     table: int = -1
     max_frames: int = 0
+    max_frames_field: int = -1
     enter: Callback = None
     tick: Callback = None
     exit_field: int = -1
@@ -128,14 +130,24 @@ class Script:
     def read_state(self, name, opening, assignment):
         state = State(name, opening, assignment)
         for i in self.top_level(opening):
-            fields = self.values[i:i + 3]
+            if (self.values[i] == "[" and self.ends.get(i) == i + 2
+                    and string_value(self.values[i + 1]) == "maxFrames"):
+                i += 2
+                fields = ["maxFrames", *self.values[i + 1:i + 3]]
+            else:
+                fields = self.values[i:i + 3]
             if len(fields) != 3:
                 continue
             field_name, equals, value = fields
             if equals != "=":
                 continue
-            if field_name == "maxFrames" and value.isdecimal():
-                state.max_frames = int(value)
+            if field_name == "maxFrames":
+                if (state.max_frames_field == -1 and value.isdecimal()
+                        and self.values[i + 3] in (",", ";", "}")):
+                    state.max_frames = int(value)
+                    state.max_frames_field = i + 2
+                else:
+                    state.max_frames_field = -2
             if field_name == "onEnter" and value == "function":
                 state.enter = self.read_callback(i + 2)
             if field_name == "tick" and value == "function":
@@ -188,13 +200,17 @@ class Script:
                 aliases.add(self.values[i + 1])
             if self.values[i:i + 3] == [actor, ":", "Sprite"]:
                 end = self.ends.get(i + 3, i)
-                if (self.values[i + 4:end] in ([], ['"sprite"'], ["'sprite'"])
-                        and self.values[end + 1:end + 4] == [":", "SetSprite", "("]):
-                    callback.sprite_calls += 1
+                args = self.values[i + 4:end]
+                layer = "sprite" if not args else string_value(args[0]) if len(args) == 1 else None
+                if layer and self.values[end + 1:end + 4] == [":", "SetSprite", "("]:
+                    if layer == "sprite":
+                        callback.sprite_calls += 1
                     if i in direct and self.ends.get(end + 3) == end + 5:
                         sprite = string_value(self.values[end + 4])
                         if sprite is not None:
-                            callback.sprite, callback.sprite_token = sprite, end + 4
+                            callback.sprite_layers[layer] = sprite
+                            if layer == "sprite":
+                                callback.sprite, callback.sprite_token = sprite, end + 4
             if self.values[i:i + 3] == [actor, ":", "Hitbox"]:
                 end = self.ends.get(i + 3)
                 if end is None or self.values[i + 4:end] not in ([], ['"hitbox"'], ["'hitbox'"]):
@@ -236,14 +252,14 @@ class Script:
                 callback.managed_box_indices.append(len(callback.box_calls) - 1)
         return callback
 
-    def preview(self, state, frame, defaults, default_sprite="", box_commands=None):
+    def preview(self, state, frame, defaults, default_sprites=None, box_commands=None):
         boxes = dict(defaults)
-        sprite = default_sprite
+        sprites = dict(default_sprites or {})
         callbacks = [state.enter] + [state.keys[i] for i in sorted(state.keys) if i <= frame]
         for callback in callbacks:
             if callback is None:
                 continue
-            sprite = callback.sprite or sprite
+            sprites.update(callback.sprite_layers)
             calls = callback.box_calls
             if box_commands is not None and callback is state.keys.get(frame):
                 calls = [call for index, call in enumerate(calls) if index not in callback.managed_box_indices]
@@ -268,7 +284,7 @@ class Script:
                 bounds = value if method == "SetBounds" else box.bounds
                 active = value if method == "SetActive" else box.active
                 boxes[name] = Box(name, box.kind, bounds, active)
-        return sprite, boxes
+        return sprites, boxes
 
     def move_keyframe(self, state, frame, destination):
         if frame not in state.frame_tokens:
@@ -281,6 +297,22 @@ class Script:
             raise ValueError(f"Frame {destination} already has a keyframe.")
         token = self.tokens[state.frame_tokens[frame]]
         return self.source[:token.start()] + str(destination) + self.source[token.end():]
+
+    def set_max_frames(self, state, count):
+        if not 1 <= count <= 2147483647:
+            raise ValueError("Enter a positive 32-bit frame count.")
+        if state.max_frames_field == -2:
+            raise ValueError("This state has a computed or repeated maxFrames field. Edit it in Lua.")
+        if state.max_frames_field >= 0:
+            token = self.tokens[state.max_frames_field]
+            if count == state.max_frames:
+                return self.source
+            return self.source[:token.start()] + str(count) + self.source[token.end():]
+        opening = self.tokens[state.opening].end()
+        suffix = self.source[opening:]
+        eol = "\r\n" if "\r\n" in self.source else "\n"
+        separator = "" if suffix.startswith(("\n", "\r\n")) else eol
+        return self.source[:opening] + f"{eol}    maxFrames = {count}," + separator + suffix
 
     def state_text(self, state):
         start = self.tokens[state.assignment].start()
