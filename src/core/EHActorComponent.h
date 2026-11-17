@@ -10,6 +10,7 @@ public:
     EHActorComponent() : actor(nullptr) {}
     virtual ~EHActorComponent() = default;
     virtual void InitializeComponent(EHActor* actr);
+    virtual void UninitializeComponent() {}
     [[nodiscard]] EHActor* GetActor() const {return actor;}
 
     void SetActorPosition(FVector position) const {actor->SetPosition(position);}

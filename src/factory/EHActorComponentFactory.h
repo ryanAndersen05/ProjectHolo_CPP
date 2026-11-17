@@ -16,6 +16,7 @@ public:
     const static FName InputComponentId;
     const static FName HitboxComponentId;
     const static FName BoxColliderComponentId;
+    const static FName AbilitySystemComponentId;
 
     static EHActorComponent* CreateActorComponent(const FName& componentType, const json& componentData);
 };

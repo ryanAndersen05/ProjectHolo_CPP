@@ -9,6 +9,7 @@
 #include "physics/EHPhyicsComponent.h"
 #include "physics/EHBoxColliderComponent.h"
 #include "sprite/EHSpriteComponent.h"
+#include "gameplayability/EHAbilitySystemComponent.h"
 
 
 const FName EHActorComponentFactory::SpriteComponentId = FName("sprite");
@@ -20,6 +21,7 @@ const FName EHActorComponentFactory::ColorPaletteComponentId = FName("palette");
 const FName EHActorComponentFactory::InputComponentId = FName("input");
 const FName EHActorComponentFactory::BoxColliderComponentId = FName("boxcollider");
 const FName EHActorComponentFactory::HitboxComponentId = FName("hitbox");
+const FName EHActorComponentFactory::AbilitySystemComponentId("abilitysystem");
 
 
 EHActorComponent* EHActorComponentFactory::CreateActorComponent(const FName& componentType, const json& componentData) {
@@ -33,6 +35,11 @@ EHActorComponent* EHActorComponentFactory::CreateActorComponent(const FName& com
     if (componentType == InputComponentId) return new EHInputComponent();
     if (componentType == BoxColliderComponentId) return new EHBoxColliderComponent(componentData.get<EHBoxColliderComponent>());
     if (componentType == HitboxComponentId) return new EHHitboxComponent(componentData.get<EHHitboxComponent>());
+    if (componentType == AbilitySystemComponentId) {
+        auto component = std::make_unique<EHAbilitySystemComponent>();
+        from_json(componentData, *component);
+        return component.release();
+    }
     std::cout << "CreateActorComponent() - Invalid Id: " << componentType.GetKey() << std::endl;
     return nullptr;
 }

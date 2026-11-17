@@ -18,10 +18,18 @@ void EHActor::InitializeActor(const json& componentJson)
 
 EHActor::~EHActor()
 {
+    UninitializeActor();
     for (const auto & container : components)
     {
         delete container.component;
     }
+}
+
+void EHActor::UninitializeActor() {
+    if (hasUninitialized) return;
+    hasUninitialized = true;
+    // Cleanup callbacks can still use sibling components until this pass finishes.
+    for (const auto& container : components) container.component->UninitializeComponent();
 }
 
 void EHActor::SetIsActive(const bool active) {

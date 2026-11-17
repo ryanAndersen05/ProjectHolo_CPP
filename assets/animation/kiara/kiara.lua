@@ -91,8 +91,16 @@ states.kiara_default = {
 
 states.kiara_idle = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle00")  end,
-        [5] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle01")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [5] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle01")  
+        end,
         [10] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle02")  end,
         [15] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle03")  end,
         [20] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_idle04")  end,
@@ -169,12 +177,24 @@ states.kiara_idle = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 states.kiara_walkfstart = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite():SetSprite("kiara_walkf00")  end
+        [0] = function(actor) actor:Sprite():SetSprite("kiara_walkf00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end
     },
     maxFrames = 5,
     onEnter = function(actor)
@@ -191,6 +211,11 @@ states.kiara_walkfstart = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -233,7 +258,14 @@ states.kiara_walkfstart = {
 
 states.kiara_walkf = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf01")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf02")  end,
         [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf03")  end,
         [15] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkf04")  end,
@@ -305,12 +337,24 @@ states.kiara_walkf = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 states.kiara_walkbstart = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb00")  end
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end
     },
     maxFrames = 5,
     onEnter = function(actor)
@@ -327,6 +371,11 @@ states.kiara_walkbstart = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -369,7 +418,14 @@ states.kiara_walkbstart = {
 
 states.kiara_walkb = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb01")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [7] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb02")  end,
         [11] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb03")  end,
         [15] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_walkb04")  end,
@@ -441,13 +497,31 @@ states.kiara_walkb = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 states.kiara_stand2crouch = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch00")  end,
-        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch01")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1)
+            end
+            -- end animation editor boxes
+        end,
         [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch02")  end
     },
     transitions = {
@@ -478,13 +552,25 @@ states.kiara_stand2crouch = {
     end,
     onExit = function(actor)
 
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     maxFrames = 5,
 }
 
 states.kiara_crouch2stand = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch03")  end
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_crouch03")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end
     },
     maxFrames = 4,
     transitions = {
@@ -517,12 +603,24 @@ states.kiara_crouch2stand = {
         return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
 }
 
 states.kiara_hits = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hits00")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hits00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hits01")  end
     },
     onEnter = function(actor)
@@ -538,6 +636,11 @@ states.kiara_hits = {
     end,
     maxFrames = 2,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -555,8 +658,22 @@ states.kiara_hits = {
 }
 
 states.kiara_hitc = {
+    onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
+    end,
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hitc00")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hitc00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hitc00")  end
     },
     onEnter = function(actor)
@@ -572,7 +689,14 @@ states.kiara_hitc = {
 
 states.kiara_hitarise = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita00")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [1] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita00")  end
     },
     onEnter = function(actor)
@@ -588,6 +712,11 @@ states.kiara_hitarise = {
     end,
     maxFrames = 3,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -615,9 +744,28 @@ states.kiara_hitarise = {
 
 states.kiara_hitarise2fall = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita02") end,
-        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita03") end,
-        [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita04") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita02") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita03") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.8, 0.5, 1.3, 0.5)
+            end
+            -- end animation editor boxes
+        end,
+        [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita04") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+            end
+            -- end animation editor boxes
+        end,
     },
     maxFrames = 8,
     onEnter = function(actor)
@@ -628,6 +776,11 @@ states.kiara_hitarise2fall = {
         return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -654,7 +807,14 @@ states.kiara_hitarise2fall = {
 
 states.kiara_hitafall = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita04") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita04") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_hita05") end,
     },
     maxFrames = 9,
@@ -666,6 +826,11 @@ states.kiara_hitafall = {
         return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -687,7 +852,14 @@ states.kiara_hitafall = {
 
 states.kiara_jump = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump00")  end
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end
     },
     transitions = {
         {
@@ -728,12 +900,24 @@ states.kiara_jump = {
     end,
     maxFrames = 3,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end,
 }
 
 states.kiara_rise2fall = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump01")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump02")  end,
     },
     maxFrames = 6,
@@ -783,12 +967,24 @@ states.kiara_rise2fall = {
     end,
     onExit = function(actor)
 
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 states.kiara_fall = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump03")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump03")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_jump04")  end
     },
     maxFrames = 6,
@@ -833,6 +1029,11 @@ states.kiara_fall = {
     end,
     onExit = function(actor)
 
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 
 }
@@ -940,10 +1141,41 @@ states.kiara_standingattack = {
 
 states.kiara_slight = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight00")  end,
-        [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight01")  end,
-        [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight02")  end,
-        [12] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight03")  end
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.35, 0, 0.5, 1.5)
+                actor:Hitbox():SetBounds("Hurtbox2", -0.75, 0.8, 0.7, 0.6)
+                actor:Hitbox():SetActive("Hurtbox2", true)
+                actor:Hitbox():SetBounds("Hitbox1", -1, 0.7, 1, 0.6)
+                actor:Hitbox():SetActive("Hitbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight02")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hitbox1", -1, 0.7, 1, 0.6)
+                actor:Hitbox():SetActive("Hitbox1", false)
+            end
+            -- end animation editor boxes
+        end,
+        [12] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_slight03")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.75, 0.8, 0.7, 0.6)
+                actor:Hitbox():SetActive("Hurtbox2", false)
+            end
+            -- end animation editor boxes
+        end
     },
     maxFrames = 16,
     transitions = {
@@ -1087,19 +1319,75 @@ states.kiara_slight = {
         end
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hitbox1", false)
+            actor:Hitbox():SetActive("Hurtbox1", false)
+            actor:Hitbox():SetActive("Hurtbox2", false)
+        end
+        -- end animation editor exit cleanup
     end,
 }
 
 states.kiara_smedium = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium00")  end,
-        [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium01")  end,
-        [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium02")  end,
-        [10] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium03")  end,
-        [12] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium04")  end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium00")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.5)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [4] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium01")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0.1, 0.4, 0.4, 0.4)
+                actor:Hitbox():SetActive("Hurtbox2", true)
+            end
+            -- end animation editor boxes
+        end,
+        [8] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium02")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.35, 0, 0.6, 1.5)
+                actor:Hitbox():SetBounds("Hurtbox2", -1.2, 0.4, 1, 0.6)
+                actor:Hitbox():SetBounds("Hitbox1", -1.35, 0.4, 1, 0.7)
+                actor:Hitbox():SetActive("Hitbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [10] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium03")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -1, 0.4, 1, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [12] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium04")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hitbox1", -1.35, 0.4, 1, 0.7)
+                actor:Hitbox():SetActive("Hitbox1", false)
+            end
+            -- end animation editor boxes
+        end,
         [14] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium05")  end,
-        [22] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium06")  end,
-        [25] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium07")  end
+        [22] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium06")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.7, 0.3, 0.6, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [25] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_smedium07")  
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.4, 0, 0.5, 1.5)
+                actor:Hitbox():SetBounds("Hurtbox2", -0.6, 0.2, 0.6, 0.6)
+            end
+            -- end animation editor boxes
+        end
     },
     maxFrames = 28,
     transitions = {
@@ -1221,6 +1509,13 @@ states.kiara_smedium = {
         end
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hitbox1", false)
+            actor:Hitbox():SetActive("Hurtbox1", false)
+            actor:Hitbox():SetActive("Hurtbox2", false)
+        end
+        -- end animation editor exit cleanup
     end,
 }
 
@@ -3048,14 +3343,66 @@ states.kiara_clight = {
 -- Kiara_CAtkMedium / Kiara_CAtkMedium
 states.kiara_cmedium = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium00") end,
-        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium01") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium00") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.4, 0, 0.8, 1)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
+        [3] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium01") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.2, 0, 0.9, 0.9)
+            end
+            -- end animation editor boxes
+        end,
         [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium02") end,
-        [13] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium03") end,
-        [16] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium04") end,
+        [13] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium03") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.3, 0, 0.9, 0.9)
+                actor:Hitbox():SetBounds("Hurtbox2", -1, 0, 1, 0.6)
+                actor:Hitbox():SetActive("Hurtbox2", true)
+                actor:Hitbox():SetBounds("Hurtbox3", -1.2, 0, 0.4, 0.4)
+                actor:Hitbox():SetActive("Hurtbox3", true)
+                actor:Hitbox():SetBounds("Hitbox1", -1, 0, 1, 0.7)
+                actor:Hitbox():SetActive("Hitbox1", true)
+                actor:Hitbox():SetBounds("Hitbox2", -1.5, 0, 0.6, 0.5)
+                actor:Hitbox():SetActive("Hitbox2", true)
+            end
+            -- end animation editor boxes
+        end,
+        [16] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium04") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hitbox1", -1, 0, 1, 0.7)
+                actor:Hitbox():SetActive("Hitbox1", false)
+                actor:Hitbox():SetBounds("Hitbox2", -1.5, 0, 0.6, 0.5)
+                actor:Hitbox():SetActive("Hitbox2", false)
+            end
+            -- end animation editor boxes
+        end,
         [19] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium05") end,
-        [25] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium06") end,
-        [28] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium07") end,
+        [25] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium06") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.5, 0, 0.3, 0.6)
+                actor:Hitbox():SetBounds("Hurtbox3", -1.2, 0, 0.4, 0.4)
+                actor:Hitbox():SetActive("Hurtbox3", false)
+            end
+            -- end animation editor boxes
+        end,
+        [28] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cmedium07") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.5, 0, 0.3, 0.6)
+                actor:Hitbox():SetActive("Hurtbox2", false)
+                actor:Hitbox():SetBounds("Hurtbox1", -0.3, 0, 0.6, 1)
+            end
+            -- end animation editor boxes
+        end,
     },
     maxFrames = 33,
     onEnter = function(actor)
@@ -3066,6 +3413,15 @@ states.kiara_cmedium = {
         return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
     end,
     onExit = function(actor)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hitbox1", false)
+            actor:Hitbox():SetActive("Hitbox2", false)
+            actor:Hitbox():SetActive("Hurtbox1", false)
+            actor:Hitbox():SetActive("Hurtbox2", false)
+            actor:Hitbox():SetActive("Hurtbox3", false)
+        end
+        -- end animation editor exit cleanup
     end,
     transitions = {
         {
@@ -3503,10 +3859,23 @@ states.kiara_cheavyfull = {
 -- Kiara_CAtkHeavyEarly / Kiara_CAtkHeavyEarlyHit
 states.kiara_cheavy = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cheavy02") end,
-        [2] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cheavy03") end,
-        [6] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cheavy04") end,
-        [9] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cheavy05") end,
+        [0] = function(actor)
+            actor:Sprite("sprite"):SetSprite("kiara_cheavy02")
+        end,
+        [2] = function(actor)
+            actor:Sprite("sprite"):SetSprite("kiara_cheavy03")
+            actor:Sprite("altSprite"):SetSprite("kiara_cheavyfx00")
+        end,
+        [6] = function(actor)
+            actor:Sprite("sprite"):SetSprite("kiara_cheavy04")
+            actor:Sprite("altSprite"):SetSprite("kiara_cheavyfx01")
+
+        end,
+        [9] = function(actor)
+            actor:Sprite("sprite"):SetSprite("kiara_cheavy05")
+            actor:Sprite("altSprite"):SetSprite("kiara_cheavyfx02")
+        end,
+        [12] = function(actor) actor:Sprite("altSprite"):SetSprite("")  end,
         [16] = function(actor) actor:Sprite("sprite"):SetSprite("kiara_cheavy06") end,
     },
     maxFrames = 26,
@@ -3518,6 +3887,7 @@ states.kiara_cheavy = {
         return StateMachineCommon.evaluateTransitions(actor, self, states.parameters, frame)
     end,
     onExit = function(actor)
+        actor:Sprite("altSprite"):SetSprite("")
     end,
     transitions = {
         {

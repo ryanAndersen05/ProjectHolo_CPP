@@ -1,0 +1,5 @@
+{
+  "scriptAsset":"counter_script", "removeOnEnd":true,
+  "ownedTags":[{"tag":"attacking"}], "effectsOnBegin":["speed_buff"],
+  "config":{"endFrames":1}
+}

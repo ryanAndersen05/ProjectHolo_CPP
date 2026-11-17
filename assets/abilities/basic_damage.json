@@ -1,0 +1,7 @@
+{
+  "scriptAsset": "ability_basic_damage_script",
+  "blockedTags": ["stunned"],
+  "config": {
+    "damageEffect": "effect_basic_damage"
+  }
+}

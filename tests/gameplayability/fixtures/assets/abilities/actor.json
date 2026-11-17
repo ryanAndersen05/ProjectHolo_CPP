@@ -1,0 +1,10 @@
+{
+  "actorType":"character",
+  "components":[{
+    "componentType":"abilitysystem", "componentName":"abilitysystem",
+    "data":{
+      "attributes":{"health":{"base":100},"speed":{"base":10},"ticks":{"base":0}},
+      "abilities":["counter"]
+    }
+  }]
+}

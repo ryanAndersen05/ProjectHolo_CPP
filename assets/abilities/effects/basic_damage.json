@@ -1,0 +1,6 @@
+{
+  "type": "Instant",
+  "modifiers": [
+    { "attribute": "health", "type": "Subtract", "value": 25 }
+  ]
+}

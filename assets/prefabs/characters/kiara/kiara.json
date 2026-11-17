@@ -2,6 +2,18 @@
   "actorType": "character",
   "components": [
     {
+      "componentType": "abilitysystem",
+      "componentName": "abilitysystem",
+      "data": {
+        "attributes": {
+          "maxHealth": { "base": 1000, "min": 0 },
+          "health": { "base": 1000, "min": 0, "maxAttribute": "maxHealth" },
+          "meter": { "base": 0, "min": 0 }
+        },
+        "abilities": ["ability_basic_damage", "ability_guard"]
+      }
+    },
+    {
       "componentType": "boxcollider",
       "componentName": "boxcollider",
       "data": {
@@ -24,6 +36,50 @@
       "componentName": "animator",
       "data": {
         "stateMachineAsset": "kiara_state_machine"
+      }
+    },
+    {
+      "componentType": "hitbox",
+      "componentName": "hitbox",
+      "data":{
+        "hitboxes": [
+          {
+            "name": "Hitbox1",
+            "type": "Hitbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "name": "Hitbox2",
+            "type": "Hitbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "name": "Hitbox3",
+            "type": "Hitbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "name": "Hurtbox1",
+            "type": "Hurtbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "name": "Hurtbox2",
+            "type": "Hurtbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "name": "Hurtbox3",
+            "type": "Hurtbox",
+            "size": { "x": 0, "y": 0 },
+            "position": { "x": 0, "y": 0 }
+          }
+        ]
       }
     },
     {
@@ -57,6 +113,18 @@
         {
           "vertAsset": "sprite_vert",
           "fragAsset": "sprite_frag"
+        }
+      }
+    },
+    {
+      "componentType": "sprite",
+      "componentName": "altSprite",
+      "data":
+      {
+        "defaultSprite": "",
+        "spriteOffset": {
+          "x": 0,
+          "y": 0
         }
       }
     },

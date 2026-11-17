@@ -1,0 +1,6 @@
+{
+  "scriptAsset": "ability_timed_script",
+  "blockedTags": ["stunned"],
+  "ownedTags": [{ "tag": "invulnerable" }],
+  "config": { "durationFrames": 12 }
+}

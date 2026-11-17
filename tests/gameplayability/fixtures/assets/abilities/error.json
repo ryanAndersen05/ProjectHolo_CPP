@@ -1,0 +1,4 @@
+{
+  "scriptAsset":"counter_script", "ownedTags":[{"tag":"attacking"}],
+  "effectsOnBegin":["speed_buff"], "config":{"failTick":true}
+}

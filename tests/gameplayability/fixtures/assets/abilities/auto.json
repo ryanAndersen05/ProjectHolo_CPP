@@ -1,0 +1,4 @@
+{
+  "scriptAsset":"counter_script", "activationTags":["auto"], "blockedTags":["stunned"],
+  "ownedTags":[{"tag":"attacking"}], "config":{"endFrames":100}
+}

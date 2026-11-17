@@ -38,7 +38,9 @@ public:
     }
 
     void Invoke(Args... args) {
-        for (auto& callbackEntry : callbacks) {
+        // Listeners may add/remove listeners from inside a callback.
+        const auto currentCallbacks = callbacks;
+        for (const auto& callbackEntry : currentCallbacks) {
             callbackEntry.callback(args...);
         }
     }

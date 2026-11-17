@@ -239,3 +239,27 @@ if(PROJECT_HOLO_BUILD_ANIMATOR_TESTS)
                 "PATH=path_list_prepend:${ANIMATOR_TEST_COMPILER_DIR}")
     endif()
 endif()
+
+option(PROJECT_HOLO_BUILD_ABILITY_TESTS "Build gameplay ability checks" OFF)
+if(PROJECT_HOLO_BUILD_ABILITY_TESTS)
+    set(ABILITY_TEST_SOURCES ${SRC_FILES})
+    list(REMOVE_ITEM ABILITY_TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+    add_executable(ProjectHoloAbilityTests tests/gameplayability/EHAbilitySystemTests.cpp ${ABILITY_TEST_SOURCES})
+    target_include_directories(ProjectHoloAbilityTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,INCLUDE_DIRECTORIES>)
+    target_compile_features(ProjectHoloAbilityTests PRIVATE cxx_std_20)
+    target_compile_options(ProjectHoloAbilityTests PRIVATE
+            $<TARGET_PROPERTY:ProjectHolo_CPP,COMPILE_OPTIONS>)
+    target_link_libraries(ProjectHoloAbilityTests PRIVATE
+            SFML::Graphics SFML::Window SFML::System SFML::Audio SFML::Network
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/lua/liblua54.a)
+    enable_testing()
+    add_test(NAME gameplay-abilities COMMAND ProjectHoloAbilityTests)
+    set_tests_properties(gameplay-abilities PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests/gameplayability/fixtures")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        get_filename_component(ABILITY_TEST_COMPILER_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set_property(TEST gameplay-abilities APPEND PROPERTY ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${ABILITY_TEST_COMPILER_DIR}")
+    endif()
+endif()

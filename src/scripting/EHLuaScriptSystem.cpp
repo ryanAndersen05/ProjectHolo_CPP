@@ -7,6 +7,7 @@
 #include "factory/EHActorComponentFactory.h"
 #include "hitbox/EHHitboxComponent.h"
 #include "sprite/EHSpriteComponent.h"
+#include "gameplayability/EHAbilitySystemComponent.h"
 
 EHLuaScriptSystem::EHLuaScriptSystem() {
     loadedLibraries = std::unordered_map<FName, FLuaTableContainer>();
@@ -14,6 +15,7 @@ EHLuaScriptSystem::EHLuaScriptSystem() {
 
 void EHLuaScriptSystem::InitializeScripting() {
     lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::string, sol::lib::package);
+    InitializeAbilityScripting();
 
     lua.new_usertype<EHSpriteComponent>("SpriteComponent",
         "SetSprite", &EHSpriteComponent::SetDrawData_Lua);
@@ -62,6 +64,10 @@ void EHLuaScriptSystem::InitializeScripting() {
         "ResetOverlappingComponents", &EHHitboxComponent::ResetOverlappingComponents);
 
     lua.new_usertype<EHActor>("Actor",
+        "Abilities", [](const EHActor& self, const sol::optional<std::string>& name) -> EHAbilitySystemComponent* {
+            const FName key = name ? FName(*name) : EHActorComponentFactory::AbilitySystemComponentId;
+            return dynamic_cast<EHAbilitySystemComponent*>(self.GetActorComponent(key));
+        },
         "Sprite", [](const EHActor& self, const sol::optional<std::string>& name) -> EHSpriteComponent* {
             const FName key(name.value_or("sprite"));
             return dynamic_cast<EHSpriteComponent*>(self.GetActorComponent(key));
@@ -95,6 +101,10 @@ void EHLuaScriptSystem::LoadTable(const FName& libFileAsset) {
             std::cerr << "Error Loading Lua Script: " << err.what() << std::endl;
             return;
         }
+        if (result.get_type() != sol::type::table) {
+            std::cerr << "LoadTable() - Script must return a table: " << pathString << '\n';
+            return;
+        }
         tableContainer.table = result;
         loadedLibraries.insert(std::make_pair(libFileAsset, tableContainer));
     }
@@ -118,5 +128,5 @@ sol::table EHLuaScriptSystem::GetTable(const FName &libFileAsset) {
         return loadedLibraries[libFileAsset].table;
     }
     std::cout << "GetTable() - Unable to find asset path for lua script" << std::endl;
-    return sol::nil;
+    return sol::table{};
 }

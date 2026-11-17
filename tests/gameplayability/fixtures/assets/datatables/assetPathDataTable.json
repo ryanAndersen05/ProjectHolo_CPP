@@ -1,0 +1,19 @@
+{"rows": [
+  {"rowId":"character_table","assetPath":"assets/datatables/characterDataTable.json"},
+  {"rowId":"ability_basic_damage","assetPath":"../../../assets/abilities/basic_damage.json"},
+  {"rowId":"ability_basic_damage_script","assetPath":"../../../assets/abilities/basic_damage.lua"},
+  {"rowId":"effect_basic_damage","assetPath":"../../../assets/abilities/effects/basic_damage.json"},
+  {"rowId":"ability_guard","assetPath":"../../../assets/abilities/guard.json"},
+  {"rowId":"ability_timed_script","assetPath":"../../../assets/abilities/timed.lua"},
+  {"rowId":"counter","assetPath":"assets/abilities/counter.json"},
+  {"rowId":"counter_auto","assetPath":"assets/abilities/auto.json"},
+  {"rowId":"counter_remove","assetPath":"assets/abilities/remove.json"},
+  {"rowId":"counter_error","assetPath":"assets/abilities/error.json"},
+  {"rowId":"counter_begin_error","assetPath":"assets/abilities/begin_error.json"},
+  {"rowId":"ability_actor","assetPath":"assets/abilities/actor.json"},
+  {"rowId":"ability_mode","assetPath":"assets/abilities/mode.json"},
+  {"rowId":"counter_script","assetPath":"assets/abilities/counter.lua"},
+  {"rowId":"invalid_script_ability","assetPath":"assets/abilities/invalid.json"},
+  {"rowId":"invalid_script","assetPath":"assets/abilities/invalid.lua"},
+  {"rowId":"speed_buff","assetPath":"assets/abilities/speed_buff.json"}
+]}

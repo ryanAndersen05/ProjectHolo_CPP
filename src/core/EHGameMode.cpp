@@ -8,6 +8,8 @@
 
 EHGameMode::EHGameMode() = default;
 EHGameMode::~EHGameMode() {
+    // End gameplay while all actors are still available to cleanup callbacks.
+    for (auto* actor : allActors) actor->UninitializeActor();
     for (auto* actor : allActors) {
         delete actor; // clear all actors
     }

@@ -23,12 +23,14 @@ EHGameInstance::EHGameInstance() : gameMode(nullptr), gameHUD(nullptr) {
 }
 
 EHGameInstance::~EHGameInstance() {
+    // Actor cleanup may call Lua or use asset managers.
+    delete gameMode;
+    delete gameHUD;
     delete spriteManager;
     delete dataTableManager;
     delete luaScriptManager;
 
-    delete gameMode;
-    delete gameHUD;
+    instance = nullptr;
 }
 
 void EHGameInstance::InitializeGame(const FWorldSettings &worldSettings) {

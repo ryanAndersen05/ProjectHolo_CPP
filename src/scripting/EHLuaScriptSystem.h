@@ -14,6 +14,7 @@ class EHLuaScriptSystem {
 private:
     sol::state lua;
     std::unordered_map<FName, FLuaTableContainer> loadedLibraries;
+    void InitializeAbilityScripting();
 
 
 public:

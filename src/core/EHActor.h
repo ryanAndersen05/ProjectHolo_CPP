@@ -21,6 +21,7 @@ class EHActor
     friend class EHPhysicsSystem;
 private:
     bool isActive;
+    bool hasUninitialized = false;
     FVector position;
     float rotation;
     FVector scale;
@@ -42,6 +43,7 @@ public:
     virtual ~EHActor();
 
     virtual void InitializeActor(const json& componentJson);
+    virtual void UninitializeActor();
 
     void TickActor(float deltaTime) const;
     void LateTickActor(float deltaTime);

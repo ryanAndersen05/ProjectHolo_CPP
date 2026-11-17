@@ -1,0 +1,5 @@
+{
+  "scriptAsset":"counter_script", "blockedTags":["stunned"], "requiredTags":["ready"],
+  "ownedTags":[{"tag":"attacking"}], "effectsOnBegin":["speed_buff"],
+  "config":{"endFrames":3}
+}

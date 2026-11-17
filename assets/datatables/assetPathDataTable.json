@@ -1,6 +1,11 @@
 {
   "rows":
           [
+            { "rowId": "ability_basic_damage", "assetPath": "assets/abilities/basic_damage.json" },
+            { "rowId": "ability_basic_damage_script", "assetPath": "assets/abilities/basic_damage.lua" },
+            { "rowId": "effect_basic_damage", "assetPath": "assets/abilities/effects/basic_damage.json" },
+            { "rowId": "ability_timed_script", "assetPath": "assets/abilities/timed.lua" },
+            { "rowId": "ability_guard", "assetPath": "assets/abilities/guard.json" },
             {
               "rowId": "holotalk",
               "assetPath": "assets/level/holotalk.json"

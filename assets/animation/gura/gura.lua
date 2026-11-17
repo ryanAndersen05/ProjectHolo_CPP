@@ -463,16 +463,79 @@ states.gura_pushblock = {
 -- Gura_SIdle / Gura_SIdle
 states.gura_idle = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle02") end,
-        [5] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle03") end,
-        [10] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle04") end,
-        [15] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle05") end,
-        [20] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle06") end,
-        [25] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle07") end,
-        [30] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle08") end,
-        [35] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle09") end,
-        [40] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle00") end,
-        [45] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle01") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle02") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.6)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+                actor:Hitbox():SetBounds("Hurtbox2", -0.25, 0, 0.5, 0.5)
+                actor:Hitbox():SetActive("Hurtbox2", true)
+            end
+            -- end animation editor boxes
+        end,
+        [5] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle03") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0, 0, 0.5, 0.75)
+            end
+            -- end animation editor boxes
+        end,
+        [10] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle04") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0.1, 0, 0.5, 0.75)
+            end
+            -- end animation editor boxes
+        end,
+        [15] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle05") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0.25, 0, 0.5, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [20] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle06") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0.15, 0, 0.5, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [25] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle07") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", 0, 0, 0.5, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [30] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle08") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.45, 0, 0.5, 0.7)
+            end
+            -- end animation editor boxes
+        end,
+        [35] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle09") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.6, 0, 0.5, 0.7)
+            end
+            -- end animation editor boxes
+        end,
+        [40] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle00") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.7, 0.1, 0.6, 0.6)
+            end
+            -- end animation editor boxes
+        end,
+        [45] = function(actor) actor:Sprite("sprite"):SetSprite("gura_idle01") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox2", -0.6, 0, 0.6, 0.6)
+            end
+            -- end animation editor boxes
+        end,
     },
     maxFrames = 51,
     transitions = {
@@ -558,13 +621,26 @@ states.gura_idle = {
     end,
     onExit = function(actor)
         -- Add state-specific cleanup here.
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+            actor:Hitbox():SetActive("Hurtbox2", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 -- Gura_SWalkF / Gura_SWalkF_Start
 states.gura_walkfstart = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.6)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
     },
     maxFrames = 4,
     transitions = {
@@ -630,13 +706,25 @@ states.gura_walkfstart = {
     end,
     onExit = function(actor)
         actor:Movement():SetMovement(StateMachineCommon.EMovementType.None)
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 -- Gura_SWalkF / Gura_SWalkF
 states.gura_walkf = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.6)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
         [6] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf01") end,
         [12] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf02") end,
         [18] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf03") end,
@@ -707,13 +795,25 @@ states.gura_walkf = {
     end,
     onExit = function(actor)
         -- Add state-specific cleanup here.
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
 -- Gura_SWalkF / Gura_SWalkF_End
 states.gura_walkfend = {
     keyFrames = {
-        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") end,
+        [0] = function(actor) actor:Sprite("sprite"):SetSprite("gura_walkf00") 
+            -- animation editor boxes
+            if actor:Hitbox() then
+                actor:Hitbox():SetBounds("Hurtbox1", -0.25, 0, 0.5, 1.6)
+                actor:Hitbox():SetActive("Hurtbox1", true)
+            end
+            -- end animation editor boxes
+        end,
     },
     maxFrames = 4,
     transitions = {
@@ -778,6 +878,11 @@ states.gura_walkfend = {
     end,
     onExit = function(actor)
         -- Add state-specific cleanup here.
+        -- animation editor exit cleanup
+        if actor:Hitbox() then
+            actor:Hitbox():SetActive("Hurtbox1", false)
+        end
+        -- end animation editor exit cleanup
     end
 }
 
